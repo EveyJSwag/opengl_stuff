@@ -52,7 +52,7 @@ void shader_creator::build_shaders_from_file()
     }
     else
     {
-        throw new shader_creator_exception(
+        throw shader_creator_exception(
             __LINE__, 
             __FILE__,
             "Failed to open shaders");
@@ -92,7 +92,7 @@ void shader_creator::get_shader_compilation_info(const GLuint& shader_id)
             NULL, 
             &failure_reason[0]);
 
-        throw new shader_creator_exception(
+        throw shader_creator_exception(
             __LINE__, 
             __FILE__, 
             std::string(&failure_reason[0]));
@@ -105,6 +105,7 @@ void shader_creator::create_program()
     glAttachShader(program_id, vertex_shader_id);
     glAttachShader(program_id, fragment_shader_id);
     glLinkProgram(program_id);
+
     get_program_linking_info(program_id);
 }
 
@@ -128,7 +129,7 @@ void shader_creator::get_program_linking_info(
             NULL, 
             &failure_reason[0]);
 
-        throw new shader_creator_exception(
+        throw shader_creator_exception(
             __LINE__, 
             __FILE__, 
             std::string(&failure_reason[0]));
@@ -140,6 +141,35 @@ void shader_creator::use_program()
     glUseProgram(program_id);
 }
 
+
+void shader_creator::add_uniform(std::string uniform_name)
+{
+    GLint uniform_location = glGetUniformLocation(program_id, uniform_name.c_str());
+    if (uniform_location >= GL_FALSE)
+    {
+        std::pair<std::string, GLint> uniform_location_pair = 
+            std::make_pair(uniform_name, uniform_location);
+
+        uniform_location_map.insert(uniform_location_pair);
+    }
+}
+
+void shader_creator::set_uniform(std::string uniform_name, color_vector color_values)
+{
+    try 
+    {
+        GLint uniform_location = uniform_location_map[uniform_name.c_str()];
+        glUniform3f(
+            uniform_location, 
+            color_values.r, 
+            color_values.g, 
+            color_values.b);    
+    }
+    catch (std::out_of_range& exec)
+    {
+        std::cout << exec.what() << std::endl;
+    }
+}
 shader_creator::shader_creator_exception::shader_creator_exception(
     int line, 
     const char* file, 

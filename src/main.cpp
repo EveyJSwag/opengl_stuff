@@ -58,11 +58,38 @@ int main()
             "shaders/vertex_shader.glsl", 
             "shaders/fragment_shader.glsl");
 
+        color_vector my_color_value;
+        my_color_value.r = 1.0f;
+        my_color_value.g = 0.2f;
+        my_color_value.b = 0.7f;
+
+
+        shader_creator_ref->add_uniform("color_input");
+
         while(!glfwWindowShouldClose(window)) 
         {           
             glClear(GL_COLOR_BUFFER_BIT);
             glClearColor(0.1f, 0.5f, 0.0f, 1.0f);
+            
             shader_creator_ref->use_program();
+            
+            if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS)
+            {
+                if (my_color_value.g <= 1.0f)
+                {
+                    my_color_value.g+=0.02f;
+                }
+            }
+            if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS)
+            {
+                if (my_color_value.g >= 0.0f)
+                {
+                    my_color_value.g-=0.02f;
+                }
+            }
+
+            shader_creator_ref->set_uniform("color_input", my_color_value);
+            
             glEnableVertexAttribArray(0);
 
             glBindBuffer(GL_ARRAY_BUFFER, vertex_buffer_id);
@@ -74,14 +101,18 @@ int main()
             glfwSwapBuffers(window);
             glfwPollEvents(); 
         }
-
+        delete shader_creator_ref;
         // Terminate GLFW
         glfwTerminate(); 
         return 0;
 
     }
-    catch (shader_creator::shader_creator_exception* exec)
+    catch (shader_creator::shader_creator_exception& exec)
     {
-        std::cout << exec->get_full_reason_string() << std::endl;;
+        std::cout << exec.get_full_reason_string() << std::endl;
+    }
+    catch (std::exception& exec)
+    {
+        std::cout << exec.what() << std::endl;;
     }
 }

@@ -1,6 +1,7 @@
 #version 330 core
 out vec3 color;
+uniform vec3 color_input;
 void main()
 {
-    color = vec3(1,1,0);
+    color = color_input;
 }

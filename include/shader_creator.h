@@ -2,10 +2,12 @@
 #define SHADER_CREATOR_H
 
 #include <GL/glew.h>
+#include <map>
 #include <stdio.h>
 #include <string>
 #include <stdlib.h>
 #include <exception>
+#include "vector_types.h"
 
 class shader_creator
 {
@@ -24,6 +26,12 @@ public:
 
 
     void use_program();
+
+    void add_uniform(std::string uniform_name);
+
+    void set_uniform(
+        std::string uniform_name, 
+        color_vector color_values);
 
     class shader_creator_exception : public std::exception
     {
@@ -47,6 +55,10 @@ private:
     GLuint vertex_shader_id;
     GLuint fragment_shader_id;
     GLuint program_id;
+
+    std::map<std::string, GLint> uniform_location_map;
+
+
 
     shader_creator();
 
