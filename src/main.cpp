@@ -7,6 +7,7 @@
 #include <sstream>
 
 #include "shader_creator.h"
+#include "texture_creator.h"
 
 int main() 
 {
@@ -41,17 +42,31 @@ int main()
         glGenVertexArrays(1, &vertex_array_id);
         glBindVertexArray(vertex_array_id);
 
-        const GLfloat vertcies[] = 
-        {
-            -0.5f, -0.5f, 0.0f,
-             1.0f, -1.0f, 0.0f,
-             0.0f,  1.0f, 0.0f
-        };
+        texture_creator* tex_creator_ref = new texture_creator();
+        tex_creator_ref->create_texture_from_png("ryu_sheet.png");
 
+        float vertcies[] = {
+            // positions          // colors           // texture coords
+            0.75f,  0.90f, 0.0f,   1.0f, 0.0f, 0.0f,    0.0f, 0.0f,   // top right
+            0.75f, -0.90f, 0.0f,   0.0f, 1.0f, 0.0f,    0.0f, 0.25f,   // bottom right
+            -0.75f, -0.90f, 0.0f,   0.0f, 0.0f, 1.0f,   0.25f, 0.25f,   // bottom left
+            -0.75f,  0.90f, 0.0f,   1.0f, 1.0f, 0.0f,   0.25f, 0.0f    // top left 
+        };
         GLuint vertex_buffer_id;
         glGenBuffers(1, &vertex_buffer_id);
         glBindBuffer(GL_ARRAY_BUFFER, vertex_buffer_id);
-        glBufferData(GL_ARRAY_BUFFER, sizeof(vertcies), vertcies, GL_STATIC_DRAW);
+        glBufferData(GL_ARRAY_BUFFER, sizeof(vertcies), vertcies,GL_STATIC_DRAW);
+
+        const unsigned int indices[] = 
+        {
+            0, 1, 3, 
+            1, 2, 3
+        };
+
+        GLuint index_buffer_id;
+        glGenBuffers(1, &index_buffer_id);
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, index_buffer_id);
+        glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), &(indices[0]), GL_STATIC_DRAW);
 
         shader_creator* shader_creator_ref = new shader_creator(
             shader_creator::VERTEX_AND_FRAGMENT_SHADER_FILE_PATH,
@@ -65,6 +80,8 @@ int main()
 
 
         shader_creator_ref->add_uniform("color_input");
+
+
 
         while(!glfwWindowShouldClose(window)) 
         {           
@@ -90,13 +107,21 @@ int main()
 
             shader_creator_ref->set_uniform("color_input", my_color_value);
             
-            glEnableVertexAttribArray(0);
+            
 
-            glBindBuffer(GL_ARRAY_BUFFER, vertex_buffer_id);
-            glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, (void*) 0 );
-            glDrawArrays(GL_TRIANGLES, 0, 3);
+            glEnableVertexAttribArray(0);
+            glEnableVertexAttribArray(1);
+            glEnableVertexAttribArray(2);
+
+            glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*) 0 );
+            glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(3 * sizeof(float)));
+            glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(6 * sizeof(float)));
+
+            glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, (void*)0);
 
             glDisableVertexAttribArray(0);
+            glDisableVertexAttribArray(1);
+            glDisableVertexAttribArray(2);
 
             glfwSwapBuffers(window);
             glfwPollEvents(); 
@@ -110,6 +135,10 @@ int main()
     catch (shader_creator::shader_creator_exception& exec)
     {
         std::cout << exec.get_full_reason_string() << std::endl;
+    }
+    catch (png_loader::png_loader_exception& png_exec)
+    {
+        std::cout << png_exec.get_exception_details() << std::endl;
     }
     catch (std::exception& exec)
     {
