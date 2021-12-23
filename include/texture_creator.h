@@ -22,6 +22,9 @@ private:
     png_loader* png_loader_ref;
     std::map<std::string, png_loader::png_info_t> texture_info_map;
 
+    std::vector<unsigned int> make_texture_background_transparent(
+        unsigned int background_color, 
+        std::vector<unsigned int> pixels);
 
 };
 

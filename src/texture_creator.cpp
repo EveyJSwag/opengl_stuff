@@ -1,6 +1,9 @@
 #include "texture_creator.h"
 #include "stb_image.h"
 
+#define NOT_TRANSPARENT             0xFF000000
+#define MAKE_NOT_TRANSPARENT(pixel) (pixel | NOT_TRANSPARENT)
+
 texture_creator::texture_creator()
 {
     glGenTextures(1, &texture_id);
@@ -11,17 +14,14 @@ texture_creator::texture_creator()
 
 void texture_creator::create_texture_from_png(const std::string png_file_name)
 {
-    const unsigned char* png_data;
     std::stringstream full_png_path;
     full_png_path << "sprites/" << png_file_name;
-    int w;
-    int h;
-    int comp;
-    unsigned char* image = stbi_load(full_png_path.str().c_str(), &w, &h, &comp, STBI_rgb);
     png_loader_ref = new png_loader(full_png_path.str().c_str());
-    png_data = png_loader_ref->get_raw_png_bytes();
-    
-    
+
+    std::vector<unsigned int> color_vector = png_loader_ref->get_png_colors();
+    unsigned int background_color = color_vector[0];
+    std::vector<unsigned int> color_vector_transparent = 
+        make_texture_background_transparent(background_color, color_vector);
 
     png_loader::png_info_t sprite_sheet_info = png_loader_ref->get_png_info();
 
@@ -29,26 +29,45 @@ void texture_creator::create_texture_from_png(const std::string png_file_name)
         std::make_pair(png_file_name, sprite_sheet_info);
 
     texture_info_map.insert(texture_info_map_entry);
-
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
     glTexImage2D(
-        GL_TEXTURE_2D, 
+        GL_TEXTURE_2D,
         0, 
-        GL_RGB, 
+        GL_RGBA8, 
         sprite_sheet_info.image_width,
         sprite_sheet_info.image_height, 
         0,
-        GL_RGB, 
+        GL_BGRA, 
         GL_UNSIGNED_BYTE, 
-        png_data);
-
-
+        color_vector_transparent.data());
 
     glGenerateMipmap(GL_TEXTURE_2D);
+}
+
+std::vector<unsigned int> texture_creator::make_texture_background_transparent(
+    unsigned int background_color,
+    std::vector<unsigned int> pixels)
+{
+    std::vector<unsigned int> transparent_pixels;
+    for (int i = 0; i < pixels.size(); i++)
+    {
+        if (pixels[i] != background_color)
+        {
+            transparent_pixels.push_back(MAKE_NOT_TRANSPARENT(pixels[i]));
+        }
+        else
+        {
+            transparent_pixels.push_back(0);
+        }
+    }
+
+    return transparent_pixels;
 }
 
 png_loader::png_info_t texture_creator::get_png_info(
@@ -61,7 +80,7 @@ png_loader::png_info_t texture_creator::get_png_info(
     }
     catch (std::out_of_range& exec)
     {
-        return_info.color_type = -1;
+        return_info.color_type = -1;    
         std::cout << exec.what() << std::endl;
     }
 

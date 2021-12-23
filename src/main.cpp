@@ -44,13 +44,21 @@ int main()
 
         texture_creator* tex_creator_ref = new texture_creator();
         tex_creator_ref->create_texture_from_png("ryu_sheet.png");
+        float sprite_sheet_ratio = 
+            (float)(tex_creator_ref->get_png_info("ryu_sheet.png").image_width)/(float)(tex_creator_ref->get_png_info("ryu_sheet.png").image_height);
+
+        float max_y_coordinate = 0.90f;
+        float min_y_coordinate = -0.90f;
+
+        float max_x_coordinate = (float)sprite_sheet_ratio / 2.0f;
+        float min_x_coordinate = (-1.0f) * ((float)sprite_sheet_ratio / 2.0f);
 
         float vertcies[] = {
-            // positions          // colors           // texture coords
-            0.75f,  0.90f, 0.0f,   1.0f, 0.0f, 0.0f,    0.0f, 0.0f,   // top right
-            0.75f, -0.90f, 0.0f,   0.0f, 1.0f, 0.0f,    0.0f, 0.25f,   // bottom right
-            -0.75f, -0.90f, 0.0f,   0.0f, 0.0f, 1.0f,   0.25f, 0.25f,   // bottom left
-            -0.75f,  0.90f, 0.0f,   1.0f, 1.0f, 0.0f,   0.25f, 0.0f    // top left 
+            // positions                                // colors           // texture coords
+            max_x_coordinate, max_y_coordinate, 0.0f,   1.0f, 0.0f, 0.0f,   0.0f,   0.0f,   // top right
+            max_x_coordinate, min_y_coordinate, 0.0f,   0.0f, 1.0f, 0.0f,   0.0f,   1.0f, // bottom right
+            min_x_coordinate, min_y_coordinate, 0.0f,   0.0f, 0.0f, 1.0f,   1.0f,   1.0f, // bottom left
+            min_x_coordinate, max_y_coordinate, 0.0f,   1.0f, 1.0f, 0.0f,   1.0f, 0.0f    // top left 
         };
         GLuint vertex_buffer_id;
         glGenBuffers(1, &vertex_buffer_id);
