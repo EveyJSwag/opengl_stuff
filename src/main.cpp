@@ -50,20 +50,23 @@ int main()
         float max_y_coordinate = 0.90f;
         float min_y_coordinate = -0.90f;
 
-        float max_x_coordinate = (float)sprite_sheet_ratio / 2.0f;
-        float min_x_coordinate = (-1.0f) * ((float)sprite_sheet_ratio / 2.0f);
+        float max_x_coordinate = 51.0f/87.0f;//(float)sprite_sheet_ratio / 2.0f;
+        float min_x_coordinate = -1.0f * max_x_coordinate;//(-1.0f) * ((float)sprite_sheet_ratio / 2.0f);
+
+        float square_x_max = 51.0f/785.0f;
+        float square_y_max = 87.0f/2138.0f;
 
         float vertcies[] = {
             // positions                                // colors           // texture coords
-            max_x_coordinate, max_y_coordinate, 0.0f,   1.0f, 0.0f, 0.0f,   0.0f,   0.0f,   // top right
-            max_x_coordinate, min_y_coordinate, 0.0f,   0.0f, 1.0f, 0.0f,   0.0f,   1.0f, // bottom right
-            min_x_coordinate, min_y_coordinate, 0.0f,   0.0f, 0.0f, 1.0f,   1.0f,   1.0f, // bottom left
-            min_x_coordinate, max_y_coordinate, 0.0f,   1.0f, 1.0f, 0.0f,   1.0f, 0.0f    // top left 
+            max_x_coordinate, max_y_coordinate, 0.0f,   1.0f, 0.0f, 0.0f,   0.0f, 0.0f,   // top right
+            max_x_coordinate, min_y_coordinate, 0.0f,   0.0f, 1.0f, 0.0f,   0.0f, square_y_max, // bottom right
+            min_x_coordinate, min_y_coordinate, 0.0f,   0.0f, 0.0f, 1.0f,   square_x_max, square_y_max, // bottom left
+            min_x_coordinate, max_y_coordinate, 0.0f,   1.0f, 1.0f, 0.0f,   square_x_max, 0.0f    // top left 
         };
         GLuint vertex_buffer_id;
         glGenBuffers(1, &vertex_buffer_id);
         glBindBuffer(GL_ARRAY_BUFFER, vertex_buffer_id);
-        glBufferData(GL_ARRAY_BUFFER, sizeof(vertcies), vertcies,GL_STATIC_DRAW);
+        glBufferData(GL_ARRAY_BUFFER, sizeof(vertcies), vertcies,GL_DYNAMIC_DRAW);
 
         const unsigned int indices[] = 
         {
@@ -74,7 +77,7 @@ int main()
         GLuint index_buffer_id;
         glGenBuffers(1, &index_buffer_id);
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, index_buffer_id);
-        glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), &(indices[0]), GL_STATIC_DRAW);
+        glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), &(indices[0]), GL_DYNAMIC_DRAW);
 
         shader_creator* shader_creator_ref = new shader_creator(
             shader_creator::VERTEX_AND_FRAGMENT_SHADER_FILE_PATH,
@@ -86,37 +89,41 @@ int main()
         my_color_value.g = 0.2f;
         my_color_value.b = 0.7f;
 
-
+        position_vector pos_vec;
+        pos_vec.x = 0.0f;
+        pos_vec.y = 0.0f;
         shader_creator_ref->add_uniform("color_input");
-
-
-
+        shader_creator_ref->add_uniform("uniformTextureCoord");
+        shader_creator_ref->set_uniform2d("uniformTextureCoord", pos_vec);
+            shader_creator_ref->use_program();
         while(!glfwWindowShouldClose(window)) 
         {           
             glClear(GL_COLOR_BUFFER_BIT);
             glClearColor(0.1f, 0.5f, 0.0f, 1.0f);
             
-            shader_creator_ref->use_program();
+
             
+            if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS)
+            {
+                pos_vec.x += 0.001f;
+                shader_creator_ref->set_uniform2d("uniformTextureCoord", pos_vec);
+            }
+            if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS)
+            {
+                pos_vec.x -= 0.001f;
+                shader_creator_ref->set_uniform2d("uniformTextureCoord", pos_vec);
+            }
+
             if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS)
             {
-                if (my_color_value.g <= 1.0f)
-                {
-                    my_color_value.g+=0.02f;
-                }
+                pos_vec.y -= 0.001f;
+                shader_creator_ref->set_uniform2d("uniformTextureCoord", pos_vec);
             }
             if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS)
             {
-                if (my_color_value.g >= 0.0f)
-                {
-                    my_color_value.g-=0.02f;
-                }
+                pos_vec.y += 0.001f;
+                shader_creator_ref->set_uniform2d("uniformTextureCoord", pos_vec);
             }
-
-            shader_creator_ref->set_uniform("color_input", my_color_value);
-            
-            
-
             glEnableVertexAttribArray(0);
             glEnableVertexAttribArray(1);
             glEnableVertexAttribArray(2);

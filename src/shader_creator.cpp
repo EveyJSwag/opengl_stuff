@@ -170,6 +170,22 @@ void shader_creator::set_uniform(std::string uniform_name, color_vector color_va
         std::cout << exec.what() << std::endl;
     }
 }
+
+void shader_creator::set_uniform2d(std::string uniform_name, position_vector pos_vec)
+{
+    try 
+    {
+        GLint uniform_location = uniform_location_map[uniform_name.c_str()];
+        glUniform2f(
+            uniform_location, 
+            pos_vec.x, 
+            pos_vec.y);    
+    }
+    catch (std::out_of_range& exec)
+    {
+        std::cout << exec.what() << std::endl;
+    }
+}
 shader_creator::shader_creator_exception::shader_creator_exception(
     int line, 
     const char* file, 

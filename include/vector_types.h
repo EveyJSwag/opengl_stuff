@@ -12,4 +12,10 @@ typedef struct color_vector
     GLfloat a;
 } color_vector;
 
+typedef struct position_vector
+{
+    float x;
+    float y;
+}position_vector;
+
 #endif /* VECTOR_TYPES_H */

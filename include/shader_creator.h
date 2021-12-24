@@ -2,6 +2,7 @@
 #define SHADER_CREATOR_H
 
 #include <GL/glew.h>
+#include <GLFW/glfw3.h>
 #include <map>
 #include <stdio.h>
 #include <string>
@@ -32,6 +33,11 @@ public:
     void set_uniform(
         std::string uniform_name, 
         color_vector color_values);
+
+    void set_uniform2d(
+        std::string uniform_name,
+        position_vector pos_vec);
+
 
     class shader_creator_exception : public std::exception
     {
