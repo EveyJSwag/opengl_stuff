@@ -1,5 +1,6 @@
 #include "texture_creator.h"
 #include "stb_image.h"
+#include <iostream>
 
 #define NOT_TRANSPARENT             0xFF000000
 #define MAKE_NOT_TRANSPARENT(pixel) (pixel | NOT_TRANSPARENT)
@@ -8,7 +9,7 @@ texture_creator::texture_creator()
 {
     glGenTextures(1, &texture_id);
 
-    glBindTexture(GL_TEXTURE_2D, texture_id);
+    
 }
 
 
@@ -29,20 +30,36 @@ void texture_creator::create_texture_from_png(const std::string png_file_name)
         std::make_pair(png_file_name, sprite_sheet_info);
 
     texture_info_map.insert(texture_info_map_entry);
+    
+    glBindTexture(GL_TEXTURE_2D, texture_id);   
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-    glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
+  
+    //glPixelStorei(GL_PACK_ALIGNMENT, 4);
+    
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+
+    pixel_colors = color_vector_transparent;
     glTexImage2D(
         GL_TEXTURE_2D,
         0, 
-        GL_RGBA8, 
+        GL_RGBA, 
         sprite_sheet_info.image_width,
         sprite_sheet_info.image_height, 
         0,
+        GL_BGRA, 
+        GL_UNSIGNED_BYTE, 
+        color_vector_transparent.data());
+    //glbindTexture();
+    glPixelStorei(GL_UNPACK_ROW_LENGTH, sprite_sheet_info.image_width);
+    glTexSubImage2D(
+        GL_TEXTURE_2D,
+        0,
+        0,
+        0, 
+        100,
+        sprite_sheet_info.image_height, 
         GL_BGRA, 
         GL_UNSIGNED_BYTE, 
         color_vector_transparent.data());

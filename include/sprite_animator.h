@@ -4,6 +4,8 @@
 class sprite_animator
 {
 public:
+    sprite_animator(float sheet_height, float sheet_width);
+
     typedef struct sheet_square
     {
         unsigned int top_left_pixel;
@@ -23,7 +25,7 @@ public:
         normalized_sheet_square(sheet_square& normalize_me);
     }normalized_sheet_square;
 
-    static void animate(
+    void animate(
         std::vector<unsigned int> horizontal_shift_offsets,
         std::vector<sheet_square> frame_dimensions);
 

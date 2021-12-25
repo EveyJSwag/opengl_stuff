@@ -53,8 +53,9 @@ int main()
         float max_x_coordinate = 51.0f/87.0f;//(float)sprite_sheet_ratio / 2.0f;
         float min_x_coordinate = -1.0f * max_x_coordinate;//(-1.0f) * ((float)sprite_sheet_ratio / 2.0f);
 
-        float square_x_max = 51.0f/785.0f;
-        float square_y_max = 87.0f/2138.0f;
+        const float square_x_max = 1.0f;//59.0f/785.0f;
+        const float square_y_max = 1.0f;//87.0f/2138.0f;
+
 
         float vertcies[] = {
             // positions                                // colors           // texture coords
@@ -84,6 +85,8 @@ int main()
             "shaders/vertex_shader.glsl", 
             "shaders/fragment_shader.glsl");
 
+
+
         color_vector my_color_value;
         my_color_value.r = 1.0f;
         my_color_value.g = 0.2f;
@@ -96,34 +99,68 @@ int main()
         shader_creator_ref->add_uniform("uniformTextureCoord");
         shader_creator_ref->set_uniform2d("uniformTextureCoord", pos_vec);
             shader_creator_ref->use_program();
+
+        double current_time = glfwGetTime();
+        //double start_time = glfwGetTime();
+        double end_time;
+
+        unsigned int amount_of_frames = 0;
+        unsigned int amount_of_frames_in_second = 0;
+        const unsigned int amount_of_idle_frames = 4;
+        std::vector<float> shift_amounts;
+        shift_amounts.push_back(square_x_max);
+        shift_amounts.push_back(62.0f/785.0f);
+        shift_amounts.push_back(60.0f/785.0f);
+
+        bool shift_right = true;
+        int animation_frame_count = 0;
+        //glfwSwapInterval(1);
+        double start_time = glfwGetTime();
+        unsigned int row_size = 0;
         while(!glfwWindowShouldClose(window)) 
-        {           
+        {
             glClear(GL_COLOR_BUFFER_BIT);
-            glClearColor(0.1f, 0.5f, 0.0f, 1.0f);
-            
+            glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+
+
+            //glPixelStorei(GL_UNPACK_ROW_LENGTH,  785/5);
+            glTexSubImage2D(
+                GL_TEXTURE_2D,
+                0,
+                0,
+                0, 
+                row_size,
+                2138 / 5, 
+                GL_BGRA, 
+                GL_UNSIGNED_BYTE, 
+            tex_creator_ref->get_pixel_colors().data());
+            glBindTexture(GL_TEXTURE_2D, tex_creator_ref->get_texture_id());
+            /*
+            if (amount_of_frames % 20 == 0)
+            {
+                float shift_right = 0.0f;
+                if (animation_frame_count == shift_amounts.size())
+                {
+                    animation_frame_count = 0;
+                    float shift_back_amount = 0.0f;
+                    for (int index = 0; index < shift_amounts.size(); index++)
+                    {
+                        shift_back_amount+=shift_amounts[index];
+                    }
+                    shift_right = (-1.0f) * (shift_back_amount);
+                }
+                else
+                {
+                    shift_right = shift_amounts[animation_frame_count];
+                    animation_frame_count++;
+                }
+                pos_vec.x += shift_right;
+                shader_creator_ref->set_uniform2d("uniformTextureCoord", pos_vec);
+            }
+            */
 
             
-            if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS)
-            {
-                pos_vec.x += 0.001f;
-                shader_creator_ref->set_uniform2d("uniformTextureCoord", pos_vec);
-            }
-            if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS)
-            {
-                pos_vec.x -= 0.001f;
-                shader_creator_ref->set_uniform2d("uniformTextureCoord", pos_vec);
-            }
 
-            if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS)
-            {
-                pos_vec.y -= 0.001f;
-                shader_creator_ref->set_uniform2d("uniformTextureCoord", pos_vec);
-            }
-            if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS)
-            {
-                pos_vec.y += 0.001f;
-                shader_creator_ref->set_uniform2d("uniformTextureCoord", pos_vec);
-            }
             glEnableVertexAttribArray(0);
             glEnableVertexAttribArray(1);
             glEnableVertexAttribArray(2);
@@ -139,7 +176,16 @@ int main()
             glDisableVertexAttribArray(2);
 
             glfwSwapBuffers(window);
-            glfwPollEvents(); 
+            glfwPollEvents();
+            amount_of_frames++;
+            if (glfwGetTime() - current_time >= 1.0f)
+            {
+                row_size++;
+                std::cout << amount_of_frames_in_second << std::endl;
+                amount_of_frames_in_second = 0;
+                current_time = glfwGetTime();
+            }
+            amount_of_frames_in_second++;
         }
         delete shader_creator_ref;
         // Terminate GLFW
