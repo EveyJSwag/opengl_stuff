@@ -43,43 +43,51 @@ int main()
         glBindVertexArray(vertex_array_id);
 
         texture_creator* tex_creator_ref = new texture_creator();
-        tex_creator_ref->create_texture_from_png("ryu_sheet.png");
+        tex_creator_ref->create_texture_from_png("font.png");
         float sprite_sheet_ratio = 
-            (float)(tex_creator_ref->get_png_info("ryu_sheet.png").image_width)/(float)(tex_creator_ref->get_png_info("ryu_sheet.png").image_height);
+            (float)(tex_creator_ref->get_png_info("font.png").image_width)/(float)(tex_creator_ref->get_png_info("font.png").image_height);
 
         float max_y_coordinate = 0.90f;
         float min_y_coordinate = -0.90f;
 
-        float max_x_coordinate = 51.0f/87.0f;//(float)sprite_sheet_ratio / 2.0f;
-        float min_x_coordinate = -1.0f * max_x_coordinate;//(-1.0f) * ((float)sprite_sheet_ratio / 2.0f);
+        float max_x_coordinate = 0.4f;
+        float min_x_coordinate = 0.0f;
 
-        const float square_x_max = 1.0f;//59.0f/785.0f;
-        const float square_y_max = 1.0f;//87.0f/2138.0f;
+        const float square_x_max = 13.0f/(float)(tex_creator_ref->get_png_info("font.png").image_width);
+        const float square_y_max = 18.0f/(float)(tex_creator_ref->get_png_info("font.png").image_height);
 
 
         float vertcies[] = {
             // positions                                // colors           // texture coords
-            max_x_coordinate, max_y_coordinate, 0.0f,   1.0f, 0.0f, 0.0f,   0.0f, 0.0f,   // top right
-            max_x_coordinate, min_y_coordinate, 0.0f,   0.0f, 1.0f, 0.0f,   0.0f, square_y_max, // bottom right
+            max_x_coordinate, max_y_coordinate, 0.0f,   1.0f, 0.0f, 0.0f,   0.0f,         0.0f,         // top right
+            max_x_coordinate, min_y_coordinate, 0.0f,   0.0f, 1.0f, 0.0f,   0.0f,         square_y_max, // bottom right
             min_x_coordinate, min_y_coordinate, 0.0f,   0.0f, 0.0f, 1.0f,   square_x_max, square_y_max, // bottom left
-            min_x_coordinate, max_y_coordinate, 0.0f,   1.0f, 1.0f, 0.0f,   square_x_max, 0.0f    // top left 
+            min_x_coordinate, max_y_coordinate, 0.0f,   1.0f, 1.0f, 0.0f,   square_x_max, 0.0f,         // top left
+
+            max_x_coordinate + max_x_coordinate, max_y_coordinate, 0.0f,   1.0f, 0.0f, 0.0f,   square_x_max,                0.0f,         // top right     4
+            max_x_coordinate + max_x_coordinate, min_y_coordinate, 0.0f,   0.0f, 1.0f, 0.0f,   square_x_max,                square_y_max, // bottom right  5
+            max_x_coordinate,                    min_y_coordinate, 0.0f,   0.0f, 0.0f, 1.0f,   square_x_max + square_x_max, square_y_max, // bottom left   6
+            max_x_coordinate,                    max_y_coordinate, 0.0f,   1.0f, 1.0f, 0.0f,   square_x_max + square_x_max, 0.0f          // top left      7
         };
         GLuint vertex_buffer_id;
         glGenBuffers(1, &vertex_buffer_id);
         glBindBuffer(GL_ARRAY_BUFFER, vertex_buffer_id);
         glBufferData(GL_ARRAY_BUFFER, sizeof(vertcies), vertcies,GL_DYNAMIC_DRAW);
-
+        
         const unsigned int indices[] = 
         {
             0, 1, 3, 
-            1, 2, 3
+            1, 2, 3,
+
+            4, 5, 7,
+            5, 6, 7
         };
 
         GLuint index_buffer_id;
         glGenBuffers(1, &index_buffer_id);
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, index_buffer_id);
         glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), &(indices[0]), GL_DYNAMIC_DRAW);
-
+        
         shader_creator* shader_creator_ref = new shader_creator(
             shader_creator::VERTEX_AND_FRAGMENT_SHADER_FILE_PATH,
             "shaders/vertex_shader.glsl", 
@@ -98,10 +106,10 @@ int main()
         shader_creator_ref->add_uniform("color_input");
         shader_creator_ref->add_uniform("uniformTextureCoord");
         shader_creator_ref->set_uniform2d("uniformTextureCoord", pos_vec);
+
             shader_creator_ref->use_program();
 
         double current_time = glfwGetTime();
-        //double start_time = glfwGetTime();
         double end_time;
 
         unsigned int amount_of_frames = 0;
@@ -114,27 +122,30 @@ int main()
 
         bool shift_right = true;
         int animation_frame_count = 0;
-        //glfwSwapInterval(1);
         double start_time = glfwGetTime();
         unsigned int row_size = 0;
+
+
+
         while(!glfwWindowShouldClose(window)) 
         {
+
             glClear(GL_COLOR_BUFFER_BIT);
             glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+            glEnableVertexAttribArray(0);
+            glEnableVertexAttribArray(1);
+            glEnableVertexAttribArray(2);
 
+            glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*) 0 );
+            glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(3 * sizeof(float)));
+            glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(6 * sizeof(float)));
 
-            //glPixelStorei(GL_UNPACK_ROW_LENGTH,  785/5);
-            glTexSubImage2D(
-                GL_TEXTURE_2D,
-                0,
-                0,
-                0, 
-                row_size,
-                2138 / 5, 
-                GL_BGRA, 
-                GL_UNSIGNED_BYTE, 
-            tex_creator_ref->get_pixel_colors().data());
-            glBindTexture(GL_TEXTURE_2D, tex_creator_ref->get_texture_id());
+            glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, (void*)0);
+
+            glDisableVertexAttribArray(0);
+            glDisableVertexAttribArray(1);
+            glDisableVertexAttribArray(2);
+
             /*
             if (amount_of_frames % 20 == 0)
             {
@@ -160,7 +171,7 @@ int main()
             */
 
             
-
+           /*
             glEnableVertexAttribArray(0);
             glEnableVertexAttribArray(1);
             glEnableVertexAttribArray(2);
@@ -174,6 +185,7 @@ int main()
             glDisableVertexAttribArray(0);
             glDisableVertexAttribArray(1);
             glDisableVertexAttribArray(2);
+            */
 
             glfwSwapBuffers(window);
             glfwPollEvents();

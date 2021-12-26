@@ -51,18 +51,6 @@ void texture_creator::create_texture_from_png(const std::string png_file_name)
         GL_BGRA, 
         GL_UNSIGNED_BYTE, 
         color_vector_transparent.data());
-    //glbindTexture();
-    glPixelStorei(GL_UNPACK_ROW_LENGTH, sprite_sheet_info.image_width);
-    glTexSubImage2D(
-        GL_TEXTURE_2D,
-        0,
-        0,
-        0, 
-        100,
-        sprite_sheet_info.image_height, 
-        GL_BGRA, 
-        GL_UNSIGNED_BYTE, 
-        color_vector_transparent.data());
 
     glGenerateMipmap(GL_TEXTURE_2D);
 }
