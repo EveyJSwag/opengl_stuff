@@ -5,9 +5,11 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
+#include <memory>
 
 #include "shader_creator.h"
 #include "texture_creator.h"
+#include "vertex_manager.h"
 
 int main() 
 {
@@ -38,14 +40,18 @@ int main()
         // Initialize GLEW
         glewExperimental = GL_TRUE; glewInit();
 
-        GLuint vertex_array_id;
-        glGenVertexArrays(1, &vertex_array_id);
-        glBindVertexArray(vertex_array_id);
+        std::unique_ptr<vertex_manager> font_vertex_ref = std::make_unique<vertex_manager>(vertex_manager());
 
-        texture_creator* tex_creator_ref = new texture_creator();
-        tex_creator_ref->create_texture_from_png("font.png");
+        font_vertex_ref->generate_vertex_array(1);
+        font_vertex_ref->bind_vertex_array(1);
+
+
+        std::unique_ptr<texture_creator> font_texture_ref = std::make_unique<texture_creator>(texture_creator());
+        font_texture_ref->create_texture_from_png("font.png");
+        png_loader::png_info_t font_png_info = font_texture_ref->get_png_info("font.png");
+
         float sprite_sheet_ratio = 
-            (float)(tex_creator_ref->get_png_info("font.png").image_width)/(float)(tex_creator_ref->get_png_info("font.png").image_height);
+            (float)(font_png_info.image_width)/(float)(font_png_info.image_height);
 
         float max_y_coordinate = 0.90f;
         float min_y_coordinate = -0.90f;
@@ -53,8 +59,8 @@ int main()
         float max_x_coordinate = 0.4f;
         float min_x_coordinate = 0.0f;
 
-        const float square_x_max = 13.0f/(float)(tex_creator_ref->get_png_info("font.png").image_width);
-        const float square_y_max = 18.0f/(float)(tex_creator_ref->get_png_info("font.png").image_height);
+        const float square_x_max = 13.0f/(float)(font_png_info.image_width);
+        const float square_y_max = 18.0f/(float)(font_png_info.image_height);
 
 
         float vertcies[] = {
