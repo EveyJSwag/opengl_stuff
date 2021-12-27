@@ -8,8 +8,10 @@
 #include <memory>
 
 #include "shader_creator.h"
+#include "buffer_manager.h"
 #include "texture_creator.h"
 #include "vertex_manager.h"
+#include "vector_types.h"
 
 int main() 
 {
@@ -30,7 +32,7 @@ int main()
         glfwMakeContextCurrent(window);
 
         // Check for window creation failure
-        if (!window) 
+        if (!window)
         {
             // Terminate GLFW
             glfwTerminate();
@@ -62,24 +64,29 @@ int main()
         const float square_x_max = 13.0f/(float)(font_png_info.image_width);
         const float square_y_max = 18.0f/(float)(font_png_info.image_height);
 
-
-        float vertcies[] = {
-            // positions                                // colors           // texture coords
-            max_x_coordinate, max_y_coordinate, 0.0f,   1.0f, 0.0f, 0.0f,   0.0f,         0.0f,         // top right
-            max_x_coordinate, min_y_coordinate, 0.0f,   0.0f, 1.0f, 0.0f,   0.0f,         square_y_max, // bottom right
-            min_x_coordinate, min_y_coordinate, 0.0f,   0.0f, 0.0f, 1.0f,   square_x_max, square_y_max, // bottom left
-            min_x_coordinate, max_y_coordinate, 0.0f,   1.0f, 1.0f, 0.0f,   square_x_max, 0.0f,         // top left
-
-            max_x_coordinate + max_x_coordinate, max_y_coordinate, 0.0f,   1.0f, 0.0f, 0.0f,   square_x_max,                0.0f,         // top right     4
-            max_x_coordinate + max_x_coordinate, min_y_coordinate, 0.0f,   0.0f, 1.0f, 0.0f,   square_x_max,                square_y_max, // bottom right  5
-            max_x_coordinate,                    min_y_coordinate, 0.0f,   0.0f, 0.0f, 1.0f,   square_x_max + square_x_max, square_y_max, // bottom left   6
-            max_x_coordinate,                    max_y_coordinate, 0.0f,   1.0f, 1.0f, 0.0f,   square_x_max + square_x_max, 0.0f          // top left      7
+        standard_vertex_info init_vertces[] = {
+            { {max_x_coordinate, max_y_coordinate, 0.0f},   {1.0f, 0.0f, 0.0f},   {0.0f, 0.0f                }  },
+            { {max_x_coordinate, min_y_coordinate, 0.0f},   {0.0f, 1.0f, 0.0f},   {0.0f,         square_y_max}  }, 
+            { {min_x_coordinate, min_y_coordinate, 0.0f},   {0.0f, 0.0f, 1.0f},   {square_x_max, square_y_max}  },
+            { {min_x_coordinate, max_y_coordinate, 0.0f},   {1.0f, 1.0f, 0.0f},   {square_x_max, 0.0f        }  }, 
+            { {max_x_coordinate + max_x_coordinate, max_y_coordinate, 0.0f},   {1.0f, 0.0f, 0.0f},   {square_x_max, 0.0f         } },
+            { {max_x_coordinate + max_x_coordinate, min_y_coordinate, 0.0f},   {0.0f, 1.0f, 0.0f},   {square_x_max, square_y_max } },
+            { {max_x_coordinate,                    min_y_coordinate, 0.0f},   {0.0f, 0.0f, 1.0f},   {square_x_max + square_x_max, square_y_max } },
+            { {max_x_coordinate,                    max_y_coordinate, 0.0f},   {1.0f, 1.0f, 0.0f},   {square_x_max + square_x_max, 0.0f         } }
         };
+
+        std::vector<standard_vertex_info> vert_info_vec;
+        for (int j = 0; j < 8; j++)
+        {
+            vert_info_vec.push_back(init_vertces[j]);
+        }
+
+
         GLuint vertex_buffer_id;
-        glGenBuffers(1, &vertex_buffer_id);
-        glBindBuffer(GL_ARRAY_BUFFER, vertex_buffer_id);
-        glBufferData(GL_ARRAY_BUFFER, sizeof(vertcies), vertcies,GL_DYNAMIC_DRAW);
+
         
+        std::vector <unsigned int> vec_indicies({0, 1, 3, 1, 2, 3, 4, 5, 7, 5, 6, 7});
+
         const unsigned int indices[] = 
         {
             0, 1, 3, 
@@ -89,17 +96,19 @@ int main()
             5, 6, 7
         };
 
-        GLuint index_buffer_id;
-        glGenBuffers(1, &index_buffer_id);
-        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, index_buffer_id);
-        glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), &(indices[0]), GL_DYNAMIC_DRAW);
-        
+        std::unique_ptr<buffer_manager> font_buffer = std::make_unique<buffer_manager>(buffer_manager());
+
+        font_buffer->generate_vertex_buffer();
+        font_buffer->bind_vertex_buffer();
+        font_buffer->generate_index_buffer();
+        font_buffer->bind_index_buffer();
+        font_buffer->set_index_buffer_data(vec_indicies);
+        font_buffer->set_initial_vertex_buffer_data(vert_info_vec);
+      
         shader_creator* shader_creator_ref = new shader_creator(
             shader_creator::VERTEX_AND_FRAGMENT_SHADER_FILE_PATH,
             "shaders/vertex_shader.glsl", 
             "shaders/fragment_shader.glsl");
-
-
 
         color_vector my_color_value;
         my_color_value.r = 1.0f;
@@ -112,8 +121,7 @@ int main()
         shader_creator_ref->add_uniform("color_input");
         shader_creator_ref->add_uniform("uniformTextureCoord");
         shader_creator_ref->set_uniform2d("uniformTextureCoord", pos_vec);
-
-            shader_creator_ref->use_program();
+        shader_creator_ref->use_program();
 
         double current_time = glfwGetTime();
         double end_time;
@@ -131,67 +139,12 @@ int main()
         double start_time = glfwGetTime();
         unsigned int row_size = 0;
 
-
-
         while(!glfwWindowShouldClose(window)) 
         {
-
             glClear(GL_COLOR_BUFFER_BIT);
-            glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-            glEnableVertexAttribArray(0);
-            glEnableVertexAttribArray(1);
-            glEnableVertexAttribArray(2);
+            glClearColor(0.0f, 0.4f, 0.0f, 1.0f);
 
-            glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*) 0 );
-            glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(3 * sizeof(float)));
-            glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(6 * sizeof(float)));
-
-            glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, (void*)0);
-
-            glDisableVertexAttribArray(0);
-            glDisableVertexAttribArray(1);
-            glDisableVertexAttribArray(2);
-
-            /*
-            if (amount_of_frames % 20 == 0)
-            {
-                float shift_right = 0.0f;
-                if (animation_frame_count == shift_amounts.size())
-                {
-                    animation_frame_count = 0;
-                    float shift_back_amount = 0.0f;
-                    for (int index = 0; index < shift_amounts.size(); index++)
-                    {
-                        shift_back_amount+=shift_amounts[index];
-                    }
-                    shift_right = (-1.0f) * (shift_back_amount);
-                }
-                else
-                {
-                    shift_right = shift_amounts[animation_frame_count];
-                    animation_frame_count++;
-                }
-                pos_vec.x += shift_right;
-                shader_creator_ref->set_uniform2d("uniformTextureCoord", pos_vec);
-            }
-            */
-
-            
-           /*
-            glEnableVertexAttribArray(0);
-            glEnableVertexAttribArray(1);
-            glEnableVertexAttribArray(2);
-
-            glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*) 0 );
-            glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(3 * sizeof(float)));
-            glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(6 * sizeof(float)));
-
-            glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, (void*)0);
-
-            glDisableVertexAttribArray(0);
-            glDisableVertexAttribArray(1);
-            glDisableVertexAttribArray(2);
-            */
+            font_buffer->render_buffer_content();
 
             glfwSwapBuffers(window);
             glfwPollEvents();
@@ -202,11 +155,15 @@ int main()
                 std::cout << amount_of_frames_in_second << std::endl;
                 amount_of_frames_in_second = 0;
                 current_time = glfwGetTime();
+                std::vector<vertex_coordinate3> vert_coords = font_buffer->get_current_vertex_coords();
+                for (int k = 0; k < vert_coords.size(); k++)
+                {
+                    vert_coords[k].x += 0.01;
+                }
+                font_buffer->update_vertex_coords(vert_coords);
             }
             amount_of_frames_in_second++;
         }
-        delete shader_creator_ref;
-        // Terminate GLFW
         glfwTerminate(); 
         return 0;
 
