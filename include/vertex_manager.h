@@ -9,10 +9,10 @@
 class vertex_manager
 {
 public:
-    void generate_vertex_array(int amount);
-    void bind_vertex_array(GLuint vertex_array_id);
+    void generate_vertex_array();
+    void bind_vertex_array();
     void unbind_vertex_array();
-    void delete_vertex_array(GLuint vertex_array_id);
+    void delete_vertex_array();
     class vertex_manager_exception : public std::exception
     {
     public:
@@ -33,7 +33,7 @@ public:
 
 private:
     std::vector<GLuint> vertex_arrays;
-    bool verify_vertex_id_exists(GLuint vertex_array_id);
+    GLuint vertex_array_id;
 };
 
 #endif /* VERTEX_MANAGER_H */

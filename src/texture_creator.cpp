@@ -7,11 +7,8 @@
 
 texture_creator::texture_creator()
 {
-    glGenTextures(1, &texture_id);
-
-    
+    glGenTextures(1, &texture_id);    
 }
-
 
 void texture_creator::create_texture_from_png(const std::string png_file_name)
 {
@@ -25,7 +22,7 @@ void texture_creator::create_texture_from_png(const std::string png_file_name)
         make_texture_background_transparent(background_color, color_vector);
 
     png_loader::png_info_t sprite_sheet_info = png_loader_ref->get_png_info();
-
+    current_png_info = png_loader_ref->get_png_info();
     std::pair<std::string, png_loader::png_info_t> texture_info_map_entry = 
         std::make_pair(png_file_name, sprite_sheet_info);
 
@@ -50,7 +47,7 @@ void texture_creator::create_texture_from_png(const std::string png_file_name)
         0,
         GL_BGRA, 
         GL_UNSIGNED_BYTE, 
-        color_vector_transparent.data());
+        pixel_colors.data());
 
     glGenerateMipmap(GL_TEXTURE_2D);
 }
@@ -90,4 +87,21 @@ png_loader::png_info_t texture_creator::get_png_info(
     }
 
     return return_info;
+}
+
+
+void  texture_creator::flip_texture_on_x_axis()
+{
+    std::vector<unsigned int> x_flipped_pixel_colors;
+
+    for (int height_index = 0; height_index < current_png_info.image_height; height_index++)
+    {
+        for (int width_index = (current_png_info.image_width - 1); width_index >= 0; width_index--)
+        {
+            x_flipped_pixel_colors.push_back( pixel_colors[ current_png_info.image_width * height_index + width_index] );
+        }
+    }
+    std::cout << pixel_colors.size() << std::endl;
+    std::cout << x_flipped_pixel_colors.size() << std::endl;
+    pixel_colors = x_flipped_pixel_colors;
 }

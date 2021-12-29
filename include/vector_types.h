@@ -24,7 +24,7 @@ typedef struct position_vector
 // Standard vertex setup:
 //  3 floats for vertex postion/coordinate
 //  3 floats for color
-//  2 
+//  2 floats for texture coordinate
 const int STANDARD_ATTRIBUTE_AMOUNT = 3;
 
 typedef struct vertex_coordinate3
@@ -54,5 +54,24 @@ typedef struct standard_vertex_information
     texture_coordinate2 texture_coord;
 } standard_vertex_info;
 
+typedef struct pixel_offsets
+{
+    int x;
+    int y;
+} pixel_offsets;
+
+typedef struct vertex_coord2
+{
+    float x;
+    float y;
+} vertex_coord2;
+
+typedef struct vertex_quad
+{
+    vertex_coordinate3 top_left;
+    vertex_coordinate3 top_right;
+    vertex_coordinate3 bottom_left;
+    vertex_coordinate3 bottom_right;
+} vertex_quad;
 
 #endif /* VECTOR_TYPES_H */

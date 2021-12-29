@@ -17,14 +17,18 @@ public:
     png_loader::png_info_t get_png_info(const std::string texture_info_key);
     std::vector<unsigned int> get_pixel_colors(){return pixel_colors;}
     GLuint get_texture_id() {return texture_id;}
+    png_loader::png_info_t get_current_png_info() {return current_png_info;}
 
 private:
 
     GLuint texture_id;
     png_loader* png_loader_ref;
+    png_loader::png_info_t current_png_info;
     std::map<std::string, png_loader::png_info_t> texture_info_map;
 
     std::vector<unsigned int> pixel_colors;
+
+    void flip_texture_on_x_axis();
 
     std::vector<unsigned int> make_texture_background_transparent(
         unsigned int background_color, 
