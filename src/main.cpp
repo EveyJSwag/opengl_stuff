@@ -7,11 +7,6 @@
 #include <sstream>
 #include <memory>
 
-//#include "shader_creator.h"
-//#include "buffer_manager.h"
-//#include "texture_creator.h"
-//#include "vertex_manager.h"
-//#include "vector_types.h"
 #include "font_renderer.h"
 
 int main() 
@@ -43,111 +38,89 @@ int main()
         // Initialize GLEW
         glewExperimental = GL_TRUE; glewInit();
 
+        character_locations font_character_locations;
+        font_character_locations.insert(std::make_pair<char, pixel_offsets>('A', {0,0}));
+        font_character_locations.insert(std::make_pair<char, pixel_offsets>('B', {1,0}));
+        font_character_locations.insert(std::make_pair<char, pixel_offsets>('C', {2,0}));
+        font_character_locations.insert(std::make_pair<char, pixel_offsets>('D', {3,0}));
+        font_character_locations.insert(std::make_pair<char, pixel_offsets>('E', {4,0}));
+        font_character_locations.insert(std::make_pair<char, pixel_offsets>('F', {5,0}));
+        font_character_locations.insert(std::make_pair<char, pixel_offsets>('G', {6,0}));
+        font_character_locations.insert(std::make_pair<char, pixel_offsets>('H', {7,0}));
+        font_character_locations.insert(std::make_pair<char, pixel_offsets>('I', {8,0}));
+        font_character_locations.insert(std::make_pair<char, pixel_offsets>('J', {9,0}));
+        font_character_locations.insert(std::make_pair<char, pixel_offsets>('K', {10,0}));
+        font_character_locations.insert(std::make_pair<char, pixel_offsets>('L', {11,0}));
+        font_character_locations.insert(std::make_pair<char, pixel_offsets>('M', {12,0}));
+        font_character_locations.insert(std::make_pair<char, pixel_offsets>('N', {0,2}));
+        font_character_locations.insert(std::make_pair<char, pixel_offsets>('O', {1,2}));
+        font_character_locations.insert(std::make_pair<char, pixel_offsets>('P', {2,2}));
+        font_character_locations.insert(std::make_pair<char, pixel_offsets>('Q', {3,2}));
+        font_character_locations.insert(std::make_pair<char, pixel_offsets>('R', {4,2}));
+        font_character_locations.insert(std::make_pair<char, pixel_offsets>('S', {5,2}));
+        font_character_locations.insert(std::make_pair<char, pixel_offsets>('T', {6,2}));
+        font_character_locations.insert(std::make_pair<char, pixel_offsets>('U', {7,2}));
+        font_character_locations.insert(std::make_pair<char, pixel_offsets>('V', {8,2}));
+        font_character_locations.insert(std::make_pair<char, pixel_offsets>('W', {9,2}));
+        font_character_locations.insert(std::make_pair<char, pixel_offsets>('X', {10,2}));
+        font_character_locations.insert(std::make_pair<char, pixel_offsets>('Y', {11,2}));
+        font_character_locations.insert(std::make_pair<char, pixel_offsets>('Z', {12,2}));
+
+
+        font_character_locations.insert(std::make_pair<char, pixel_offsets>('a', {0,1}));
+        font_character_locations.insert(std::make_pair<char, pixel_offsets>('b', {1,1}));
+        font_character_locations.insert(std::make_pair<char, pixel_offsets>('c', {2,1}));
+        font_character_locations.insert(std::make_pair<char, pixel_offsets>('d', {3,1}));
+        font_character_locations.insert(std::make_pair<char, pixel_offsets>('e', {4,1}));
+        font_character_locations.insert(std::make_pair<char, pixel_offsets>('f', {5,1}));
+        font_character_locations.insert(std::make_pair<char, pixel_offsets>('g', {6,1}));
+        font_character_locations.insert(std::make_pair<char, pixel_offsets>('h', {7,1}));
+        font_character_locations.insert(std::make_pair<char, pixel_offsets>('i', {8,1}));
+        font_character_locations.insert(std::make_pair<char, pixel_offsets>('j', {9,1}));
+        font_character_locations.insert(std::make_pair<char, pixel_offsets>('k', {10,1}));
+        font_character_locations.insert(std::make_pair<char, pixel_offsets>('l', {11,1}));
+        font_character_locations.insert(std::make_pair<char, pixel_offsets>('m', {12,1}));
+        font_character_locations.insert(std::make_pair<char, pixel_offsets>('n', {0,3}));
+        font_character_locations.insert(std::make_pair<char, pixel_offsets>('o', {1,3}));
+        font_character_locations.insert(std::make_pair<char, pixel_offsets>('p', {2,3}));
+        font_character_locations.insert(std::make_pair<char, pixel_offsets>('q', {3,3}));
+        font_character_locations.insert(std::make_pair<char, pixel_offsets>('r', {4,3}));
+        font_character_locations.insert(std::make_pair<char, pixel_offsets>('s', {5,3}));
+        font_character_locations.insert(std::make_pair<char, pixel_offsets>('t', {6,3}));
+        font_character_locations.insert(std::make_pair<char, pixel_offsets>('u', {7,3}));
+        font_character_locations.insert(std::make_pair<char, pixel_offsets>('v', {8,3}));
+        font_character_locations.insert(std::make_pair<char, pixel_offsets>('w', {9,3}));
+        font_character_locations.insert(std::make_pair<char, pixel_offsets>('x', {10,3}));
+        font_character_locations.insert(std::make_pair<char, pixel_offsets>('y', {11,3}));
+        font_character_locations.insert(std::make_pair<char, pixel_offsets>('z', {12,3}));
+
         vertex_quad init_vertex_quad;
-        init_vertex_quad.bottom_left = {0.0f, -1.0f, 0.0f};
-        init_vertex_quad.bottom_right = {0.5f, -1.0f, 0.0f};
-        init_vertex_quad.top_left = {0.0f, 0.0f, 0.0f};
-        init_vertex_quad.top_right = {0.5f, 0.0f, 0.0f};
+        init_vertex_quad.bottom_left = {-1.0f, -1.0f, 0.0f};
+        init_vertex_quad.bottom_right = {-0.8f, -1.0f, 0.0f};
+        init_vertex_quad.top_left = {-1.0f, -0.5f, 0.0f};
+        init_vertex_quad.top_right = {-0.8f, -0.5f, 0.0f};
 
         pixel_offsets font_off;
         font_off.x = 3;
-        font_off.y = 3;
+        font_off.y = 4;
 
         pixel_offsets char_dimension;
-        char_dimension.x = 12;
+        char_dimension.x = 10;
         char_dimension.y = 14;
+
+        pixel_offsets char_dist;
+        char_dist.x = 2;
+        char_dist.y = 5;
 
         std::unique_ptr<font_renderer> f_ren = 
             std::make_unique<font_renderer>(
-                font_renderer("font.png", init_vertex_quad, font_off, char_dimension));
-
-
-        /*
-
-        std::unique_ptr<vertex_manager> font_vertex_ref = std::make_unique<vertex_manager>(vertex_manager());
-
-        font_vertex_ref->generate_vertex_array();
-        font_vertex_ref->bind_vertex_array();
-
-
-        std::unique_ptr<texture_creator> font_texture_ref = std::make_unique<texture_creator>(texture_creator());
-        font_texture_ref->create_texture_from_png("font.png");
-        png_loader::png_info_t font_png_info = font_texture_ref->get_png_info("font.png");
-
-        float sprite_sheet_ratio = 
-            (float)(font_png_info.image_width)/(float)(font_png_info.image_height);
-
-        float max_y_coordinate = 1.0f;
-        float min_y_coordinate = -1.0f;
-
-        float max_x_coordinate = -0.6f;
-        float min_x_coordinate = -1.0f;
-        float x_shift = 0.4f;
-
-        const float square_x_max = 50.f/(float)(font_png_info.image_width);
-        const float square_y_max = 18.0f/(float)(font_png_info.image_height);
-
-        const float square_y_min = 4.0f/(float)(font_png_info.image_height);
-
-        standard_vertex_info init_vertces[] = {
-            { {max_x_coordinate, max_y_coordinate, 0.0f},           {1.0f, 0.0f, 0.0f},              {square_x_max,         square_y_min               }  },
-            { {max_x_coordinate, min_y_coordinate, 0.0f},           {1.0f, 1.0f, 0.0f},              {square_x_max,         square_y_max}  }, 
-            { {min_x_coordinate, min_y_coordinate, 0.0f},                   {0.0f, 0.0f, 1.0f},      {0.0f, square_y_max}  },
-            { {min_x_coordinate, max_y_coordinate, 0.0f},             {1.0f, 1.0f, 0.0f},            {0.0f, square_y_min       }  }, 
-            { {max_x_coordinate + x_shift, max_y_coordinate, 0.0f},   {1.0f, 0.0f, 0.0f},            {square_x_max, 0.0f         } },
-            { {max_x_coordinate + x_shift, min_y_coordinate, 0.0f},   {0.0f, 1.0f, 0.0f},            {square_x_max, square_y_max } },
-            { {max_x_coordinate,                    min_y_coordinate, 0.0f},   {0.0f, 0.0f, 1.0f},   {square_x_max + square_x_max, square_y_max } },
-            { {max_x_coordinate,                    max_y_coordinate, 0.0f},   {1.0f, 1.0f, 0.0f},   {square_x_max + square_x_max, 0.0f         } }
-        };
-
-        std::vector<standard_vertex_info> vert_info_vec;
-        for (int j = 0; j < 8; j++)
-        {
-            vert_info_vec.push_back(init_vertces[j]);
-        }
-
-
-        GLuint vertex_buffer_id;
-
-        
-        std::vector <unsigned int> vec_indicies({0, 1, 3, 1, 2, 3, 4, 5, 7, 5, 6, 7});
-
-        const unsigned int indices[] = 
-        {
-            0, 1, 3, 
-            1, 2, 3,
-
-            4, 5, 7,
-            5, 6, 7
-        };
-
-        std::unique_ptr<buffer_manager> font_buffer = std::make_unique<buffer_manager>(buffer_manager());
-
-        font_buffer->generate_vertex_buffer();
-        font_buffer->bind_vertex_buffer();
-        font_buffer->generate_index_buffer();
-        font_buffer->bind_index_buffer();
-        font_buffer->set_index_buffer_data(vec_indicies);
-        font_buffer->set_initial_vertex_buffer_data(vert_info_vec);
-      
-        shader_creator* shader_creator_ref = new shader_creator(
-            shader_creator::VERTEX_AND_FRAGMENT_SHADER_FILE_PATH,
-            "shaders/vertex_shader.glsl", 
-            "shaders/fragment_shader.glsl");
-
-        color_vector my_color_value;
-        my_color_value.r = 1.0f;
-        my_color_value.g = 0.2f;
-        my_color_value.b = 0.7f;
-
-        position_vector pos_vec;
-        pos_vec.x = 0.0f;
-        pos_vec.y = 0.0f;
-        shader_creator_ref->add_uniform("color_input");
-        shader_creator_ref->add_uniform("uniformTextureCoord");
-        shader_creator_ref->set_uniform2d("uniformTextureCoord", pos_vec);
-        shader_creator_ref->use_program();
-        */
+                font_renderer(
+                    "font.png", 
+                    init_vertex_quad, 
+                    font_off, 
+                    char_dimension, 
+                    char_dist, 
+                    font_character_locations));
 
         shader_creator* shader_creator_ref = new shader_creator(
             shader_creator::VERTEX_AND_FRAGMENT_SHADER_FILE_PATH,
@@ -166,18 +139,6 @@ int main()
         shader_creator_ref->add_uniform("uniformTextureCoord");
         shader_creator_ref->set_uniform2d("uniformTextureCoord", pos_vec);
         shader_creator_ref->use_program();
-
-        /*
-        unsigned int amount_of_frames = 0;
-        unsigned int amount_of_frames_in_second = 0;
-        const unsigned int amount_of_idle_frames = 4;
-        std::vector<float> shift_amounts;
-        shift_amounts.push_back(square_x_max);
-        shift_amounts.push_back(62.0f/785.0f);
-        shift_amounts.push_back(60.0f/785.0f);
-        */
-
-
 
         double current_time = glfwGetTime();
         double end_time;
@@ -187,17 +148,14 @@ int main()
         int animation_frame_count = 0;
         double start_time = glfwGetTime();
         unsigned int row_size = 0;
-
+        std::string font_string = "TEST";
 
         while(!glfwWindowShouldClose(window)) 
         {
             glClear(GL_COLOR_BUFFER_BIT);
             glClearColor(0.0f, 0.4f, 0.0f, 1.0f);
-            /*
-            font_buffer->render_buffer_content();
-            */
 
-            f_ren->write_string("dum");
+            f_ren->write_string(font_string);
 
             glfwSwapBuffers(window);
             glfwPollEvents();
@@ -208,14 +166,6 @@ int main()
                 std::cout << amount_of_frames_in_second << std::endl;
                 amount_of_frames_in_second = 0;
                 current_time = glfwGetTime();
-                /*
-                std::vector<vertex_coordinate3> vert_coords = font_buffer->get_current_vertex_coords();
-                for (int k = 0; k < vert_coords.size(); k++)
-                {
-                    vert_coords[k].x += 0.01;
-                }
-                font_buffer->update_vertex_coords(vert_coords);
-                */
             }
             amount_of_frames_in_second++;
         }

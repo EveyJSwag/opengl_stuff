@@ -3,7 +3,7 @@
 
 #include <GL/glew.h> 
 #include <GLFW/glfw3.h>
-
+#include <map>
 
 typedef struct color_vector
 {
@@ -73,5 +73,8 @@ typedef struct vertex_quad
     vertex_coordinate3 bottom_left;
     vertex_coordinate3 bottom_right;
 } vertex_quad;
+
+typedef std::map<char, pixel_offsets> character_locations;
+typedef std::pair<char, pixel_offsets> character_location;
 
 #endif /* VECTOR_TYPES_H */
