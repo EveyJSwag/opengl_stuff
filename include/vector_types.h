@@ -60,6 +60,18 @@ typedef struct pixel_offsets
     int y;
 } pixel_offsets;
 
+typedef struct character_dimensions
+{
+    int width;
+    int height;
+} character_dimensions;
+
+typedef struct pixel_font_info
+{
+    pixel_offsets        pixel_coord;
+    character_dimensions char_dimension;
+} pixel_font_info;
+
 typedef struct vertex_coord2
 {
     float x;
@@ -76,5 +88,8 @@ typedef struct vertex_quad
 
 typedef std::map<char, pixel_offsets> character_locations;
 typedef std::pair<char, pixel_offsets> character_location;
+
+typedef std::map<char, pixel_font_info> font_char_locations;
+typedef std::pair<char, pixel_font_info> font_char_location;
 
 #endif /* VECTOR_TYPES_H */

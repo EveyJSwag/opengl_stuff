@@ -6,7 +6,7 @@ font_renderer::font_renderer(
     const pixel_offsets font_offset,
     const pixel_offsets character_dimension,
     const pixel_offsets character_distance,
-    const character_locations char_locations,
+    const font_char_locations char_locations,
     const float scale_amount)
 {
     char_dist = character_distance;
@@ -61,10 +61,10 @@ void font_renderer::write_string(std::string font_string)
 
 void font_renderer::add_character(const char char_to_add)
 {
-    float minimum_x_tex_coord = floatify_x(font_char_offset.x + (font_locations[char_to_add].x * (font_char_dimension.x + char_dist.x)));
-    float maximum_x_tex_coord = minimum_x_tex_coord + floatify_x(font_char_dimension.x);
-    float minimum_y_tex_coord = floatify_y(font_char_offset.y + (font_locations[char_to_add].y * (font_char_dimension.y + char_dist.y)));
-    float maximum_y_tex_coord = minimum_y_tex_coord + floatify_y(font_char_dimension.y);
+    float minimum_x_tex_coord = floatify_x(font_char_offset.x + (font_locations[char_to_add].pixel_coord.x));//floatify_x(font_char_offset.x + (font_locations[char_to_add].x * (font_char_dimension.x + char_dist.x)));
+    float maximum_x_tex_coord = minimum_x_tex_coord + floatify_x(font_locations[char_to_add].char_dimension.width);//minimum_x_tex_coord + floatify_x(font_char_dimension.x);
+    float minimum_y_tex_coord = floatify_y(font_char_offset.y + (font_locations[char_to_add].pixel_coord.y));//floatify_y(font_char_offset.y + (font_locations[char_to_add].y * (font_char_dimension.y + char_dist.y)));
+    float maximum_y_tex_coord = minimum_y_tex_coord + floatify_y(font_locations[char_to_add].char_dimension.height);//minimum_y_tex_coord + floatify_y(font_char_dimension.y);
     texture_coordinate2 tl = {minimum_x_tex_coord, minimum_y_tex_coord};
     texture_coordinate2 tr = {maximum_x_tex_coord, minimum_y_tex_coord};
     texture_coordinate2 bl = {minimum_x_tex_coord, maximum_y_tex_coord};

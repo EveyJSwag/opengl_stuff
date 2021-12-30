@@ -20,7 +20,7 @@ public:
         const pixel_offsets font_offset,
         const pixel_offsets character_dimension,
         const pixel_offsets character_distance,
-        const character_locations char_locations,
+        const font_char_locations char_locations,
         const float scale_amount = 1.0f);
 
     void write_string(const std::string font_string);
@@ -51,7 +51,7 @@ private:
     float floatify_x(unsigned int pixel_x);
     float floatify_y(unsigned int pixel_y);
 
-    character_locations font_locations;
+    font_char_locations font_locations;
     pixel_offsets font_char_offset;
     pixel_offsets font_char_dimension;
     pixel_offsets char_dist;

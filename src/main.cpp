@@ -8,6 +8,7 @@
 #include <memory>
 
 #include "font_renderer.h"
+#include "font_info.h"
 
 int main() 
 {
@@ -37,68 +38,12 @@ int main()
 
         // Initialize GLEW
         glewExperimental = GL_TRUE; glewInit();
-
-        character_locations font_character_locations;
-        font_character_locations.insert(std::make_pair<char, pixel_offsets>('A', {0,0}));
-        font_character_locations.insert(std::make_pair<char, pixel_offsets>('B', {1,0}));
-        font_character_locations.insert(std::make_pair<char, pixel_offsets>('C', {2,0}));
-        font_character_locations.insert(std::make_pair<char, pixel_offsets>('D', {3,0}));
-        font_character_locations.insert(std::make_pair<char, pixel_offsets>('E', {4,0}));
-        font_character_locations.insert(std::make_pair<char, pixel_offsets>('F', {5,0}));
-        font_character_locations.insert(std::make_pair<char, pixel_offsets>('G', {6,0}));
-        font_character_locations.insert(std::make_pair<char, pixel_offsets>('H', {7,0}));
-        font_character_locations.insert(std::make_pair<char, pixel_offsets>('I', {8,0}));
-        font_character_locations.insert(std::make_pair<char, pixel_offsets>('J', {9,0}));
-        font_character_locations.insert(std::make_pair<char, pixel_offsets>('K', {10,0}));
-        font_character_locations.insert(std::make_pair<char, pixel_offsets>('L', {11,0}));
-        font_character_locations.insert(std::make_pair<char, pixel_offsets>('M', {12,0}));
-        font_character_locations.insert(std::make_pair<char, pixel_offsets>('N', {0,2}));
-        font_character_locations.insert(std::make_pair<char, pixel_offsets>('O', {1,2}));
-        font_character_locations.insert(std::make_pair<char, pixel_offsets>('P', {2,2}));
-        font_character_locations.insert(std::make_pair<char, pixel_offsets>('Q', {3,2}));
-        font_character_locations.insert(std::make_pair<char, pixel_offsets>('R', {4,2}));
-        font_character_locations.insert(std::make_pair<char, pixel_offsets>('S', {5,2}));
-        font_character_locations.insert(std::make_pair<char, pixel_offsets>('T', {6,2}));
-        font_character_locations.insert(std::make_pair<char, pixel_offsets>('U', {7,2}));
-        font_character_locations.insert(std::make_pair<char, pixel_offsets>('V', {8,2}));
-        font_character_locations.insert(std::make_pair<char, pixel_offsets>('W', {9,2}));
-        font_character_locations.insert(std::make_pair<char, pixel_offsets>('X', {10,2}));
-        font_character_locations.insert(std::make_pair<char, pixel_offsets>('Y', {11,2}));
-        font_character_locations.insert(std::make_pair<char, pixel_offsets>('Z', {12,2}));
-
-
-        font_character_locations.insert(std::make_pair<char, pixel_offsets>('a', {0,1}));
-        font_character_locations.insert(std::make_pair<char, pixel_offsets>('b', {1,1}));
-        font_character_locations.insert(std::make_pair<char, pixel_offsets>('c', {2,1}));
-        font_character_locations.insert(std::make_pair<char, pixel_offsets>('d', {3,1}));
-        font_character_locations.insert(std::make_pair<char, pixel_offsets>('e', {4,1}));
-        font_character_locations.insert(std::make_pair<char, pixel_offsets>('f', {5,1}));
-        font_character_locations.insert(std::make_pair<char, pixel_offsets>('g', {6,1}));
-        font_character_locations.insert(std::make_pair<char, pixel_offsets>('h', {7,1}));
-        font_character_locations.insert(std::make_pair<char, pixel_offsets>('i', {8,1}));
-        font_character_locations.insert(std::make_pair<char, pixel_offsets>('j', {9,1}));
-        font_character_locations.insert(std::make_pair<char, pixel_offsets>('k', {10,1}));
-        font_character_locations.insert(std::make_pair<char, pixel_offsets>('l', {11,1}));
-        font_character_locations.insert(std::make_pair<char, pixel_offsets>('m', {12,1}));
-        font_character_locations.insert(std::make_pair<char, pixel_offsets>('n', {0,3}));
-        font_character_locations.insert(std::make_pair<char, pixel_offsets>('o', {1,3}));
-        font_character_locations.insert(std::make_pair<char, pixel_offsets>('p', {2,3}));
-        font_character_locations.insert(std::make_pair<char, pixel_offsets>('q', {3,3}));
-        font_character_locations.insert(std::make_pair<char, pixel_offsets>('r', {4,3}));
-        font_character_locations.insert(std::make_pair<char, pixel_offsets>('s', {5,3}));
-        font_character_locations.insert(std::make_pair<char, pixel_offsets>('t', {6,3}));
-        font_character_locations.insert(std::make_pair<char, pixel_offsets>('u', {7,3}));
-        font_character_locations.insert(std::make_pair<char, pixel_offsets>('v', {8,3}));
-        font_character_locations.insert(std::make_pair<char, pixel_offsets>('w', {9,3}));
-        font_character_locations.insert(std::make_pair<char, pixel_offsets>('x', {10,3}));
-        font_character_locations.insert(std::make_pair<char, pixel_offsets>('y', {11,3}));
-        font_character_locations.insert(std::make_pair<char, pixel_offsets>('z', {12,3}));
-
+        populate_font_info();
         vertex_quad init_vertex_quad;
-        init_vertex_quad.bottom_left = {-1.0f, -1.0f, 0.0f};
-        init_vertex_quad.bottom_right = {-0.8f, -1.0f, 0.0f};
+        init_vertex_quad.bottom_left = {-1.0f, -0.75f, 0.0f};
+        init_vertex_quad.bottom_right = {-0.9f, -0.75f, 0.0f};
         init_vertex_quad.top_left = {-1.0f, -0.5f, 0.0f};
-        init_vertex_quad.top_right = {-0.8f, -0.5f, 0.0f};
+        init_vertex_quad.top_right = {-0.9f, -0.5f, 0.0f};
 
         pixel_offsets font_off;
         font_off.x = 3;
@@ -120,7 +65,7 @@ int main()
                     font_off, 
                     char_dimension, 
                     char_dist, 
-                    font_character_locations));
+                    font_char_loc));
 
         shader_creator* shader_creator_ref = new shader_creator(
             shader_creator::VERTEX_AND_FRAGMENT_SHADER_FILE_PATH,
@@ -148,7 +93,7 @@ int main()
         int animation_frame_count = 0;
         double start_time = glfwGetTime();
         unsigned int row_size = 0;
-        std::string font_string = "TEST";
+        std::string font_string = "Words words WoRDz";
 
         while(!glfwWindowShouldClose(window)) 
         {
