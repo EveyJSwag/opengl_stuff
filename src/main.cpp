@@ -7,8 +7,7 @@
 #include <sstream>
 #include <memory>
 
-#include "font_renderer.h"
-#include "font_info.h"
+#include "fps_counter.h"
 
 int main() 
 {
@@ -37,35 +36,10 @@ int main()
         }
 
         // Initialize GLEW
-        glewExperimental = GL_TRUE; glewInit();
-        populate_font_info();
-        vertex_quad init_vertex_quad;
-        init_vertex_quad.bottom_left = {-1.0f, -0.75f, 0.0f};
-        init_vertex_quad.bottom_right = {-0.9f, -0.75f, 0.0f};
-        init_vertex_quad.top_left = {-1.0f, -0.5f, 0.0f};
-        init_vertex_quad.top_right = {-0.9f, -0.5f, 0.0f};
+        glewExperimental = GL_TRUE; 
+        glewInit();
 
-        pixel_offsets font_off;
-        font_off.x = 3;
-        font_off.y = 4;
-
-        pixel_offsets char_dimension;
-        char_dimension.x = 10;
-        char_dimension.y = 14;
-
-        pixel_offsets char_dist;
-        char_dist.x = 2;
-        char_dist.y = 5;
-
-        std::unique_ptr<font_renderer> f_ren = 
-            std::make_unique<font_renderer>(
-                font_renderer(
-                    "font.png", 
-                    init_vertex_quad, 
-                    font_off, 
-                    char_dimension, 
-                    char_dist, 
-                    font_char_loc));
+        fps_counter* fps_counter_ref = fps_counter::get_instance();
 
         shader_creator* shader_creator_ref = new shader_creator(
             shader_creator::VERTEX_AND_FRAGMENT_SHADER_FILE_PATH,
@@ -85,34 +59,13 @@ int main()
         shader_creator_ref->set_uniform2d("uniformTextureCoord", pos_vec);
         shader_creator_ref->use_program();
 
-        double current_time = glfwGetTime();
-        double end_time;
-        unsigned int amount_of_frames = 0;
-        unsigned int amount_of_frames_in_second = 0;
-        bool shift_right = true;
-        int animation_frame_count = 0;
-        double start_time = glfwGetTime();
-        unsigned int row_size = 0;
-        std::string font_string = "Words words WoRDz";
-
         while(!glfwWindowShouldClose(window)) 
         {
             glClear(GL_COLOR_BUFFER_BIT);
             glClearColor(0.0f, 0.4f, 0.0f, 1.0f);
-
-            f_ren->write_string(font_string);
-
+            fps_counter_ref->display_fps();
             glfwSwapBuffers(window);
             glfwPollEvents();
-            amount_of_frames++;
-            if (glfwGetTime() - current_time >= 1.0f)
-            {
-                row_size++;
-                std::cout << amount_of_frames_in_second << std::endl;
-                amount_of_frames_in_second = 0;
-                current_time = glfwGetTime();
-            }
-            amount_of_frames_in_second++;
         }
         glfwTerminate(); 
         return 0;

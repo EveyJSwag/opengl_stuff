@@ -24,12 +24,18 @@ public:
         const float scale_amount = 1.0f);
 
     void write_string(const std::string font_string);
-    void write_string(const char* font_string, float delay_between_chars);
+    void write_string(
+        const std::string font_string, 
+        double delay_between_chars);
+
+    void clear();
 
 private:
     std::unique_ptr<texture_creator> font_texture;
     std::unique_ptr<vertex_manager>  font_vertex;
     std::unique_ptr<buffer_manager>  font_buffer;
+
+    double last_char_time;
 
     vertex_quad initial_vertex_data;
 
@@ -39,7 +45,6 @@ private:
 
     std::vector<standard_vertex_info> vertex_info;
     std::vector<unsigned int> vertex_indices;
-
 
     void add_character(const char char_to_add);
     void add_vertex();

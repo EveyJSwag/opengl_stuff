@@ -49,7 +49,7 @@ float font_renderer::floatify_y(unsigned int pixel_y)
     return (float)( (float)(pixel_y) / (float)font_sheet_info.image_height);
 }
 
-void font_renderer::write_string(std::string font_string)
+void font_renderer::write_string(const std::string font_string)
 {
     for (; string_index < font_string.size(); string_index++)
         add_character(font_string.c_str()[string_index]);
@@ -59,12 +59,32 @@ void font_renderer::write_string(std::string font_string)
     font_buffer->render_buffer_content();
 }
 
+void font_renderer::clear()
+{
+    string_index = 0;
+    vertex_info.clear();
+}
+
+void font_renderer::write_string(const std::string font_string, double delay_between_chars)
+{
+    if ( (string_index == 0 || (glfwGetTime() - last_char_time) >= delay_between_chars) &&
+         (string_index < font_string.size()) || font_string.c_str()[string_index] == ' ')
+    {
+        add_character(font_string.c_str()[string_index]);
+        string_index++;
+        last_char_time = glfwGetTime();
+    }
+    font_buffer->set_index_buffer_data(vertex_indices);
+    font_buffer->set_initial_vertex_buffer_data(vertex_info);
+    font_buffer->render_buffer_content();
+}
+
 void font_renderer::add_character(const char char_to_add)
 {
-    float minimum_x_tex_coord = floatify_x(font_char_offset.x + (font_locations[char_to_add].pixel_coord.x));//floatify_x(font_char_offset.x + (font_locations[char_to_add].x * (font_char_dimension.x + char_dist.x)));
-    float maximum_x_tex_coord = minimum_x_tex_coord + floatify_x(font_locations[char_to_add].char_dimension.width);//minimum_x_tex_coord + floatify_x(font_char_dimension.x);
-    float minimum_y_tex_coord = floatify_y(font_char_offset.y + (font_locations[char_to_add].pixel_coord.y));//floatify_y(font_char_offset.y + (font_locations[char_to_add].y * (font_char_dimension.y + char_dist.y)));
-    float maximum_y_tex_coord = minimum_y_tex_coord + floatify_y(font_locations[char_to_add].char_dimension.height);//minimum_y_tex_coord + floatify_y(font_char_dimension.y);
+    float minimum_x_tex_coord = floatify_x(font_char_offset.x + (font_locations[char_to_add].pixel_coord.x));
+    float maximum_x_tex_coord = minimum_x_tex_coord + floatify_x(font_locations[char_to_add].char_dimension.width);
+    float minimum_y_tex_coord = floatify_y(font_char_offset.y + (font_locations[char_to_add].pixel_coord.y));
+    float maximum_y_tex_coord = minimum_y_tex_coord + floatify_y(font_locations[char_to_add].char_dimension.height);
     texture_coordinate2 tl = {minimum_x_tex_coord, minimum_y_tex_coord};
     texture_coordinate2 tr = {maximum_x_tex_coord, minimum_y_tex_coord};
     texture_coordinate2 bl = {minimum_x_tex_coord, maximum_y_tex_coord};
