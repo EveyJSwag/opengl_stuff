@@ -18,6 +18,8 @@ public:
     std::vector<unsigned int> get_pixel_colors(){return pixel_colors;}
     GLuint get_texture_id() {return texture_id;}
     png_loader::png_info_t get_current_png_info() {return current_png_info;}
+    void unbind_texture();
+    void bind_texture();
 
 private:
 

@@ -8,6 +8,8 @@
 #include <memory>
 
 #include "fps_counter.h"
+#include "text_displayer.h"
+#include "sprite_animator.h"
 
 int main() 
 {
@@ -39,8 +41,13 @@ int main()
         glewExperimental = GL_TRUE; 
         glewInit();
 
-        fps_counter* fps_counter_ref = fps_counter::get_instance();
 
+
+        sprite_animator* sprite_animator_ref = new sprite_animator("ryu_sheet.png", {0.0f, 0.0f, 0.0f});
+        fps_counter* fps_counter_ref = fps_counter::get_instance();
+        vertex_coordinate3 i_postion = {-1.0f, -0.2f, 0.0f};
+        text_displayer* test_text = new text_displayer(i_postion);
+        
         shader_creator* shader_creator_ref = new shader_creator(
             shader_creator::VERTEX_AND_FRAGMENT_SHADER_FILE_PATH,
             "shaders/vertex_shader.glsl", 
@@ -59,11 +66,25 @@ int main()
         shader_creator_ref->set_uniform2d("uniformTextureCoord", pos_vec);
         shader_creator_ref->use_program();
 
+        double current_time = glfwGetTime();
+        float should_walk = false;
         while(!glfwWindowShouldClose(window)) 
         {
             glClear(GL_COLOR_BUFFER_BIT);
             glClearColor(0.0f, 0.4f, 0.0f, 1.0f);
+            test_text->write("Text");
             fps_counter_ref->display_fps();
+            //if (!should_walk)
+                sprite_animator_ref->do_animation("RYU_STAND_LIGHT_KICK", 12);
+            //if (should_walk)
+            //{
+            //    sprite_animator_ref->do_animation("RYU_WALK", 7);
+            //}
+            if (glfwGetTime() - current_time >= 2.0f)
+            {
+                should_walk = !should_walk;
+                current_time = glfwGetTime();
+            }
             glfwSwapBuffers(window);
             glfwPollEvents();
         }

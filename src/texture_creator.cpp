@@ -10,6 +10,16 @@ texture_creator::texture_creator()
     glGenTextures(1, &texture_id);    
 }
 
+void texture_creator::unbind_texture()
+{
+    glBindTexture(GL_TEXTURE_2D, 0);
+}
+
+void texture_creator::bind_texture()
+{
+    glBindTexture(GL_TEXTURE_2D, texture_id);
+}
+
 void texture_creator::create_texture_from_png(const std::string png_file_name)
 {
     std::stringstream full_png_path;

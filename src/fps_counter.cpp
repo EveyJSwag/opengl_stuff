@@ -7,8 +7,8 @@ fps_counter::fps_counter()
     vertex_quad init_vertex_quad;
     init_vertex_quad.bottom_left  = {0.4f, -1.0f, 0.0f};
     init_vertex_quad.bottom_right = {0.5f, -1.0f, 0.0f};
-    init_vertex_quad.top_left     = {0.4f, -0.75f, 0.0f};
-    init_vertex_quad.top_right    = {0.5f, -0.75f, 0.0f};
+    init_vertex_quad.top_left     = {0.4f, -0.85f, 0.0f};
+    init_vertex_quad.top_right    = {0.5f, -0.85f, 0.0f};
 
     pixel_offsets font_off;
     font_off.x = 3;

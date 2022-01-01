@@ -1,35 +1,41 @@
 #ifndef SPRITE_ANIMATOR_H
 #define SPRITE_ANIMATOR_H
-#include <vector>
+
+#include "vertex_manager.h"
+#include "texture_creator.h"
+#include "buffer_manager.h"
+
 class sprite_animator
 {
 public:
-    sprite_animator(float sheet_height, float sheet_width);
+    sprite_animator(std::string sprite_sheet_name, vertex_coordinate3 a_sprite_location);
 
-    typedef struct sheet_square
-    {
-        unsigned int top_left_pixel;
-        unsigned int top_right_pixel;
-        unsigned int bottom_left_pixel;
-        unsigned int bottom_right_pixel;
-        sheet_square& operator+ (const sheet_square& right);
-        sheet_square& operator- (const sheet_square& right);
-    } sheet_square;
+    void do_animation(
+        std::string animation_name,
+        unsigned int frames_per_frame);
+private:
+    std::unique_ptr<vertex_manager>     sprite_vertex_manager;
+    std::unique_ptr<texture_creator>    sprite_texture_creator;
+    std::unique_ptr<buffer_manager>     sprite_buffer_manager;
 
-    typedef struct normalized_sheet_square
-    {
-        float top_left_normal;
-        float top_right_normal;
-        float bottom_left_normal;
-        float bottom_right_normal;
-        normalized_sheet_square(sheet_square& normalize_me);
-    }normalized_sheet_square;
+    vertex_coordinate3 sprite_location;
 
-    void animate(
-        std::vector<unsigned int> horizontal_shift_offsets,
-        std::vector<sheet_square> frame_dimensions);
+    std::vector<unsigned int> sprite_vector_indices;
+    std::vector<standard_vertex_info> sprite_vertex_info;
 
-    
+    png_loader::png_info_t sprite_sheet_info;
+
+    animation_name_location_map animation_info;
+
+    standard_vertex_info current_quad[4];
+
+    float floatify_x(unsigned int pixel_x);
+    float floatify_y(unsigned int pixel_y);
+
+    unsigned int current_frame = 0;
+
+    unsigned int frame_count = 0;
+
 
 };
 

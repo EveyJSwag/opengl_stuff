@@ -51,12 +51,14 @@ float font_renderer::floatify_y(unsigned int pixel_y)
 
 void font_renderer::write_string(const std::string font_string)
 {
+    font_texture->bind_texture();
     for (; string_index < font_string.size(); string_index++)
         add_character(font_string.c_str()[string_index]);
 
     font_buffer->set_index_buffer_data(vertex_indices);
     font_buffer->set_initial_vertex_buffer_data(vertex_info);
     font_buffer->render_buffer_content();
+    font_texture->unbind_texture();
 }
 
 void font_renderer::clear()
