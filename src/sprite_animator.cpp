@@ -50,55 +50,58 @@ void sprite_animator::do_animation(
     {
         pixel_offsets po = animation_info[animation_name][current_frame].pixel_coord;
         character_dimensions cd = animation_info[animation_name][current_frame].char_dimension;
-        float x_offset_kick_array[] = {0.0f, 7.0f, 18.0f, 7.0f, 0.0f};
-        if (animation_name == "RYU_STAND_LIGHT_KICK")
-        {
-            ///////////////
-            // TOP RIGHT //
-            ///////////////
-            current_quad[0].color_vec = {1.0f, 1.0f, 1.0f};
-            current_quad[0].vertex_coord = {
-                sprite_location.x + (0.009f * ((float)cd.width)), 
-                sprite_location.y + (0.009f * ((float)cd.height)), 
-                0.0f};
-            current_quad[0].texture_coord = {
-                floatify_x(po.x + cd.width),
-                floatify_y(po.y)};
-                //floatify_y(po.y - cd.height)};
+        float x_offset = animation_info[animation_name][current_frame].x_offset;
+        const float SCALE_FACTOR = 0.009f;
+        float vertex_x_shift = (SCALE_FACTOR * ((float)cd.width));
+        float vertex_x_offset = (SCALE_FACTOR * x_offset);
+        float vertex_y_shift = (SCALE_FACTOR * ((float)cd.height));
 
-            //////////////////
-            // BOTTOM RIGHT //
-            //////////////////
-            current_quad[1].color_vec = {1.0f, 1.0f, 1.0f};
-            current_quad[1].vertex_coord = {
-                sprite_location.x + (0.009f * ((float)cd.width)   ), 
-                sprite_location.y, 
-                0.0f};
-            current_quad[1].texture_coord = {
-                floatify_x(po.x + cd.width),
-                floatify_y(po.y + cd.height)};
+        ///////////////
+        // TOP RIGHT //
+        ///////////////
+        current_quad[0].color_vec = {1.0f, 1.0f, 1.0f};
+        current_quad[0].vertex_coord = {
+            sprite_location.x + vertex_x_shift - vertex_x_offset, 
+            sprite_location.y + vertex_y_shift, 
+            0.0f};
+        current_quad[0].texture_coord = {
+            floatify_x(po.x + cd.width),
+            floatify_y(po.y)};
 
-            /////////////////
-            // BOTTOM LEFT //
-            /////////////////
-            current_quad[2].color_vec = {1.0f, 1.0f, 1.0f};
-            current_quad[2].vertex_coord = sprite_location;
-            current_quad[2].texture_coord = {
-                floatify_x(po.x),
-                floatify_y(po.y + cd.height)};
+        //////////////////
+        // BOTTOM RIGHT //
+        //////////////////
+        current_quad[1].color_vec = {1.0f, 1.0f, 1.0f};
+        current_quad[1].vertex_coord = {
+            sprite_location.x + vertex_x_shift - vertex_x_offset, 
+            sprite_location.y, 
+            0.0f};
+        current_quad[1].texture_coord = {
+            floatify_x(po.x + cd.width),
+            floatify_y(po.y + cd.height)};
 
-            //////////////
-            // TOP LEFT //
-            //////////////
-            current_quad[3].color_vec = {1.0f, 1.0f, 1.0f};
-            current_quad[3].vertex_coord = {
-                sprite_location.x, 
-                sprite_location.y + (0.009f * ((float)cd.height)), 
-                0.0f};
-            current_quad[3].texture_coord = {
-                floatify_x(po.x),
-                floatify_y(po.y)};
-        }
+        /////////////////
+        // BOTTOM LEFT //
+        /////////////////
+        current_quad[2].color_vec = {1.0f, 1.0f, 1.0f};
+        current_quad[2].vertex_coord = {
+            sprite_location.x - vertex_x_offset,
+            sprite_location.y};
+        current_quad[2].texture_coord = {
+            floatify_x(po.x),
+            floatify_y(po.y + cd.height)};
+
+        //////////////
+        // TOP LEFT //
+        //////////////
+        current_quad[3].color_vec = {1.0f, 1.0f, 1.0f};
+        current_quad[3].vertex_coord = {
+            sprite_location.x - vertex_x_offset, 
+            sprite_location.y + vertex_y_shift, 
+            0.0f};
+        current_quad[3].texture_coord = {
+            floatify_x(po.x),
+            floatify_y(po.y)};
         current_frame++;
     }
     quad.push_back(current_quad[0]);
@@ -110,4 +113,14 @@ void sprite_animator::do_animation(
     sprite_buffer_manager->render_buffer_content();
     sprite_texture_creator->unbind_texture();
     frame_count++;
+}
+
+void sprite_animator::move_sprite_x(float x_move_amt)
+{
+    sprite_location.x += x_move_amt;
+}
+
+void sprite_animator::move_sprite_y(float y_move_amt)
+{
+    sprite_location.y += y_move_amt;
 }

@@ -13,6 +13,9 @@ public:
     void do_animation(
         std::string animation_name,
         unsigned int frames_per_frame);
+
+    void move_sprite_x(float x_move_amt);
+    void move_sprite_y(float y_move_amt);
 private:
     std::unique_ptr<vertex_manager>     sprite_vertex_manager;
     std::unique_ptr<texture_creator>    sprite_texture_creator;

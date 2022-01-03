@@ -10,6 +10,7 @@
 #include "fps_counter.h"
 #include "text_displayer.h"
 #include "sprite_animator.h"
+#include "keyboard.h"
 
 int main() 
 {
@@ -37,13 +38,12 @@ int main()
             return 0; 
         }
 
+        keyboard* keyboard_ref = new keyboard(window);
+
         // Initialize GLEW
         glewExperimental = GL_TRUE; 
         glewInit();
-
-
-
-        sprite_animator* sprite_animator_ref = new sprite_animator("ryu_sheet.png", {0.0f, 0.0f, 0.0f});
+        sprite_animator* sprite_animator_ref = new sprite_animator("ryu_sheet.png", {0.0f, -0.1f, 0.0f});
         fps_counter* fps_counter_ref = fps_counter::get_instance();
         vertex_coordinate3 i_postion = {-1.0f, -0.2f, 0.0f};
         text_displayer* test_text = new text_displayer(i_postion);
@@ -72,19 +72,24 @@ int main()
         {
             glClear(GL_COLOR_BUFFER_BIT);
             glClearColor(0.0f, 0.4f, 0.0f, 1.0f);
-            test_text->write("Text");
+
             fps_counter_ref->display_fps();
-            //if (!should_walk)
-                sprite_animator_ref->do_animation("RYU_STAND_LIGHT_KICK", 12);
-            //if (should_walk)
-            //{
-            //    sprite_animator_ref->do_animation("RYU_WALK", 7);
-            //}
-            if (glfwGetTime() - current_time >= 2.0f)
+            keyboard_ref->poll();
+            if (keyboard_ref->get_input_buffer()[keyboard_ref->get_input_buffer_size() - 1] == keyboard::FORWARD)
             {
-                should_walk = !should_walk;
-                current_time = glfwGetTime();
+                sprite_animator_ref->do_animation("RYU_WALK", 5);
+                sprite_animator_ref->move_sprite_x(0.008f);
             }
+            else if (keyboard_ref->get_input_buffer()[keyboard_ref->get_input_buffer_size() - 1] == keyboard::BACK)
+            {
+                sprite_animator_ref->do_animation("RYU_WALK", 5);
+                sprite_animator_ref->move_sprite_x(-0.008f);
+            }
+            else if(keyboard_ref->get_input_buffer()[keyboard_ref->get_input_buffer_size() - 1] == keyboard::NONE)
+            {
+                sprite_animator_ref->do_animation("RYU_IDLE", 7);
+            }
+            test_text->write("I LOVE TONY");
             glfwSwapBuffers(window);
             glfwPollEvents();
         }

@@ -4,6 +4,7 @@
 #include <GL/glew.h> 
 #include <GLFW/glfw3.h>
 #include <map>
+#include <vector>
 
 typedef struct color_vector
 {
@@ -70,6 +71,7 @@ typedef struct pixel_font_info
 {
     pixel_offsets        pixel_coord;
     character_dimensions char_dimension;
+    float                x_offset;
 } pixel_font_info, pixel_sprite_info;
 
 typedef struct vertex_coord2
