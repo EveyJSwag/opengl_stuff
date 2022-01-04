@@ -7,6 +7,7 @@
 #include "vector_types.h"
 #include "keyboard.h"
 #include "sprite_animator.h"
+#include "sprite_info.h"
 
 class game_character
 {
@@ -15,14 +16,63 @@ public:
         keyboard* k, 
         std::string character_name,
         vertex_coordinate3 character_location,
-        std::string sprite_sheet_name);
+        std::string sprite_sheet_name,
+        animation_name_location_map a_animation_info,
+        float character_speed);
+
+    void handle_character();
+
+    typedef enum action_types
+    {
+        IDLE = 0,
+        CROUCH,
+        WALK_BACK,
+        WALK_FORWARD,
+        JUMP_BACK,
+        JUMP_UP,
+        JUMP_FORWARD,
+        LIGHT_PUNCH,
+        HEAVY_PUNCH,
+        LIGHT_KICK,
+        HEAVY_KICK,
+        QUARTER_CIRCLE_FORWARD,
+        QUARTER_CIRCLE_BACK,
+        DRAGON_PUNCH_FORWARD,
+        DRAGON_PUNCH_BACK
+    } action_types;
 
 private:
     keyboard* keyboard_ref;
     std::string game_character_name;
+    std::string current_character_state;
+    float game_character_speed;
     std::unique_ptr<sprite_animator> game_character_sprite_anim;
     vertex_coordinate3 game_character_location;
-    void process_inputs();
+    std::vector<std::string> character_move_names;
+    animation_name_location_map character_animation_map;
+    action_types process_inputs();
+    void process_special_move();
+    void perform_action(action_types& action);
+
+    bool can_move;
+    bool can_switch_animation;
+    bool block_high;
+    bool block_low;
+    bool is_flipped;
+
+    action_types prev_action;
+    action_types curr_action;
+
+    std::string curr_anim_string;
+    std::string prev_anim_string;
+
+    /*
+     * maximum amount of frames player can not make any inputs before a
+     * special move isn't processed
+     */
+    const int MAX_NONE_AMOUNT = 20;
+
+    const int MAX_SAME_MOVE_AMOUNT = 9;
 };
 
 #endif /* GAME_CHARACTER_H */

@@ -9,8 +9,10 @@
 
 #include "fps_counter.h"
 #include "text_displayer.h"
+#include "game_character.h"
 #include "sprite_animator.h"
 #include "keyboard.h"
+#include "sprite_info.h"
 
 int main() 
 {
@@ -43,7 +45,22 @@ int main()
         // Initialize GLEW
         glewExperimental = GL_TRUE; 
         glewInit();
-        sprite_animator* sprite_animator_ref = new sprite_animator("ryu_sheet.png", {0.0f, -0.1f, 0.0f});
+
+        game_character* game_char = new game_character(
+            keyboard_ref, 
+            "ryu", 
+            {0.0f, -0.1f, 0.0f}, 
+            "ryu_sheet.png", 
+            populate_sprite_info(), 
+            -0.008f);
+
+        //sprite_animator* sprite_animator_ref = new sprite_animator(
+        //    "ryu_sheet.png", 
+        //    {0.0f, -0.1f, 0.0f},
+        //    populate_sprite_info());
+
+
+        
         fps_counter* fps_counter_ref = fps_counter::get_instance();
         vertex_coordinate3 i_postion = {-1.0f, -0.2f, 0.0f};
         text_displayer* test_text = new text_displayer(i_postion);
@@ -75,20 +92,7 @@ int main()
 
             fps_counter_ref->display_fps();
             keyboard_ref->poll();
-            if (keyboard_ref->get_input_buffer()[keyboard_ref->get_input_buffer_size() - 1] == keyboard::FORWARD)
-            {
-                sprite_animator_ref->do_animation("RYU_WALK", 5);
-                sprite_animator_ref->move_sprite_x(0.008f);
-            }
-            else if (keyboard_ref->get_input_buffer()[keyboard_ref->get_input_buffer_size() - 1] == keyboard::BACK)
-            {
-                sprite_animator_ref->do_animation("RYU_WALK", 5);
-                sprite_animator_ref->move_sprite_x(-0.008f);
-            }
-            else if(keyboard_ref->get_input_buffer()[keyboard_ref->get_input_buffer_size() - 1] == keyboard::NONE)
-            {
-                sprite_animator_ref->do_animation("RYU_IDLE", 7);
-            }
+            game_char->handle_character();
             test_text->write("I LOVE TONY");
             glfwSwapBuffers(window);
             glfwPollEvents();

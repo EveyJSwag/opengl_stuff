@@ -18,11 +18,18 @@ public:
         DOWN_BACK,
         DOWN_FORWARD,
         BACK,
-        FORWARD
+        FORWARD,
+        LIGHT_PUNCH,
+        HEAVY_PUNCH,
+        LIGHT_KICK,
+        HEAVY_KICK
     } fg_inputs;
 
     int get_input_buffer_size() {return input_buffer_index;}
     fg_inputs* get_input_buffer() { return input_buffer; }
+
+    fg_inputs get_last_directional_input(int index_offset = 0);
+    fg_inputs get_last_button_input(int index_offset = 0);
 
 private:
     const int INPUT_BUFFER_MAX_SIZE = 480;

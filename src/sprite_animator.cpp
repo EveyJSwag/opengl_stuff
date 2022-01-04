@@ -1,7 +1,10 @@
 #include "sprite_animator.h"
 #include "sprite_info.h"
 
-sprite_animator::sprite_animator(std::string sprite_sheet_name, vertex_coordinate3 a_sprite_location)
+sprite_animator::sprite_animator(
+    std::string sprite_sheet_name, 
+    vertex_coordinate3 a_sprite_location,
+    animation_name_location_map a_animation_info)
 {
     sprite_texture_creator = std::make_unique<texture_creator>(texture_creator());
     sprite_texture_creator->create_texture_from_png(sprite_sheet_name);
@@ -17,7 +20,7 @@ sprite_animator::sprite_animator(std::string sprite_sheet_name, vertex_coordinat
     sprite_buffer_manager->generate_index_buffer();
     sprite_buffer_manager->bind_index_buffer();
 
-    animation_info = populate_sprite_info();
+    animation_info = a_animation_info;//populate_sprite_info();
 
     sprite_vector_indices = {0, 1, 3, 1, 2, 3 };
     sprite_buffer_manager->set_index_buffer_data(sprite_vector_indices);

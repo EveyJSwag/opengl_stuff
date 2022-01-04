@@ -8,7 +8,10 @@
 class sprite_animator
 {
 public:
-    sprite_animator(std::string sprite_sheet_name, vertex_coordinate3 a_sprite_location);
+    sprite_animator(
+        std::string sprite_sheet_name, 
+        vertex_coordinate3 a_sprite_location,
+        animation_name_location_map a_animation_info);
 
     void do_animation(
         std::string animation_name,
@@ -16,6 +19,10 @@ public:
 
     void move_sprite_x(float x_move_amt);
     void move_sprite_y(float y_move_amt);
+
+    animation_name_location_map get_animation_info() {return animation_info;}
+
+    unsigned int get_current_frame() {return current_frame;}
 private:
     std::unique_ptr<vertex_manager>     sprite_vertex_manager;
     std::unique_ptr<texture_creator>    sprite_texture_creator;
