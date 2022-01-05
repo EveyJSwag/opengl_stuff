@@ -1,6 +1,8 @@
 #ifndef SPRITE_ANIMATOR_H
 #define SPRITE_ANIMATOR_H
 
+#include <string>
+
 #include "vertex_manager.h"
 #include "texture_creator.h"
 #include "buffer_manager.h"
@@ -32,6 +34,9 @@ private:
 
     std::vector<unsigned int> sprite_vector_indices;
     std::vector<standard_vertex_info> sprite_vertex_info;
+
+    std::string curr_anim_name;
+    std::string prev_anim_name;
 
     png_loader::png_info_t sprite_sheet_info;
 

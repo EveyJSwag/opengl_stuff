@@ -30,11 +30,12 @@ void game_character::handle_character()
         curr_action = process_inputs();
         perform_action(curr_action);
     }
-    game_character_sprite_anim->do_animation(curr_anim_string, 8);
+    game_character_sprite_anim->do_animation(curr_anim_string, 9);
     if (game_character_sprite_anim->get_current_frame() == character_animation_map[curr_anim_string].size() - 1 &&
         can_switch_animation == false)
     {
         can_switch_animation = true;
+        keyboard_ref->set_can_poll(true);
     }
 }
 
@@ -52,78 +53,55 @@ game_character::action_types game_character::process_inputs()
         backward_buffer_bound = 0;
     }
 
-    for (int i = (keyboard_ref->get_input_buffer_size() - 1); i >= backward_buffer_bound; i--)
+    if (keyboard_ref->get_input_buffer()[keyboard_ref->get_input_buffer_size() - 1] != keyboard::NONE)
     {
-        if (keyboard_ref->get_input_buffer()[i] != keyboard::NONE)
+        prev_input = curr_input;
+        curr_input = keyboard_ref->get_input_buffer()[keyboard_ref->get_input_buffer_size() - 1];
+        switch (curr_input)
         {
-            prev_input = curr_input;
-            curr_input = keyboard_ref->get_input_buffer()[i];
-            switch (curr_input)
-            {
-                case keyboard::LIGHT_PUNCH:
-                    action_to_perform = action_types::LIGHT_PUNCH;
-                    if (keyboard_ref->get_last_directional_input() == keyboard::FORWARD)
-                    {
-                        action_to_perform = action_types::LIGHT_PUNCH;
-                        if (keyboard_ref->get_last_directional_input(1) == keyboard::DOWN_FORWARD)
-                        {
-                            action_to_perform = action_types::LIGHT_PUNCH;
-                            if (keyboard_ref->get_last_directional_input(2) == keyboard::DOWN)
-                            {
-                                action_to_perform = action_types::QUARTER_CIRCLE_FORWARD;
-                            }
-                        }
-                    }
-                    break;
-                case keyboard::LIGHT_KICK:
-                    action_to_perform = action_types::LIGHT_KICK;
-                    if (keyboard_ref->get_last_directional_input() == keyboard::BACK)
-                    {
-                        action_to_perform = action_types::LIGHT_KICK;
-                        if (keyboard_ref->get_last_directional_input(1) == keyboard::DOWN_BACK)
-                        {
-                            action_to_perform = action_types::LIGHT_KICK;
-                            if (keyboard_ref->get_last_directional_input(2) == keyboard::DOWN)
-                            {
-                                action_to_perform = action_types::QUARTER_CIRCLE_BACK;
-                            }
-                        }
-                    }
-                    break;
-                case keyboard::HEAVY_PUNCH:
-                    action_to_perform = action_types::HEAVY_PUNCH;
-                    if (keyboard_ref->get_last_directional_input() == keyboard::FORWARD)
-                    {
-                        if (keyboard_ref->get_last_directional_input(1) == keyboard::DOWN_FORWARD)
-                        {
-                            if (keyboard_ref->get_last_directional_input(2) == keyboard::DOWN)
-                            {
-                                action_to_perform = action_types::QUARTER_CIRCLE_FORWARD;
-                            }
-                        }
-                    }
-                    break;
-                case keyboard::BACK:
-                    action_to_perform = action_types::WALK_BACK;
-                    break;
-                case keyboard::FORWARD:
-                    action_to_perform = action_types::WALK_FORWARD;
-                    break;
-                case keyboard::DOWN_BACK:
-                case keyboard::DOWN:
-                case keyboard::DOWN_FORWARD:
-                    action_to_perform = action_types::CROUCH;
-                    break;
-            }
+            case keyboard::LIGHT_PUNCH:
+                keyboard_ref->set_can_poll(false);
+                action_to_perform = action_types::LIGHT_PUNCH;
+                if (keyboard_ref->is_qcf())
+                {
+                    return action_types::QUARTER_CIRCLE_FORWARD;
+                }
+                break;
+            case keyboard::LIGHT_KICK:
+                action_to_perform = action_types::LIGHT_KICK;
+                keyboard_ref->set_can_poll(false);
+                if (keyboard_ref->is_qcb())
+                {
+                    return action_types::QUARTER_CIRCLE_BACK;
+                }
+                break;
+            case keyboard::HEAVY_PUNCH:
+                action_to_perform = action_types::HEAVY_PUNCH;
+                keyboard_ref->set_can_poll(false);
+                if (keyboard_ref->is_qcf())
+                {
+                    return action_to_perform;
+                }
+                break;
+            case keyboard::BACK:
+                action_to_perform = action_types::WALK_BACK;
+                return action_to_perform;
+                break;
+            case keyboard::FORWARD:
+                action_to_perform = action_types::WALK_FORWARD;
+                return action_to_perform;
+                break;
+            case keyboard::DOWN_BACK:
+            case keyboard::DOWN:
+            case keyboard::DOWN_FORWARD:
+                action_to_perform = action_types::CROUCH;
+                return action_to_perform;
+                break;
         }
-        else
-        {
-            none_count++;
-        }
-        if (none_count == MAX_NONE_AMOUNT)
-        {
-            break;
-        }
+    }
+    else
+    {
+        none_count++;
     }
     return action_to_perform;
 }

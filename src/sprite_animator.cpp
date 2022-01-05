@@ -6,6 +6,10 @@ sprite_animator::sprite_animator(
     vertex_coordinate3 a_sprite_location,
     animation_name_location_map a_animation_info)
 {
+
+    prev_anim_name = std::string();
+    curr_anim_name = std::string();
+
     sprite_texture_creator = std::make_unique<texture_creator>(texture_creator());
     sprite_texture_creator->create_texture_from_png(sprite_sheet_name);
     sprite_sheet_info = sprite_texture_creator->get_current_png_info();
@@ -43,9 +47,18 @@ void sprite_animator::do_animation(
     std::string animation_name,
     unsigned int frames_per_frame)
 {
+    if (curr_anim_name.size() > 0)
+        prev_anim_name = curr_anim_name;
+
+    curr_anim_name = animation_name;
     std::vector<standard_vertex_info> quad;
     sprite_texture_creator->bind_texture();
     if (current_frame >= animation_info[animation_name].size())
+    {
+        current_frame = 0;
+    }
+    
+    if(curr_anim_name != prev_anim_name)
     {
         current_frame = 0;
     }
