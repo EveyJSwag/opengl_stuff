@@ -36,17 +36,24 @@ animation_name_location_map populate_sprite_info()
     std::string ryu_stand_light_punch = "RYU_STAND_LIGHT_PUNCH";
     sprite_quad_locations light_punch_quads;
     light_punch_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(0, { {12, 205},  {43, 85}, 0.0f}) );
-    light_punch_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(1, { {12, 205},  {43, 85}, 0.0f}) );
-    light_punch_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(2, { {69, 205},  {49, 85}, 0.0f}) );
+    light_punch_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(1, { {69, 205},  {49, 85}, 0.0f}) );
+    light_punch_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(2, { {134,205},  {70, 85}, 0.0f}) );
     light_punch_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(3, { {69, 205},  {49, 85}, 0.0f}) );
-    light_punch_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(4, { {134,205},  {70, 85}, 0.0f}) );
-    light_punch_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(5, { {134,205},  {70, 85}, 0.0f}) );
-    light_punch_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(6, { {134,205},  {70, 85}, 0.0f}) );
-    light_punch_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(7, { {134,205},  {70, 85}, 0.0f}) );
-    light_punch_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(8, { {69, 205},  {49, 85}, 0.0f}) );
-    light_punch_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(9, { {69, 205},  {49, 85}, 0.0f}) );
-    light_punch_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(10,{ {12, 205},  {43, 85}, 0.0f}) );
+    light_punch_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(4,{ {12, 205},  {43, 85}, 0.0f}) );
     ryu_location_map[ryu_stand_light_punch] = light_punch_quads;
+
+    std::string ryu_stand_heavy_punch = "RYU_STAND_HEAVY_PUNCH";
+    sprite_quad_locations heavy_punch_quads;
+    heavy_punch_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(0, { {374, 723},  {48, 83}, 5.0f}) );
+    heavy_punch_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(1, { {442, 723},  {48, 83}, 5.0f}) );
+    heavy_punch_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(2, { {508, 717},  {52, 89}, 6.0f}) );
+    heavy_punch_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(3, { {577, 724},  {54, 82}, 4.0f}) );
+    heavy_punch_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(4, { {642, 723},  {60, 83}, 4.0f}) );
+    heavy_punch_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(5, { {713, 729},  {60, 77}, 5.0f}) );
+    heavy_punch_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(6, { {449, 830},  {60, 77}, 5.0f}) );
+    heavy_punch_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(7, { {522, 830},  {60, 77}, 5.0f}) );
+    heavy_punch_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(8, { {593, 825},  {54, 82}, 6.0f}) );
+    ryu_location_map[ryu_stand_heavy_punch] = heavy_punch_quads;
 
     std::string ryu_stand_light_kick = "RYU_STAND_LIGHT_KICK";
     sprite_quad_locations light_kick_quads;
@@ -57,6 +64,16 @@ animation_name_location_map populate_sprite_info()
     light_kick_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(4, { {10, 106},  {43, 81}, 0.0f}) );
     ryu_location_map[ryu_stand_light_kick] = light_kick_quads;
 
+
+    std::string ryu_stand_heavy_kick = "RYU_STAND_HEAVY_KICK";
+    sprite_quad_locations heavy_kick_quads;
+    heavy_kick_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(0, { {13, 326},  {44, 81}, 1.0f}) );
+    heavy_kick_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(1, { {70, 323},  {55, 84}, 5.0f}) );
+    heavy_kick_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(2, { {136, 323}, {69, 84}, 3.0f}) );
+    heavy_kick_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(3, { {220, 337},  {58, 70}, 1.0f}) );
+    heavy_kick_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(4, { {293, 334},  {44, 73}, 1.0f}) );
+    ryu_location_map[ryu_stand_heavy_kick] = heavy_kick_quads;
+
     std::string ryu_crouch_light_punch = "RYU_CROUCH_LIGHT_PUNCH";
     sprite_quad_locations crouch_light_punch_quads;
     crouch_light_punch_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(0, { {238, 235},  {43, 55}}) );
@@ -64,6 +81,14 @@ animation_name_location_map populate_sprite_info()
     crouch_light_punch_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(2, { {360, 234},  {60, 56}}) );
     crouch_light_punch_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(3, { {439, 235},  {44, 55}}) );
     ryu_location_map[ryu_crouch_light_punch] = crouch_light_punch_quads;
+
+    std::string ryu_crouch_light_kick = "RYU_CROUCH_LIGHT_KICK";
+    sprite_quad_locations crouch_light_kick_quads;
+    crouch_light_kick_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(0, { {239, 132},  {43, 55}}) );
+    crouch_light_kick_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(1, { {300, 131},  {48, 56}}) );
+    crouch_light_kick_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(2, { {368, 139},  {89, 48}}) );
+    crouch_light_kick_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(3, { {300, 131},  {48, 56}}) );
+    ryu_location_map[ryu_crouch_light_kick] = crouch_light_kick_quads;
 
     std::string ryu_crouch_heavy_punch = "RYU_CROUCH_HEAVY_PUNCH";
     sprite_quad_locations crouch_heavy_punch_quads;
@@ -74,6 +99,16 @@ animation_name_location_map populate_sprite_info()
     crouch_heavy_punch_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(4, { {658, 208},  {48, 81}}) );
     crouch_heavy_punch_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(5, { {601, 224},  {43, 65}}) );
     ryu_location_map[ryu_crouch_heavy_punch] = crouch_heavy_punch_quads;
+
+    std::string ryu_crouch_heavy_kick = "RYU_CROUCH_HEAVY_KICK";
+    sprite_quad_locations crouch_heavy_kick_quads;
+    crouch_heavy_kick_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(0, { {391, 352},  {43, 55}, 0.0f}) );
+    crouch_heavy_kick_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(1, { {452, 353},  {47, 54}, 0.0f}) );
+    crouch_heavy_kick_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(2, { {517, 354},  {70, 53}, 0.0f}) );
+    crouch_heavy_kick_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(3, { {602, 355},  {50, 52}, 0.0f}) );
+    crouch_heavy_kick_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(4, { {665, 354},  {48, 53}, 2.0f}) );
+    crouch_heavy_kick_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(5, { {726, 352},  {43, 55}, 0.0f}) );
+    ryu_location_map[ryu_crouch_heavy_kick] = crouch_heavy_punch_quads;
 
     std::string ryu_hadoken = "RYU_HADOKEN";
     sprite_quad_locations hadoken_quads;

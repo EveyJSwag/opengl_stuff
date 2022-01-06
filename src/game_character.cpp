@@ -30,7 +30,7 @@ void game_character::handle_character()
         curr_action = process_inputs();
         perform_action(curr_action);
     }
-    game_character_sprite_anim->do_animation(curr_anim_string, 9);
+    game_character_sprite_anim->do_animation(curr_anim_string, 8);
     if (game_character_sprite_anim->get_current_frame() == character_animation_map[curr_anim_string].size() - 1 &&
         can_switch_animation == false)
     {
@@ -62,13 +62,26 @@ game_character::action_types game_character::process_inputs()
             case keyboard::LIGHT_PUNCH:
                 keyboard_ref->set_can_poll(false);
                 action_to_perform = action_types::LIGHT_PUNCH;
+                if (keyboard_ref->is_dpf())
+                {
+                    return action_types::DRAGON_PUNCH_FORWARD;
+                }
                 if (keyboard_ref->is_qcf())
                 {
                     return action_types::QUARTER_CIRCLE_FORWARD;
                 }
+
                 break;
             case keyboard::LIGHT_KICK:
                 action_to_perform = action_types::LIGHT_KICK;
+                keyboard_ref->set_can_poll(false);
+                if (keyboard_ref->is_qcb())
+                {
+                    return action_types::QUARTER_CIRCLE_BACK;
+                }
+                break;
+            case keyboard::HEAVY_KICK:
+                action_to_perform = action_types::HEAVY_KICK;
                 keyboard_ref->set_can_poll(false);
                 if (keyboard_ref->is_qcb())
                 {
@@ -140,7 +153,7 @@ void game_character::perform_action(action_types& action)
             can_move = false;
             break;
         case HEAVY_PUNCH:
-            animation_string = "RYU_STAND_LIGHT_PUNCH";
+            animation_string = "RYU_STAND_HEAVY_PUNCH";
             can_switch_animation = false;
             can_move = false;
             break;
@@ -150,7 +163,7 @@ void game_character::perform_action(action_types& action)
             can_move = false;
             break;
         case HEAVY_KICK:
-            animation_string = "RYU_STAND_LIGHT_KICK";
+            animation_string = "RYU_STAND_HEAVY_KICK";
             can_switch_animation = false;
             can_move = false;
             break;

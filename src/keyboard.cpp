@@ -59,6 +59,14 @@ void keyboard::poll()
     {
         input_buffer[input_buffer_index] = LIGHT_KICK;
     }
+    else if (glfwGetKey(game_window, GLFW_KEY_I) == GLFW_PRESS)
+    {
+        input_buffer[input_buffer_index] = HEAVY_PUNCH;
+    }
+    else if (glfwGetKey(game_window, GLFW_KEY_K) == GLFW_PRESS)
+    {
+        input_buffer[input_buffer_index] = HEAVY_KICK;
+    }
     else
     {
         input_buffer[input_buffer_index] = NONE;
@@ -130,9 +138,6 @@ void keyboard::set_can_poll(bool poll_val)
     can_poll = poll_val;
 }
 
-
-
-
 bool keyboard::is_qcf()
 {
     int same_input = 0;
@@ -147,7 +152,7 @@ bool keyboard::is_qcf()
         if (is_directional(input_buffer[forward_index]))
         {
             same_input++;
-            if (same_input == 10)
+            if (same_input == 40)
             {
                 return false;
             }
@@ -167,7 +172,7 @@ bool keyboard::is_qcf()
         if (is_directional(input_buffer[forward_index]))
         {
             same_input++;
-            if (same_input == 10)
+            if (same_input == 40)
             {
                 return false;
             }
@@ -187,7 +192,7 @@ bool keyboard::is_qcf()
         if (is_directional(input_buffer[forward_index]))
         {
             same_input++;
-            if (same_input == 10)
+            if (same_input == 40)
             {
                 return false;
             }
@@ -218,7 +223,7 @@ bool keyboard::is_qcb()
         if (is_directional(input_buffer[forward_index]))
         {
             same_input++;
-            if (same_input == 10)
+            if (same_input == 40)
             {
                 return false;
             }
@@ -238,7 +243,7 @@ bool keyboard::is_qcb()
         if (is_directional(input_buffer[forward_index]))
         {
             same_input++;
-            if (same_input == 10)
+            if (same_input == 40)
             {
                 return false;
             }
@@ -258,7 +263,7 @@ bool keyboard::is_qcb()
         if (is_directional(input_buffer[forward_index]))
         {
             same_input++;
-            if (same_input == 10)
+            if (same_input == 40)
             {
                 return false;
             }
@@ -277,6 +282,73 @@ bool keyboard::is_qcb()
 
 bool keyboard::is_dpf()
 {
+
+    int same_input = 0;
+    fg_inputs curr;
+    fg_inputs prev;
+    bool found_forward = false;
+    bool found_down_forward = false;
+    bool found_down = false;
+    int forward_index = input_buffer_index - 2;
+    for (; forward_index >=0; forward_index--)
+    {
+        if (is_directional(input_buffer[forward_index]))
+        {
+            same_input++;
+            if (same_input == 40)
+            {
+                return false;
+            }
+        }
+        else
+        {
+            return false;
+        }
+        if (input_buffer[forward_index] == DOWN_FORWARD)
+        {
+            break;
+        }
+    }
+    same_input = 0;
+    for (; forward_index >=0; forward_index--)
+    {
+        if (is_directional(input_buffer[forward_index]))
+        {
+            same_input++;
+            if (same_input == 40)
+            {
+                return false;
+            }
+        }
+        else
+        {
+            return false;
+        }
+        if (input_buffer[forward_index] == DOWN)
+        {
+            break;
+        }
+    }
+    same_input = 0;
+    for (; forward_index >=0; forward_index--)
+    {
+        if (is_directional(input_buffer[forward_index]))
+        {
+            same_input++;
+            if (same_input == 40)
+            {
+                return false;
+            }
+        }
+        else
+        {
+            return false;
+        }
+        if (input_buffer[forward_index] == FORWARD)
+        {
+            return true;
+        }
+    }
     return false;
 }
 
