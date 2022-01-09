@@ -108,7 +108,7 @@ animation_name_location_map populate_sprite_info()
     crouch_heavy_kick_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(3, { {602, 355},  {50, 52}, 0.0f}) );
     crouch_heavy_kick_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(4, { {665, 354},  {48, 53}, 2.0f}) );
     crouch_heavy_kick_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(5, { {726, 352},  {43, 55}, 0.0f}) );
-    ryu_location_map[ryu_crouch_heavy_kick] = crouch_heavy_punch_quads;
+    ryu_location_map[ryu_crouch_heavy_kick] = crouch_heavy_kick_quads;
 
     std::string ryu_hadoken = "RYU_HADOKEN";
     sprite_quad_locations hadoken_quads;

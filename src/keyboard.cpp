@@ -1,13 +1,66 @@
 #include "keyboard.h"
 
+
+const std::vector<std::bitset<BUTTON_AMOUNT>> keyboard::QUARTER_CIRCLE_FORWARD = 
+    {std::bitset<BUTTON_AMOUNT>(DOWN_BIT), 
+     std::bitset<BUTTON_AMOUNT>(DOWN_BIT | RIGHT_BIT), 
+     std::bitset<BUTTON_AMOUNT>(RIGHT_BIT)};
+
+const std::vector<std::bitset<BUTTON_AMOUNT>> keyboard::QUARTER_CIRCLE_BACKWARD = 
+    {std::bitset<BUTTON_AMOUNT>(DOWN_BIT), 
+     std::bitset<BUTTON_AMOUNT>(DOWN_BIT | LEFT_BIT),  
+     std::bitset<BUTTON_AMOUNT>(LEFT_BIT)};
+
+const std::vector<std::bitset<BUTTON_AMOUNT>> keyboard::HALF_CIRCLE_FORWARD = 
+    {std::bitset<BUTTON_AMOUNT>(LEFT_BIT), 
+     std::bitset<BUTTON_AMOUNT>(DOWN_BIT | LEFT_BIT),  
+     std::bitset<BUTTON_AMOUNT>(DOWN_BIT), 
+     std::bitset<BUTTON_AMOUNT>(DOWN_BIT | RIGHT_BIT), 
+     std::bitset<BUTTON_AMOUNT>(RIGHT_BIT)};
+
+const std::vector<std::bitset<BUTTON_AMOUNT>> keyboard::HALF_CIRCLE_BACKWARD = 
+    {std::bitset<BUTTON_AMOUNT>(RIGHT_BIT), 
+     std::bitset<BUTTON_AMOUNT>(DOWN_BIT | RIGHT_BIT),  
+     std::bitset<BUTTON_AMOUNT>(DOWN_BIT), 
+     std::bitset<BUTTON_AMOUNT>(DOWN_BIT | LEFT_BIT), 
+     std::bitset<BUTTON_AMOUNT>(LEFT_BIT)};
+
+const std::vector<std::bitset<BUTTON_AMOUNT>> keyboard::DRAGON_FORWARD = 
+    {std::bitset<BUTTON_AMOUNT>(RIGHT_BIT), 
+     std::bitset<BUTTON_AMOUNT>(DOWN_BIT), 
+     std::bitset<BUTTON_AMOUNT>(DOWN_BIT | RIGHT_BIT)};
+
+const std::vector<std::bitset<BUTTON_AMOUNT>> keyboard::DRAGON_BACKWARD = 
+    {std::bitset<BUTTON_AMOUNT>(LEFT_BIT), 
+     std::bitset<BUTTON_AMOUNT>(DOWN_BIT), 
+     std::bitset<BUTTON_AMOUNT>(DOWN_BIT | LEFT_BIT)};
+
 keyboard::keyboard(GLFWwindow* window)
 {
     game_window = window;
     input_buffer_index = 0;
     can_poll = true;
-    for (int i = 0; i < INPUT_BUFFER_MAX_SIZE; i++)
+}
+
+void keyboard::bitset_poll()
+{
+    std::bitset<BUTTON_AMOUNT> input_bitset;
+    input_bitset[0] = glfwGetKey(game_window, GLFW_KEY_W);
+    input_bitset[1] = glfwGetKey(game_window, GLFW_KEY_A);
+    input_bitset[2] = glfwGetKey(game_window, GLFW_KEY_S);
+    input_bitset[3] = glfwGetKey(game_window, GLFW_KEY_D);
+    
+    input_bitset[4] = glfwGetKey(game_window, GLFW_KEY_U);
+    input_bitset[5] = glfwGetKey(game_window, GLFW_KEY_I);
+    input_bitset[6] = glfwGetKey(game_window, GLFW_KEY_J);
+    input_bitset[7] = glfwGetKey(game_window, GLFW_KEY_K);
+
+    input_bitset_array[input_buffer_index] = input_bitset;
+    input_buffer_index++;
+    if (input_buffer_index == INPUT_BUFFER_MAX_SIZE)
     {
-        input_buffer[i] = NONE;
+        give_input_buffer_space();
+        input_buffer_index = 240;
     }
 }
 
@@ -15,122 +68,16 @@ void keyboard::poll()
 {
     if (can_poll)
     {
-    if (glfwGetKey(game_window, GLFW_KEY_W) == GLFW_PRESS && 
-        glfwGetKey(game_window, GLFW_KEY_A) == GLFW_PRESS)
-    {
-        input_buffer[input_buffer_index] = UP_BACK;
-    }
-    else if (glfwGetKey(game_window, GLFW_KEY_W) == GLFW_PRESS && 
-             glfwGetKey(game_window, GLFW_KEY_D) == GLFW_PRESS)
-    {
-        input_buffer[input_buffer_index] = UP_FORWARD;
-    }
-    else if (glfwGetKey(game_window, GLFW_KEY_A) == GLFW_PRESS && 
-             glfwGetKey(game_window, GLFW_KEY_S) == GLFW_PRESS)
-    {
-        input_buffer[input_buffer_index] = DOWN_BACK;
-    }
-    else if (glfwGetKey(game_window, GLFW_KEY_S) == GLFW_PRESS && 
-             glfwGetKey(game_window, GLFW_KEY_D) == GLFW_PRESS)
-    {
-        input_buffer[input_buffer_index] = DOWN_FORWARD;
-    }
-    else if (glfwGetKey(game_window, GLFW_KEY_W) == GLFW_PRESS)
-    {
-        input_buffer[input_buffer_index] = UP;
-    }
-    else if (glfwGetKey(game_window, GLFW_KEY_D) == GLFW_PRESS)
-    {
-        input_buffer[input_buffer_index] = FORWARD;
-    }
-    else if (glfwGetKey(game_window, GLFW_KEY_A) == GLFW_PRESS)
-    {
-        input_buffer[input_buffer_index] = BACK;
-    }
-    else if (glfwGetKey(game_window, GLFW_KEY_S) == GLFW_PRESS)
-    {
-        input_buffer[input_buffer_index] = DOWN;
-    }
-    else if (glfwGetKey(game_window, GLFW_KEY_U) == GLFW_PRESS)
-    {
-        input_buffer[input_buffer_index] = LIGHT_PUNCH;
-    }
-    else if (glfwGetKey(game_window, GLFW_KEY_J) == GLFW_PRESS)
-    {
-        input_buffer[input_buffer_index] = LIGHT_KICK;
-    }
-    else if (glfwGetKey(game_window, GLFW_KEY_I) == GLFW_PRESS)
-    {
-        input_buffer[input_buffer_index] = HEAVY_PUNCH;
-    }
-    else if (glfwGetKey(game_window, GLFW_KEY_K) == GLFW_PRESS)
-    {
-        input_buffer[input_buffer_index] = HEAVY_KICK;
-    }
-    else
-    {
-        input_buffer[input_buffer_index] = NONE;
-    }
-
-    input_buffer_index++;
-    if (input_buffer_index == INPUT_BUFFER_MAX_SIZE)
-    {
-        give_input_buffer_space();
-        input_buffer_index = 120;
-    }
+        bitset_poll();
     }
 }
 
 void keyboard::give_input_buffer_space()
 {
-    fg_inputs old_inputs[120];
-    for (int i = 119; i < INPUT_BUFFER_MAX_SIZE; i++)
+    for (int i = 230; i < INPUT_BUFFER_MAX_SIZE; i++)
     {
-        input_buffer[i - 119] = input_buffer[i];
-        input_buffer[i] = NONE;
+        input_bitset_array[i - 230] = input_bitset_array[i];
     }
-}
-
-keyboard::fg_inputs keyboard::get_last_directional_input(int index_offset, fg_inputs filter_input)
-{
-    for (int i = input_buffer_index - index_offset - 1; i >= 0; i--)
-    {
-        if ( ( input_buffer[i] == fg_inputs::UP           ||
-               input_buffer[i] == fg_inputs::UP_BACK      ||
-               input_buffer[i] == fg_inputs::UP_FORWARD   ||
-               input_buffer[i] == fg_inputs::DOWN         || 
-               input_buffer[i] == fg_inputs::DOWN_BACK    ||
-               input_buffer[i] == fg_inputs::DOWN_FORWARD ||
-               input_buffer[i] == fg_inputs::BACK         ||
-               input_buffer[i] == fg_inputs::FORWARD)) 
-        {
-            return input_buffer[i];
-        }
-        if ((input_buffer_index - i) == 20)
-        {
-            return fg_inputs::NONE;
-        }
-    }
-    return fg_inputs::NONE;
-}
-
-keyboard::fg_inputs keyboard::get_last_button_input(int index_offset)
-{
-    for (int i = input_buffer_index - index_offset - 1; i >= 0; i--)
-    {
-        if ( ( input_buffer[i] == fg_inputs::HEAVY_KICK   ||
-               input_buffer[i] == fg_inputs::HEAVY_PUNCH  ||
-               input_buffer[i] == fg_inputs::LIGHT_KICK   ||
-               input_buffer[i] == fg_inputs::LIGHT_PUNCH)) 
-        {
-            return input_buffer[i];
-        }
-        if ((input_buffer_index - i) == 20)
-        {
-            return fg_inputs::NONE;
-        }
-    }
-    return fg_inputs::NONE;
 }
 
 void keyboard::set_can_poll(bool poll_val)
@@ -138,249 +85,113 @@ void keyboard::set_can_poll(bool poll_val)
     can_poll = poll_val;
 }
 
-bool keyboard::is_qcf()
+bool keyboard::is_directional(std::bitset<BUTTON_AMOUNT> in)
 {
-    int same_input = 0;
-    fg_inputs curr;
-    fg_inputs prev;
-    bool found_forward = false;
-    bool found_down_forward = false;
-    bool found_down = false;
-    int forward_index = input_buffer_index - 2;
-    for (; forward_index >=0; forward_index--)
-    {
-        if (is_directional(input_buffer[forward_index]))
-        {
-            same_input++;
-            if (same_input == 40)
-            {
-                return false;
-            }
-        }
-        else
-        {
-            return false;
-        }
-        if (input_buffer[forward_index] == FORWARD)
-        {
-            break;
-        }
-    }
-    same_input = 0;
-    for (; forward_index >=0; forward_index--)
-    {
-        if (is_directional(input_buffer[forward_index]))
-        {
-            same_input++;
-            if (same_input == 40)
-            {
-                return false;
-            }
-        }
-        else
-        {
-            return false;
-        }
-        if (input_buffer[forward_index] == DOWN_FORWARD)
-        {
-            break;
-        }
-    }
-    same_input = 0;
-    for (; forward_index >=0; forward_index--)
-    {
-        if (is_directional(input_buffer[forward_index]))
-        {
-            same_input++;
-            if (same_input == 40)
-            {
-                return false;
-            }
-        }
-        else
-        {
-            return false;
-        }
-        if (input_buffer[forward_index] == DOWN)
-        {
-            return true;
-        }
-    }
-    return false;
-}
-
-bool keyboard::is_qcb()
-{
-    int same_input = 0;
-    fg_inputs curr;
-    fg_inputs prev;
-    bool found_forward = false;
-    bool found_down_forward = false;
-    bool found_down = false;
-    int forward_index = input_buffer_index - 2;
-    for (; forward_index >=0; forward_index--)
-    {
-        if (is_directional(input_buffer[forward_index]))
-        {
-            same_input++;
-            if (same_input == 40)
-            {
-                return false;
-            }
-        }
-        else
-        {
-            return false;
-        }
-        if (input_buffer[forward_index] == BACK)
-        {
-            break;
-        }
-    }
-    same_input = 0;
-    for (; forward_index >=0; forward_index--)
-    {
-        if (is_directional(input_buffer[forward_index]))
-        {
-            same_input++;
-            if (same_input == 40)
-            {
-                return false;
-            }
-        }
-        else
-        {
-            return false;
-        }
-        if (input_buffer[forward_index] == DOWN_BACK)
-        {
-            break;
-        }
-    }
-    same_input = 0;
-    for (; forward_index >=0; forward_index--)
-    {
-        if (is_directional(input_buffer[forward_index]))
-        {
-            same_input++;
-            if (same_input == 40)
-            {
-                return false;
-            }
-        }
-        else
-        {
-            return false;
-        }
-        if (input_buffer[forward_index] == DOWN)
-        {
-            return true;
-        }
-    }
-    return false;
-}
-
-bool keyboard::is_dpf()
-{
-
-    int same_input = 0;
-    fg_inputs curr;
-    fg_inputs prev;
-    bool found_forward = false;
-    bool found_down_forward = false;
-    bool found_down = false;
-    int forward_index = input_buffer_index - 2;
-    for (; forward_index >=0; forward_index--)
-    {
-        if (is_directional(input_buffer[forward_index]))
-        {
-            same_input++;
-            if (same_input == 40)
-            {
-                return false;
-            }
-        }
-        else
-        {
-            return false;
-        }
-        if (input_buffer[forward_index] == DOWN_FORWARD)
-        {
-            break;
-        }
-    }
-    same_input = 0;
-    for (; forward_index >=0; forward_index--)
-    {
-        if (is_directional(input_buffer[forward_index]))
-        {
-            same_input++;
-            if (same_input == 40)
-            {
-                return false;
-            }
-        }
-        else
-        {
-            return false;
-        }
-        if (input_buffer[forward_index] == DOWN)
-        {
-            break;
-        }
-    }
-    same_input = 0;
-    for (; forward_index >=0; forward_index--)
-    {
-        if (is_directional(input_buffer[forward_index]))
-        {
-            same_input++;
-            if (same_input == 40)
-            {
-                return false;
-            }
-        }
-        else
-        {
-            return false;
-        }
-        if (input_buffer[forward_index] == FORWARD)
-        {
-            return true;
-        }
-    }
-    return false;
-}
-
-bool keyboard::is_dpb()
-{
-    return false;
-}
-
-bool keyboard::is_directional(fg_inputs in)
-{
-    if ( ( in == fg_inputs::UP           ||
-           in == fg_inputs::UP_BACK      ||
-           in == fg_inputs::UP_FORWARD   ||
-           in == fg_inputs::DOWN         || 
-           in == fg_inputs::DOWN_BACK    ||
-           in == fg_inputs::DOWN_FORWARD ||
-           in == fg_inputs::BACK         ||
-           in == fg_inputs::FORWARD)) 
+    if ( (in & std::bitset<BUTTON_AMOUNT>(DIRECTION_MASK)) != 0)
     {
         return true;
     }
     return false;
 }
 
-bool keyboard::is_button(fg_inputs in)
+bool keyboard::is_button(std::bitset<BUTTON_AMOUNT> in)
 {
-    if ( ( in == fg_inputs::HEAVY_KICK   ||
-           in == fg_inputs::HEAVY_PUNCH  ||
-           in == fg_inputs::LIGHT_KICK   ||
-           in == fg_inputs::LIGHT_PUNCH))
+    if ( (in & std::bitset<BUTTON_AMOUNT>(ATTACK_BUTTON_MASK)) != 0)
     {
         return true;
     }
     return false;
 }
+
+unsigned short keyboard::get_button(std::bitset<BUTTON_AMOUNT> input)
+{
+    if ( (input.to_ulong() & HP_BIT) == HP_BIT)
+        return HP_BIT;
+    if ( (input.to_ulong() & HK_BIT) == HK_BIT)
+        return HK_BIT;
+    if ( (input.to_ulong() & LP_BIT) == LP_BIT)
+        return LP_BIT;
+    if ( (input.to_ulong() & LK_BIT) == LK_BIT)
+        return LK_BIT;
+
+    return 0;
+}
+unsigned short keyboard::get_direction(std::bitset<BUTTON_AMOUNT> input)
+{
+    if ((input.to_ulong() & (UP_BIT | LEFT_BIT)) == (UP_BIT | LEFT_BIT))
+        return (UP_BIT | LEFT_BIT);
+    if ((input.to_ulong() & (UP_BIT | RIGHT_BIT)) == (UP_BIT | RIGHT_BIT))
+        return (UP_BIT | RIGHT_BIT);
+    if ((input.to_ulong() & (LEFT_BIT | DOWN_BIT)) == (LEFT_BIT | DOWN_BIT))
+        return (LEFT_BIT | DOWN_BIT);
+    if ((input.to_ulong() & (RIGHT_BIT | DOWN_BIT)) == (RIGHT_BIT | DOWN_BIT))
+        return (RIGHT_BIT | DOWN_BIT);
+    if ( (input.to_ulong() & UP_BIT) == UP_BIT)
+        return UP_BIT;
+    if ((input.to_ulong() & LEFT_BIT) == LEFT_BIT)
+        return LEFT_BIT;
+    if ((input.to_ulong() & DOWN_BIT) == DOWN_BIT)
+        return DOWN_BIT;
+    if ((input.to_ulong() & RIGHT_BIT) == RIGHT_BIT)
+        return RIGHT_BIT;
+    return 0;
+}
+
+bool keyboard::only_button_pressed(std::bitset<BUTTON_AMOUNT> in)
+{
+    if ( (in.to_ulong() & DIRECTION_MASK) != 0)
+        return false;
+    return true;
+}
+
+bool keyboard::only_direction_pressed(std::bitset<BUTTON_AMOUNT> in)
+{
+    if ( (in.to_ulong() & ATTACK_BUTTON_MASK) != 0)
+        return false;
+    return true;
+}
+
+bool keyboard::is_special_move(
+    std::vector<std::bitset<BUTTON_AMOUNT>> bitset_vector, 
+    unsigned short button_pressed)
+{
+    int same_input = 0;
+    int forward_index = input_buffer_index - 1;
+    int bv_index = bitset_vector.size() - 1;
+    while (bv_index != 0)
+    {
+        if (forward_index == (input_buffer_index - 1))
+        {
+            if ( get_direction(input_bitset_array[forward_index]) == bitset_vector[bitset_vector.size() - 1].to_ulong())
+            {
+                bv_index--;
+                same_input = 0;
+            }
+            else
+            {
+                same_input++;
+            }
+        }
+        else if (only_direction_pressed(input_bitset_array[forward_index]) &&
+                 get_direction(input_bitset_array[forward_index]) == bitset_vector[bv_index].to_ulong())
+        {
+            bv_index--;
+            same_input = 0;
+        }
+        else if (is_button(input_bitset_array[forward_index]))
+        {
+            return false;
+        }
+        else
+        {
+            same_input++;
+        }
+        forward_index--;
+        if (same_input == 5)
+        {
+            return false;
+        }
+    }
+    return true;
+}
+

@@ -1,5 +1,6 @@
 #include "game_character.h"
 
+
 game_character::game_character(
     keyboard* k, 
     std::string character_name,
@@ -21,6 +22,7 @@ game_character::game_character(
 
     can_move = true;
     can_switch_animation = true;
+    is_airborne = false;
 }
 
 void game_character::handle_character()
@@ -42,8 +44,8 @@ void game_character::handle_character()
 game_character::action_types game_character::process_inputs()
 {
     int none_count = 0;
-    keyboard::fg_inputs prev_input;
-    keyboard::fg_inputs curr_input;
+    std::bitset<BUTTON_AMOUNT> prev_input;
+    std::bitset<BUTTON_AMOUNT> curr_input;
 
     action_types action_to_perform = IDLE;
 
@@ -57,58 +59,105 @@ game_character::action_types game_character::process_inputs()
     {
         prev_input = curr_input;
         curr_input = keyboard_ref->get_input_buffer()[keyboard_ref->get_input_buffer_size() - 1];
-        switch (curr_input)
+        
+        switch (keyboard_ref->get_button(curr_input))
         {
-            case keyboard::LIGHT_PUNCH:
-                keyboard_ref->set_can_poll(false);
-                action_to_perform = action_types::LIGHT_PUNCH;
-                if (keyboard_ref->is_dpf())
+            case (HP_BIT):
+                if (keyboard_ref->is_special_move(keyboard::QUARTER_CIRCLE_FORWARD, HP_BIT))
                 {
-                    return action_types::DRAGON_PUNCH_FORWARD;
+                    return QUARTER_CIRCLE_FORWARD;
                 }
-                if (keyboard_ref->is_qcf())
+                if (keyboard_ref->is_special_move(keyboard::DRAGON_FORWARD, HP_BIT))
                 {
-                    return action_types::QUARTER_CIRCLE_FORWARD;
+                    return DRAGON_PUNCH_FORWARD;
                 }
+                if (keyboard_ref->get_direction(prev_input) == DOWN_BIT || 
+                    keyboard_ref->get_direction(prev_input) == (DOWN_BIT | LEFT_BIT) || 
+                    keyboard_ref->get_direction(prev_input) == (DOWN_BIT | RIGHT_BIT) ||
+                    keyboard_ref->get_direction(curr_input) == DOWN_BIT || 
+                    keyboard_ref->get_direction(curr_input) == (DOWN_BIT | LEFT_BIT) || 
+                    keyboard_ref->get_direction(curr_input) == (DOWN_BIT | RIGHT_BIT) )
+                {
+                    return CROUCH_HEAVY_PUNCH;
+                }
+                return HEAVY_PUNCH;
+                break;
+            case (HK_BIT):
+                if (keyboard_ref->is_special_move(keyboard::QUARTER_CIRCLE_BACKWARD, HK_BIT))
+                {
+                    return QUARTER_CIRCLE_BACK;
+                }
+                if (keyboard_ref->get_direction(prev_input) == DOWN_BIT || 
+                    keyboard_ref->get_direction(prev_input) == (DOWN_BIT | LEFT_BIT) || 
+                    keyboard_ref->get_direction(prev_input) == (DOWN_BIT | RIGHT_BIT) ||
+                    keyboard_ref->get_direction(curr_input) == DOWN_BIT || 
+                    keyboard_ref->get_direction(curr_input) == (DOWN_BIT | LEFT_BIT) || 
+                    keyboard_ref->get_direction(curr_input) == (DOWN_BIT | RIGHT_BIT) )
+                {
+                    return CROUCH_HEAVY_KICK;
+                }
+                return HEAVY_KICK;
+                break;
+            case (LP_BIT):
+                if (keyboard_ref->is_special_move(keyboard::QUARTER_CIRCLE_FORWARD, LP_BIT))
+                {
+                    return QUARTER_CIRCLE_FORWARD;
+                }
+                if (keyboard_ref->is_special_move(keyboard::DRAGON_FORWARD, LP_BIT))
+                {
+                    return DRAGON_PUNCH_FORWARD;
+                }
+                if (keyboard_ref->get_direction(prev_input) == DOWN_BIT || 
+                    keyboard_ref->get_direction(prev_input) == (DOWN_BIT | LEFT_BIT) || 
+                    keyboard_ref->get_direction(prev_input) == (DOWN_BIT | RIGHT_BIT) ||
+                    keyboard_ref->get_direction(curr_input) == DOWN_BIT || 
+                    keyboard_ref->get_direction(curr_input) == (DOWN_BIT | LEFT_BIT) || 
+                    keyboard_ref->get_direction(curr_input) == (DOWN_BIT | RIGHT_BIT) )
+                {
+                    return CROUCH_LIGHT_PUNCH;
+                }
+                return LIGHT_PUNCH;
+                break;
+            case (LK_BIT):
+                if (keyboard_ref->is_special_move(keyboard::QUARTER_CIRCLE_BACKWARD, LK_BIT))
+                {
+                    return QUARTER_CIRCLE_BACK;
+                }
+                if (keyboard_ref->get_direction(prev_input) == DOWN_BIT || 
+                    keyboard_ref->get_direction(prev_input) == (DOWN_BIT | LEFT_BIT) || 
+                    keyboard_ref->get_direction(prev_input) == (DOWN_BIT | RIGHT_BIT) ||
+                    keyboard_ref->get_direction(curr_input) == DOWN_BIT || 
+                    keyboard_ref->get_direction(curr_input) == (DOWN_BIT | LEFT_BIT) || 
+                    keyboard_ref->get_direction(curr_input) == (DOWN_BIT | RIGHT_BIT) )
+                {
+                    return CROUCH_LIGHT_KICK;
+                }
+                return LIGHT_KICK;
+                break;
+        }
 
+        switch (keyboard_ref->get_direction(curr_input))
+        {
+            case (DOWN_BIT | LEFT_BIT):
+                return CROUCH;
                 break;
-            case keyboard::LIGHT_KICK:
-                action_to_perform = action_types::LIGHT_KICK;
-                keyboard_ref->set_can_poll(false);
-                if (keyboard_ref->is_qcb())
-                {
-                    return action_types::QUARTER_CIRCLE_BACK;
-                }
+            case (DOWN_BIT | RIGHT_BIT):
+                return CROUCH;
                 break;
-            case keyboard::HEAVY_KICK:
-                action_to_perform = action_types::HEAVY_KICK;
-                keyboard_ref->set_can_poll(false);
-                if (keyboard_ref->is_qcb())
-                {
-                    return action_types::QUARTER_CIRCLE_BACK;
-                }
+            case (DOWN_BIT):
+                return CROUCH;
                 break;
-            case keyboard::HEAVY_PUNCH:
-                action_to_perform = action_types::HEAVY_PUNCH;
-                keyboard_ref->set_can_poll(false);
-                if (keyboard_ref->is_qcf())
-                {
-                    return action_to_perform;
-                }
+            case (UP_BIT | LEFT_BIT):
                 break;
-            case keyboard::BACK:
-                action_to_perform = action_types::WALK_BACK;
-                return action_to_perform;
+            case (UP_BIT | RIGHT_BIT):
                 break;
-            case keyboard::FORWARD:
-                action_to_perform = action_types::WALK_FORWARD;
-                return action_to_perform;
+            case (UP_BIT):
                 break;
-            case keyboard::DOWN_BACK:
-            case keyboard::DOWN:
-            case keyboard::DOWN_FORWARD:
-                action_to_perform = action_types::CROUCH;
-                return action_to_perform;
+            case (LEFT_BIT):
+                return WALK_BACK;
+                break;
+            case (RIGHT_BIT):
+                return WALK_FORWARD;
                 break;
         }
     }
@@ -152,8 +201,18 @@ void game_character::perform_action(action_types& action)
             can_switch_animation = false;
             can_move = false;
             break;
+        case CROUCH_LIGHT_PUNCH:
+            animation_string = "RYU_CROUCH_LIGHT_PUNCH";
+            can_switch_animation = false;
+            can_move = false;
+            break;
         case HEAVY_PUNCH:
             animation_string = "RYU_STAND_HEAVY_PUNCH";
+            can_switch_animation = false;
+            can_move = false;
+            break;
+        case CROUCH_HEAVY_PUNCH:
+            animation_string = "RYU_CROUCH_HEAVY_PUNCH";
             can_switch_animation = false;
             can_move = false;
             break;
@@ -162,8 +221,18 @@ void game_character::perform_action(action_types& action)
             can_switch_animation = false;
             can_move = false;
             break;
+        case CROUCH_LIGHT_KICK:
+            animation_string = "RYU_CROUCH_LIGHT_KICK";
+            can_switch_animation = false;
+            can_move = false;
+            break;
         case HEAVY_KICK:
             animation_string = "RYU_STAND_HEAVY_KICK";
+            can_switch_animation = false;
+            can_move = false;
+            break;
+        case CROUCH_HEAVY_KICK:
+            animation_string = "RYU_CROUCH_HEAVY_KICK";
             can_switch_animation = false;
             can_move = false;
             break;

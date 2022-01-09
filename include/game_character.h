@@ -32,9 +32,13 @@ public:
         JUMP_UP,
         JUMP_FORWARD,
         LIGHT_PUNCH,
+        CROUCH_LIGHT_PUNCH,
         HEAVY_PUNCH,
+        CROUCH_HEAVY_PUNCH,
         LIGHT_KICK,
+        CROUCH_LIGHT_KICK,
         HEAVY_KICK,
+        CROUCH_HEAVY_KICK,
         QUARTER_CIRCLE_FORWARD,
         QUARTER_CIRCLE_BACK,
         DRAGON_PUNCH_FORWARD,
@@ -59,6 +63,7 @@ private:
     bool block_high;
     bool block_low;
     bool is_flipped;
+    bool is_airborne;
 
     action_types prev_action;
     action_types curr_action;
