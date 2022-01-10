@@ -4,7 +4,7 @@ O_FILES := 		$(patsubst %.cpp,%.o,$(CPP_FILES))
 EXEC_NAME :=		opengl_test
 
 COMPILE_FLAGS :=	-g -c
-INCLUDE_PATHS :=	-I./include -I../glew-2.1.0/include -I../glfw-3.3.6/include -I./include/vendor
+INCLUDE_PATHS :=	-I./include -I../glew-2.1.0/include -I../glfw-3.3.6/include -I./include/vendor -I../glm
 LIBRARY_PATHS :=	-L./lib
 LIBRARIES :=		-lGLEW -lglfw -framework OpenGL -lstdc++ -lpngloader
 

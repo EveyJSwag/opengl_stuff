@@ -8,6 +8,9 @@
 #include <string>
 #include <stdlib.h>
 #include <exception>
+#include <glm/glm.hpp>
+#include <glm/gtx/transform.hpp>
+#include <glm/gtc/matrix_transform.hpp>
 #include "vector_types.h"
 
 class shader_creator
@@ -37,6 +40,10 @@ public:
     void set_uniform2d(
         std::string uniform_name,
         position_vector pos_vec);
+
+    void set_uniform_matrix(
+        std::string uniform_name,
+        glm::mat4 matrix);
 
 
     class shader_creator_exception : public std::exception

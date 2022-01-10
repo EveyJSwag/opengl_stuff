@@ -204,3 +204,11 @@ const char* shader_creator::shader_creator_exception::what()
 {
     return "shader_creator_exception";
 }
+
+
+void shader_creator::set_uniform_matrix(
+    std::string uniform_name,
+    glm::mat4 matrix)
+{
+    glUniformMatrix4fv(uniform_location_map[uniform_name],1, GL_FALSE, &matrix[0][0]);
+}

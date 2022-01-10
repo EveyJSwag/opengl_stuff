@@ -1,5 +1,8 @@
 #include <GL/glew.h> 
 #include <GLFW/glfw3.h>
+#include <glm/glm.hpp>
+#include <glm/gtx/transform.hpp>
+#include <glm/gtc/matrix_transform.hpp>
 #include <stdio.h>
 #include <string>
 #include <iostream>
@@ -46,21 +49,16 @@ int main()
         glewExperimental = GL_TRUE; 
         glewInit();
 
+        vertex_coordinate3 og_coord = {0.0f, -0.1f, 0.0f};
+
         game_character* game_char = new game_character(
             keyboard_ref, 
             "ryu", 
-            {0.0f, -0.1f, 0.0f}, 
+            og_coord, 
             "ryu_sheet.png", 
             populate_sprite_info(), 
             -0.008f);
 
-        //sprite_animator* sprite_animator_ref = new sprite_animator(
-        //    "ryu_sheet.png", 
-        //    {0.0f, -0.1f, 0.0f},
-        //    populate_sprite_info());
-
-
-        
         fps_counter* fps_counter_ref = fps_counter::get_instance();
         vertex_coordinate3 i_postion = {-1.0f, -0.2f, 0.0f};
         text_displayer* test_text = new text_displayer(i_postion);
@@ -70,32 +68,33 @@ int main()
             "shaders/vertex_shader.glsl", 
             "shaders/fragment_shader.glsl");
 
-        color_vector my_color_value;
-        my_color_value.r = 1.0f;
-        my_color_value.g = 0.2f;
-        my_color_value.b = 0.7f;
+        //glm::mat4 projection = glm::perspective(glm::radians(45.0f), (float)3.0f/(float)3.0f, 0.1f, 90.0f);
+        glm::mat4 projection = glm::ortho(-1.0f, 1.0f, -1.0f, 1.0f, -1.0f, 1.0f);
+        glm::mat4 view =       glm::translate(glm::mat4(1.0f), glm::vec3(0.2f, 0.0f, 0.0f));
+        glm::mat4 model =      glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, 0.0f));
+        glm::mat4 mvp =        projection * view;
 
-        position_vector pos_vec;
-        pos_vec.x = 0.0f;
-        pos_vec.y = 0.0f;
-        shader_creator_ref->add_uniform("color_input");
-        shader_creator_ref->add_uniform("uniformTextureCoord");
-        shader_creator_ref->set_uniform2d("uniformTextureCoord", pos_vec);
-        shader_creator_ref->use_program();
+        shader_creator_ref->add_uniform("MVP");
+
 
         double current_time = glfwGetTime();
         float should_walk = false;
+        int frame_count = 0;
+        float projection_angle = 40.0f;
+        float view_x_num = 0.0f;
         while(!glfwWindowShouldClose(window)) 
         {
             glClear(GL_COLOR_BUFFER_BIT);
-            glClearColor(0.0f, 0.4f, 0.0f, 1.0f);
-
+            glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+            shader_creator_ref->set_uniform_matrix("MVP", mvp);
+            shader_creator_ref->use_program();       
             fps_counter_ref->display_fps();
             keyboard_ref->poll();
             game_char->handle_character();
             test_text->write("I LOVE TONY");
             glfwSwapBuffers(window);
             glfwPollEvents();
+            frame_count++;
         }
         glfwTerminate(); 
         return 0;
