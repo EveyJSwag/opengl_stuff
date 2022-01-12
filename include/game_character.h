@@ -22,6 +22,8 @@ public:
 
     void handle_character();
 
+    vertex_coordinate3 get_location() const { return game_character_location; }
+
     typedef enum action_types
     {
         IDLE = 0,

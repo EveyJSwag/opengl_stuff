@@ -137,12 +137,3 @@ void font_renderer::add_character(const char char_to_add)
         vertex_info.push_back(new_entry);
     }
 }
-
-void font_renderer::add_vertex()
-{
-}
-
-void font_renderer::move_quad()
-{
-
-}

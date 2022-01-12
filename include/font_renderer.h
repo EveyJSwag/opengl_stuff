@@ -31,6 +31,8 @@ public:
     void clear();
 
 private:
+    bool make_ui_layer;
+
     std::unique_ptr<texture_creator> font_texture;
     std::unique_ptr<vertex_manager>  font_vertex;
     std::unique_ptr<buffer_manager>  font_buffer;
@@ -47,8 +49,6 @@ private:
     std::vector<unsigned int> vertex_indices;
 
     void add_character(const char char_to_add);
-    void add_vertex();
-    void move_quad();
 
     float shift_vertex_x_amount;
     float shift_vertex_y_amount;
@@ -60,6 +60,8 @@ private:
     pixel_offsets font_char_offset;
     pixel_offsets font_char_dimension;
     pixel_offsets char_dist;
+
+
 
 };
 

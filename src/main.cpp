@@ -16,6 +16,7 @@
 #include "sprite_animator.h"
 #include "keyboard.h"
 #include "sprite_info.h"
+#include "camera.h"
 
 int main() 
 {
@@ -44,6 +45,7 @@ int main()
         }
 
         keyboard* keyboard_ref = new keyboard(window);
+        camera* main_camera = new camera();
 
         // Initialize GLEW
         glewExperimental = GL_TRUE; 
@@ -68,30 +70,41 @@ int main()
             "shaders/vertex_shader.glsl", 
             "shaders/fragment_shader.glsl");
 
-        //glm::mat4 projection = glm::perspective(glm::radians(45.0f), (float)3.0f/(float)3.0f, 0.1f, 90.0f);
-        glm::mat4 projection = glm::ortho(-1.0f, 1.0f, -1.0f, 1.0f, -1.0f, 1.0f);
-        glm::mat4 view =       glm::translate(glm::mat4(1.0f), glm::vec3(0.2f, 0.0f, 0.0f));
-        glm::mat4 model =      glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, 0.0f));
-        glm::mat4 mvp =        projection * view;
+        shader_creator* shader_creator_ui = new shader_creator(
+            shader_creator::VERTEX_AND_FRAGMENT_SHADER_FILE_PATH, 
+            "shaders/UI_vertex_shader.glsl", 
+            "shaders/UI_fragment_shader.glsl");
 
         shader_creator_ref->add_uniform("MVP");
-
 
         double current_time = glfwGetTime();
         float should_walk = false;
         int frame_count = 0;
         float projection_angle = 40.0f;
         float view_x_num = 0.0f;
+        shader_creator_ref->use_program();
         while(!glfwWindowShouldClose(window)) 
         {
             glClear(GL_COLOR_BUFFER_BIT);
-            glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-            shader_creator_ref->set_uniform_matrix("MVP", mvp);
-            shader_creator_ref->use_program();       
+            glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
+            
+            game_char->handle_character();
+            
+            
+
+            if (glfwGetKey(window, GLFW_KEY_RIGHT))
+                main_camera->move_camera(glm::vec3(0.05f, 0.0f, 0.0f));
+            if (glfwGetKey(window, GLFW_KEY_LEFT))
+                main_camera->move_camera(glm::vec3(-0.05f, 0.0f, 0.0f));
+
+            main_camera->display();
+            
+            shader_creator_ref->set_uniform_matrix("MVP", main_camera->get_mvp());
+            shader_creator_ui->use_program();
             fps_counter_ref->display_fps();
             keyboard_ref->poll();
-            game_char->handle_character();
-            test_text->write("I LOVE TONY");
+
+            shader_creator_ref->use_program();
             glfwSwapBuffers(window);
             glfwPollEvents();
             frame_count++;
