@@ -16,7 +16,9 @@
 #include "sprite_animator.h"
 #include "keyboard.h"
 #include "sprite_info.h"
+#include "ryu_stage_info.h"
 #include "camera.h"
+#include "game_stage.h"
 
 int main() 
 {
@@ -61,6 +63,9 @@ int main()
             populate_sprite_info(), 
             -0.008f);
 
+        
+        game_stage* ryu_stage = new game_stage( "RYUS_STAGE", og_coord, "ryu_stage_alpha_2.png", populate_ryu_stage_info());
+
         fps_counter* fps_counter_ref = fps_counter::get_instance();
         vertex_coordinate3 i_postion = {-1.0f, -0.2f, 0.0f};
         text_displayer* test_text = new text_displayer(i_postion);
@@ -88,6 +93,7 @@ int main()
             glClear(GL_COLOR_BUFFER_BIT);
             glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
             
+            ryu_stage->display_stage();
             game_char->handle_character();
             
             
@@ -96,6 +102,10 @@ int main()
                 main_camera->move_camera(glm::vec3(0.05f, 0.0f, 0.0f));
             if (glfwGetKey(window, GLFW_KEY_LEFT))
                 main_camera->move_camera(glm::vec3(-0.05f, 0.0f, 0.0f));
+            if (glfwGetKey(window, GLFW_KEY_UP))
+                main_camera->move_camera(glm::vec3(0.0f, -0.05f, 0.0f));
+            if (glfwGetKey(window, GLFW_KEY_DOWN))
+                main_camera->move_camera(glm::vec3(0.0f, 0.05f, 0.0f));
 
             main_camera->display();
             
