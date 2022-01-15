@@ -15,9 +15,20 @@ public:
         vertex_coordinate3 a_sprite_location,
         animation_name_location_map a_animation_info);
 
+    sprite_animator(
+        std::string sprite_sheet_name, 
+        vertex_coordinate3 a_sprite_location,
+        animation_name_location_map a_animation_info,
+        texture_creator& texture);
+
     void do_animation(
         std::string animation_name,
         unsigned int frames_per_frame);
+
+    void do_animation(
+        std::string animation_name, 
+        unsigned int frames_per_frame, 
+        float scale);
 
     void move_sprite_x(float x_move_amt);
     void move_sprite_y(float y_move_amt);

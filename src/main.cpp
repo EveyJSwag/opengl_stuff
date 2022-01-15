@@ -54,17 +54,25 @@ int main()
         glewInit();
 
         vertex_coordinate3 og_coord = {0.0f, -0.1f, 0.0f};
+        vertex_coordinate3 ryu_coord = {0.1f, 0.2f, 0.0f};
 
         game_character* game_char = new game_character(
             keyboard_ref, 
             "ryu", 
-            og_coord, 
+            ryu_coord, 
             "ryu_sheet.png", 
             populate_sprite_info(), 
             -0.008f);
 
         
-        game_stage* ryu_stage = new game_stage( "RYUS_STAGE", og_coord, "ryu_stage_alpha_2.png", populate_ryu_stage_info());
+        game_stage* ryu_stage = new game_stage(
+            "RYUS_STAGE", 
+            og_coord, 
+            og_coord, 
+            "ryu_stage_alpha_2.png", 
+            populate_ryu_stage_info(),
+            "RYU_STAGE_FLOOR",
+            "RYU_STAGE_BACKGROUND");
 
         fps_counter* fps_counter_ref = fps_counter::get_instance();
         vertex_coordinate3 i_postion = {-1.0f, -0.2f, 0.0f};
@@ -95,18 +103,25 @@ int main()
             
             ryu_stage->display_stage();
             game_char->handle_character();
-            
-            
 
             if (glfwGetKey(window, GLFW_KEY_RIGHT))
+            {
                 main_camera->move_camera(glm::vec3(0.05f, 0.0f, 0.0f));
+                ryu_stage->move_background(0.008);
+            }
             if (glfwGetKey(window, GLFW_KEY_LEFT))
+            {
                 main_camera->move_camera(glm::vec3(-0.05f, 0.0f, 0.0f));
+                ryu_stage->move_background(-0.008);
+            }
             if (glfwGetKey(window, GLFW_KEY_UP))
+            {
                 main_camera->move_camera(glm::vec3(0.0f, -0.05f, 0.0f));
+            }
             if (glfwGetKey(window, GLFW_KEY_DOWN))
+            {
                 main_camera->move_camera(glm::vec3(0.0f, 0.05f, 0.0f));
-
+            }
             main_camera->display();
             
             shader_creator_ref->set_uniform_matrix("MVP", main_camera->get_mvp());

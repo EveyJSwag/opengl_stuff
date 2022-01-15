@@ -154,9 +154,13 @@ game_character::action_types game_character::process_inputs()
             case (UP_BIT):
                 break;
             case (LEFT_BIT):
+                game_character_location.x -= 0.01f;
+                game_character_sprite_anim->move_sprite_x(-0.01f);
                 return WALK_BACK;
                 break;
             case (RIGHT_BIT):
+                game_character_location.x -= 0.01f;
+                game_character_sprite_anim->move_sprite_x(0.01f);
                 return WALK_FORWARD;
                 break;
         }
