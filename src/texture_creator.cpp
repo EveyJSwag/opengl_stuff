@@ -26,7 +26,8 @@ void texture_creator::create_texture_from_png(const std::string png_file_name)
     full_png_path << "sprites/" << png_file_name;
     png_loader_ref = new png_loader(full_png_path.str().c_str());
 
-    std::vector<unsigned int> color_vector = png_loader_ref->get_png_colors();
+    std::vector<unsigned int> color_vector= png_loader_ref->get_png_colors();
+
     unsigned int background_color = color_vector[0];
     std::vector<unsigned int> color_vector_transparent = 
         make_texture_background_transparent(background_color, color_vector);
@@ -37,6 +38,7 @@ void texture_creator::create_texture_from_png(const std::string png_file_name)
         std::make_pair(png_file_name, sprite_sheet_info);
 
     texture_info_map.insert(texture_info_map_entry);
+
     
     glBindTexture(GL_TEXTURE_2D, texture_id);   
     glEnable(GL_BLEND);
@@ -48,6 +50,7 @@ void texture_creator::create_texture_from_png(const std::string png_file_name)
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 
     pixel_colors = color_vector_transparent;
+
     glTexImage2D(
         GL_TEXTURE_2D,
         0, 
@@ -58,7 +61,6 @@ void texture_creator::create_texture_from_png(const std::string png_file_name)
         GL_BGRA, 
         GL_UNSIGNED_BYTE, 
         pixel_colors.data());
-
     glGenerateMipmap(GL_TEXTURE_2D);
 }
 

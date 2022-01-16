@@ -35,7 +35,7 @@ int main()
         glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
 
         // Create OpenGL window and context
-        GLFWwindow* window = glfwCreateWindow(800, 600, "OpenGL", NULL, NULL);
+        GLFWwindow* window = glfwCreateWindow(1000, 800, "OpenGL", NULL, NULL);
         glfwMakeContextCurrent(window);
 
         // Check for window creation failure
@@ -68,7 +68,7 @@ int main()
         game_stage* ryu_stage = new game_stage(
             "RYUS_STAGE", 
             og_coord, 
-            og_coord, 
+            og_coord,
             "ryu_stage_alpha_2.png", 
             populate_ryu_stage_info(),
             "RYU_STAGE_FLOOR",
