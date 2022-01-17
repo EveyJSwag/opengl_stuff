@@ -39,7 +39,7 @@ game_stage::game_stage(
 void game_stage::display_stage()
 {
     stage_sprite_anim_background->do_animation(background_name,1, 2.0f);
-    stage_sprite_anim_floor->do_animation(floor_name,1, 1.3f);
+    stage_sprite_anim_floor->do_animation(floor_name,1, 1.5f);
 }
 
 

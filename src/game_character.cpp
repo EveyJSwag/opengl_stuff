@@ -1,6 +1,5 @@
 #include "game_character.h"
-
-
+#include "sound_manager.h"
 game_character::game_character(
     keyboard* k, 
     std::string character_name,
@@ -23,6 +22,7 @@ game_character::game_character(
     can_move = true;
     can_switch_animation = true;
     is_airborne = false;
+
 }
 
 void game_character::handle_character()
@@ -211,6 +211,7 @@ void game_character::perform_action(action_types& action)
             can_move = false;
             break;
         case HEAVY_PUNCH:
+            
             animation_string = "RYU_STAND_HEAVY_PUNCH";
             can_switch_animation = false;
             can_move = false;

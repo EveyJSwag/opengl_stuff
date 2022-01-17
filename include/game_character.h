@@ -8,6 +8,7 @@
 #include "keyboard.h"
 #include "sprite_animator.h"
 #include "sprite_info.h"
+#include "cpp_core_audio.h"
 
 class game_character
 {

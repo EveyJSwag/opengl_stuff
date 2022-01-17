@@ -6,7 +6,7 @@ EXEC_NAME :=		opengl_test
 COMPILE_FLAGS :=	-g -c
 INCLUDE_PATHS :=	-I./include -I../glew-2.1.0/include -I../glfw-3.3.6/include -I./include/vendor -I../glm
 LIBRARY_PATHS :=	-L./lib
-LIBRARIES :=		-lGLEW -lglfw -framework OpenGL -lstdc++ -lpngloader
+LIBRARIES :=		-lGLEW -lglfw -framework OpenGL -lstdc++ -lpngloader -lcore_audio_cpp -lpthread
 
 $(EXEC_NAME) : $(O_FILES)
 	gcc $(LIBRARY_PATHS) -o $(EXEC_NAME) $(O_FILES) $(LIBRARIES)

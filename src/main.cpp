@@ -19,6 +19,8 @@
 #include "ryu_stage_info.h"
 #include "camera.h"
 #include "game_stage.h"
+#include "cpp_core_audio.h"
+#include "sound_manager.h"
 
 int main() 
 {
@@ -35,7 +37,7 @@ int main()
         glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
 
         // Create OpenGL window and context
-        GLFWwindow* window = glfwCreateWindow(1000, 800, "OpenGL", NULL, NULL);
+        GLFWwindow* window = glfwCreateWindow(1400, 800, "OpenGL", NULL, NULL);
         glfwMakeContextCurrent(window);
 
         // Check for window creation failure
@@ -47,15 +49,28 @@ int main()
         }
 
         keyboard* keyboard_ref = new keyboard(window);
-        camera* main_camera = new camera();
+
+        glm::vec3 i_camera_pos = glm::vec3(-1.2f, -1.2f, 0.0f);
+
+        camera* main_camera = new camera(i_camera_pos);
 
         // Initialize GLEW
         glewExperimental = GL_TRUE; 
         glewInit();
 
         vertex_coordinate3 og_coord = {0.0f, -0.1f, 0.0f};
-        vertex_coordinate3 ryu_coord = {0.1f, 0.2f, 0.0f};
+        vertex_coordinate3 ryu_coord = {0.1f, 0.1f, 0.0f};
 
+        vertex_coordinate3 background_coord = {-0.3f, -0.4f, 0.0f};
+        vertex_coordinate3 floor_coord      = {0.0f, -0.1f, 0.0f};
+
+        sound_manager* game_sound = sound_manager::get_instance();
+        sound_manager::sound_type music_type = sound_manager::MUSIC;
+        sound_manager::sound_type effect_type = sound_manager::EFFECT;
+        std::string ryu_theme = "ryu_theme.wav";
+        std::string air_punch = "punch_air.wav";
+        game_sound->add_to_registry(ryu_theme, music_type);
+        game_sound->add_to_registry(air_punch, effect_type);
         game_character* game_char = new game_character(
             keyboard_ref, 
             "ryu", 
@@ -67,8 +82,8 @@ int main()
         
         game_stage* ryu_stage = new game_stage(
             "RYUS_STAGE", 
-            og_coord, 
-            og_coord,
+            background_coord, 
+            floor_coord,
             "ryu_stage_alpha_2.png", 
             populate_ryu_stage_info(),
             "RYU_STAGE_FLOOR",
@@ -96,6 +111,10 @@ int main()
         float projection_angle = 40.0f;
         float view_x_num = 0.0f;
         shader_creator_ref->use_program();
+        main_camera->zoom_out(0.2f);
+        std::string wav_file = "sound/music/ryu_theme.wav";
+        float volume = 0.6f;
+        game_sound->play_sound(ryu_theme);
         while(!glfwWindowShouldClose(window)) 
         {
             glClear(GL_COLOR_BUFFER_BIT);
