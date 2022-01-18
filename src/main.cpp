@@ -68,9 +68,19 @@ int main()
         sound_manager::sound_type music_type = sound_manager::MUSIC;
         sound_manager::sound_type effect_type = sound_manager::EFFECT;
         std::string ryu_theme = "ryu_theme.wav";
-        std::string air_punch = "punch_air.wav";
-        game_sound->add_to_registry(ryu_theme, music_type);
-        game_sound->add_to_registry(air_punch, effect_type);
+        std::string tatsu = "tatsumaki.wav";
+        std::string hado = "hadoken.wav";
+        std::string shoryuken = "shoryuken.wav";
+        float music_volume = 0.2f;
+        float effect_volume = 1.0f;
+        bool music_loopable = true;
+        bool effect_loopable = false;
+        std::string punch_air = "punch_air.wav";
+        game_sound->add_to_registry(ryu_theme, music_volume, music_loopable, music_type);
+        game_sound->add_to_registry(punch_air, effect_volume, effect_loopable, effect_type);
+        game_sound->add_to_registry(tatsu, effect_volume, effect_loopable, effect_type);
+        game_sound->add_to_registry(shoryuken, effect_volume, effect_loopable, effect_type);
+        game_sound->add_to_registry(hado, effect_volume, effect_loopable, effect_type);
         game_character* game_char = new game_character(
             keyboard_ref, 
             "ryu", 

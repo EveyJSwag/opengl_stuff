@@ -195,3 +195,38 @@ bool keyboard::is_special_move(
     return true;
 }
 
+bool keyboard::was_pressed(unsigned short button)
+{
+    int last_valid_index = input_buffer_index - 1;
+    if (last_valid_index == 0)
+        return (( (input_bitset_array[last_valid_index].to_ulong() & button) != 0));
+
+    bool current_press = (input_bitset_array[last_valid_index].to_ulong()   & button) != 0;
+    bool prev_press    = (input_bitset_array[last_valid_index-1].to_ulong() & button ) == 0;
+
+    return current_press && prev_press;
+}
+
+bool keyboard::was_held(unsigned short button)
+{
+    int last_valid_index = input_buffer_index - 1;
+    if (input_buffer_index < 3)
+        return false;
+
+    bool current_press = (input_bitset_array[last_valid_index].to_ulong()   & button) != 0;
+    bool prev_press    = (input_bitset_array[last_valid_index-1].to_ulong() & button) != 0;
+
+    return current_press && prev_press;
+}
+
+bool keyboard::was_released(unsigned short button)
+{
+    int last_valid_index = input_buffer_index - 1;
+    if (input_buffer_index < 3)
+        return false;
+
+    bool current_press = (input_bitset_array[last_valid_index].to_ulong()   & button) == 0;
+    bool prev_press    = (input_bitset_array[last_valid_index-1].to_ulong() & button) != 0;
+
+    return current_press && prev_press;
+}

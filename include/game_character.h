@@ -10,6 +10,11 @@
 #include "sprite_info.h"
 #include "cpp_core_audio.h"
 
+static std::string punch_air = "punch_air.wav";
+static std::string tatsu = "tatsumaki.wav";
+static std::string hado = "hadoken.wav";
+static std::string shoryuken = "shoryuken.wav";
+
 class game_character
 {
 public:

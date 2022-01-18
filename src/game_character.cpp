@@ -1,5 +1,7 @@
 #include "game_character.h"
 #include "sound_manager.h"
+
+
 game_character::game_character(
     keyboard* k, 
     std::string character_name,
@@ -65,10 +67,12 @@ game_character::action_types game_character::process_inputs()
             case (HP_BIT):
                 if (keyboard_ref->is_special_move(keyboard::QUARTER_CIRCLE_FORWARD, HP_BIT))
                 {
+                    sound_manager::get_instance()->play_sound(hado);
                     return QUARTER_CIRCLE_FORWARD;
                 }
                 if (keyboard_ref->is_special_move(keyboard::DRAGON_FORWARD, HP_BIT))
                 {
+                    sound_manager::get_instance()->play_sound(shoryuken);
                     return DRAGON_PUNCH_FORWARD;
                 }
                 if (keyboard_ref->get_direction(prev_input) == DOWN_BIT || 
@@ -78,13 +82,22 @@ game_character::action_types game_character::process_inputs()
                     keyboard_ref->get_direction(curr_input) == (DOWN_BIT | LEFT_BIT) || 
                     keyboard_ref->get_direction(curr_input) == (DOWN_BIT | RIGHT_BIT) )
                 {
-                    return CROUCH_HEAVY_PUNCH;
+                    if (keyboard_ref->was_pressed(HP_BIT))
+                    {
+                        sound_manager::get_instance()->play_sound(punch_air);
+                        return CROUCH_HEAVY_PUNCH;
+                    }
                 }
-                return HEAVY_PUNCH;
+                if (keyboard_ref->was_pressed(HP_BIT))
+                {
+                    sound_manager::get_instance()->play_sound(punch_air);
+                    return HEAVY_PUNCH;
+                }
                 break;
             case (HK_BIT):
                 if (keyboard_ref->is_special_move(keyboard::QUARTER_CIRCLE_BACKWARD, HK_BIT))
                 {
+                    sound_manager::get_instance()->play_sound(tatsu);
                     return QUARTER_CIRCLE_BACK;
                 }
                 if (keyboard_ref->get_direction(prev_input) == DOWN_BIT || 
@@ -94,17 +107,27 @@ game_character::action_types game_character::process_inputs()
                     keyboard_ref->get_direction(curr_input) == (DOWN_BIT | LEFT_BIT) || 
                     keyboard_ref->get_direction(curr_input) == (DOWN_BIT | RIGHT_BIT) )
                 {
-                    return CROUCH_HEAVY_KICK;
+                    if (keyboard_ref->was_pressed(HK_BIT))
+                    {
+                        sound_manager::get_instance()->play_sound(punch_air);
+                        return CROUCH_HEAVY_KICK;
+                    }
                 }
-                return HEAVY_KICK;
+                if (keyboard_ref->was_pressed(HK_BIT))
+                {
+                    sound_manager::get_instance()->play_sound(punch_air);
+                    return HEAVY_KICK;
+                }
                 break;
             case (LP_BIT):
                 if (keyboard_ref->is_special_move(keyboard::QUARTER_CIRCLE_FORWARD, LP_BIT))
                 {
+                    sound_manager::get_instance()->play_sound(hado);
                     return QUARTER_CIRCLE_FORWARD;
                 }
                 if (keyboard_ref->is_special_move(keyboard::DRAGON_FORWARD, LP_BIT))
                 {
+                    sound_manager::get_instance()->play_sound(shoryuken);
                     return DRAGON_PUNCH_FORWARD;
                 }
                 if (keyboard_ref->get_direction(prev_input) == DOWN_BIT || 
@@ -114,13 +137,22 @@ game_character::action_types game_character::process_inputs()
                     keyboard_ref->get_direction(curr_input) == (DOWN_BIT | LEFT_BIT) || 
                     keyboard_ref->get_direction(curr_input) == (DOWN_BIT | RIGHT_BIT) )
                 {
-                    return CROUCH_LIGHT_PUNCH;
+                    if (keyboard_ref->was_pressed(LP_BIT))
+                    {
+                        sound_manager::get_instance()->play_sound(punch_air);
+                        return CROUCH_LIGHT_PUNCH;
+                    }
                 }
-                return LIGHT_PUNCH;
+                if (keyboard_ref->was_pressed(LP_BIT))
+                {
+                    sound_manager::get_instance()->play_sound(punch_air);
+                    return LIGHT_PUNCH;
+                }
                 break;
             case (LK_BIT):
                 if (keyboard_ref->is_special_move(keyboard::QUARTER_CIRCLE_BACKWARD, LK_BIT))
                 {
+                    sound_manager::get_instance()->play_sound(tatsu);
                     return QUARTER_CIRCLE_BACK;
                 }
                 if (keyboard_ref->get_direction(prev_input) == DOWN_BIT || 
@@ -130,9 +162,17 @@ game_character::action_types game_character::process_inputs()
                     keyboard_ref->get_direction(curr_input) == (DOWN_BIT | LEFT_BIT) || 
                     keyboard_ref->get_direction(curr_input) == (DOWN_BIT | RIGHT_BIT) )
                 {
-                    return CROUCH_LIGHT_KICK;
+                    if (keyboard_ref->was_pressed(LK_BIT))
+                    {
+                        sound_manager::get_instance()->play_sound(punch_air);
+                        return CROUCH_LIGHT_KICK;
+                    }
                 }
-                return LIGHT_KICK;
+                if (keyboard_ref->was_pressed(LK_BIT))
+                {
+                    sound_manager::get_instance()->play_sound(punch_air);
+                    return LIGHT_KICK;
+                }
                 break;
         }
 

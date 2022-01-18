@@ -82,6 +82,10 @@ public:
 
     unsigned short get_button(std::bitset<BUTTON_AMOUNT> input);
     unsigned short get_direction(std::bitset<BUTTON_AMOUNT> input);
+
+    bool was_held(unsigned short button);
+    bool was_released(unsigned short button);
+    bool was_pressed(unsigned short button);
 private:
     const int INPUT_BUFFER_MAX_SIZE = 480;
     GLFWwindow* game_window;

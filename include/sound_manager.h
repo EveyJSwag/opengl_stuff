@@ -16,21 +16,49 @@ public:
         EFFECT
     } sound_type;
 
+
+    typedef struct create_args
+    {
+        float volume;
+        bool  loopable;
+        std::string full_path;
+
+        create_args& operator= (const create_args& right)
+        {
+            volume = right.volume;
+            loopable = right.loopable;
+            full_path = right.full_path;
+            return *this;
+        }
+
+        create_args (const create_args& copy)
+        {
+            volume = copy.volume;
+            loopable = copy.loopable;
+            full_path = copy.full_path;
+        }
+
+        create_args ()
+        {
+            volume = 0.0f;
+            loopable = false;
+            full_path ="";
+        }
+    } create_args;
+
     static sound_manager* get_instance();
 
-    void add_to_registry(std::string& wav_name, sound_type& type);
+    void add_to_registry(    
+        std::string& wav_name,
+        float& volume,
+        bool& loopable, 
+        sound_type& type);
 
     void play_sound(std::string& wav_name);
 
-    cpp_core_audio* get_from_sound_registry(std::string& sound_name);
+    create_args get_from_sound_registry(std::string& sound_name);
 
 private:
-
-    typedef struct instance_name_struct
-    {
-        void* instance;
-        std::string wav_name;
-    } instance_name_struct;
 
     static void* play_sound_thread(void* arg_ptr);
 
@@ -40,8 +68,7 @@ private:
     static sound_manager* singleton;
     sound_manager();
 
-    std::map<std::string, cpp_core_audio*> sound_registry;
-    //std::map<pthread_t, cpp_core_audio> thread_registry;
+    std::map<std::string, create_args> sound_registry;
 };
 
 #endif
