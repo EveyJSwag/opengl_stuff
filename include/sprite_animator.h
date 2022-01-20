@@ -10,6 +10,9 @@
 class sprite_animator
 {
 public:
+
+    const float DEFAULT_FLOAT = 1.0f;
+
     sprite_animator(
         std::string sprite_sheet_name, 
         vertex_coordinate3 a_sprite_location,
@@ -33,10 +36,19 @@ public:
     void move_sprite_x(float x_move_amt);
     void move_sprite_y(float y_move_amt);
 
+    bool get_flip_anim() const {return flip_anim;}
+    void set_flip_anim(bool fa);
+
     animation_name_location_map get_animation_info() {return animation_info;}
 
     unsigned int get_current_frame() {return current_frame;}
 private:
+
+    void build_quad(
+        std::string animation_name,
+        const float& scale,
+        const bool&  flip_texture = false);
+
     std::unique_ptr<vertex_manager>     sprite_vertex_manager;
     std::unique_ptr<texture_creator>    sprite_texture_creator;
     std::unique_ptr<buffer_manager>     sprite_buffer_manager;
@@ -55,14 +67,14 @@ private:
 
     standard_vertex_info current_quad[4];
 
+    bool flip_anim = false;
+
     float floatify_x(unsigned int pixel_x);
     float floatify_y(unsigned int pixel_y);
 
     unsigned int current_frame = 0;
 
     unsigned int frame_count = 0;
-
-
 };
 
 

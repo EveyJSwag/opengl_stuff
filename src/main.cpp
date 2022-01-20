@@ -9,7 +9,7 @@
 #include <fstream>
 #include <sstream>
 #include <memory>
-
+#include <unistd.h>
 #include "fps_counter.h"
 #include "text_displayer.h"
 #include "game_character.h"
@@ -125,8 +125,12 @@ int main()
         std::string wav_file = "sound/music/ryu_theme.wav";
         float volume = 0.6f;
         game_sound->play_sound(ryu_theme);
+        const float FPS_FACTOR = 1.0f/60.0f;
+        glfwSwapInterval(1);
+        
         while(!glfwWindowShouldClose(window)) 
         {
+            float start_frame_time = glfwGetTime();
             glClear(GL_COLOR_BUFFER_BIT);
             glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
             
@@ -151,6 +155,10 @@ int main()
             {
                 main_camera->move_camera(glm::vec3(0.0f, 0.05f, 0.0f));
             }
+            if (glfwGetKey(window, GLFW_KEY_F))
+            {
+                game_char->flip();
+            }
             main_camera->display();
             
             shader_creator_ref->set_uniform_matrix("MVP", main_camera->get_mvp());
@@ -161,6 +169,10 @@ int main()
             shader_creator_ref->use_program();
             glfwSwapBuffers(window);
             glfwPollEvents();
+            
+            //nsigned long micro_second = 1000000;
+            //unsigned long sleep_time = 15500 - (start_frame_time - glfwGetTime());
+            //usleep(sleep_time);
             frame_count++;
         }
         glfwTerminate(); 

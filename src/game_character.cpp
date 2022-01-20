@@ -1,6 +1,10 @@
 #include "game_character.h"
 #include "sound_manager.h"
 
+void game_character::flip()
+{
+    game_character_sprite_anim->set_flip_anim(true);
+}
 
 game_character::game_character(
     keyboard* k, 
@@ -24,7 +28,9 @@ game_character::game_character(
     can_move = true;
     can_switch_animation = true;
     is_airborne = false;
+    should_animation_move = false;
 
+    move_factor = 0.0f;
 }
 
 void game_character::handle_character()
@@ -34,10 +40,17 @@ void game_character::handle_character()
         curr_action = process_inputs();
         perform_action(curr_action);
     }
+    if (should_animation_move)
+    {
+        game_character_location.x += move_factor;
+        game_character_sprite_anim->move_sprite_x(move_factor);
+    }
+
     game_character_sprite_anim->do_animation(curr_anim_string, 8);
     if (game_character_sprite_anim->get_current_frame() == character_animation_map[curr_anim_string].size() - 1 &&
         can_switch_animation == false)
     {
+        should_animation_move = false;
         can_switch_animation = true;
         keyboard_ref->set_can_poll(true);
     }
@@ -73,6 +86,8 @@ game_character::action_types game_character::process_inputs()
                 if (keyboard_ref->is_special_move(keyboard::DRAGON_FORWARD, HP_BIT))
                 {
                     sound_manager::get_instance()->play_sound(shoryuken);
+                    should_animation_move = true;
+                    move_factor = 0.013f;
                     return DRAGON_PUNCH_FORWARD;
                 }
                 if (keyboard_ref->get_direction(prev_input) == DOWN_BIT || 
@@ -97,6 +112,8 @@ game_character::action_types game_character::process_inputs()
             case (HK_BIT):
                 if (keyboard_ref->is_special_move(keyboard::QUARTER_CIRCLE_BACKWARD, HK_BIT))
                 {
+                    should_animation_move = true;
+                    move_factor = 0.015f;
                     sound_manager::get_instance()->play_sound(tatsu);
                     return QUARTER_CIRCLE_BACK;
                 }
@@ -127,6 +144,8 @@ game_character::action_types game_character::process_inputs()
                 }
                 if (keyboard_ref->is_special_move(keyboard::DRAGON_FORWARD, LP_BIT))
                 {
+                    should_animation_move = true;
+                    move_factor = 0.01f;
                     sound_manager::get_instance()->play_sound(shoryuken);
                     return DRAGON_PUNCH_FORWARD;
                 }
@@ -152,6 +171,8 @@ game_character::action_types game_character::process_inputs()
             case (LK_BIT):
                 if (keyboard_ref->is_special_move(keyboard::QUARTER_CIRCLE_BACKWARD, LK_BIT))
                 {
+                    should_animation_move = true;
+                    move_factor = 0.01f;
                     sound_manager::get_instance()->play_sound(tatsu);
                     return QUARTER_CIRCLE_BACK;
                 }
@@ -188,10 +209,17 @@ game_character::action_types game_character::process_inputs()
                 return CROUCH;
                 break;
             case (UP_BIT | LEFT_BIT):
+                should_animation_move = true;
+                move_factor = -0.01f;
+                return JUMP_BACK;
                 break;
             case (UP_BIT | RIGHT_BIT):
+                should_animation_move = true;
+                move_factor = 0.01f;
+                return JUMP_FORWARD;
                 break;
             case (UP_BIT):
+                return JUMP_UP;
                 break;
             case (LEFT_BIT):
                 game_character_location.x -= 0.01f;
@@ -232,13 +260,19 @@ void game_character::perform_action(action_types& action)
             animation_string = "RYU_WALK";
             break;
         case JUMP_BACK:
-            animation_string = "RYU_IDLE";
+            animation_string = "RYU_JUMP_BACK";
+            can_switch_animation = false;
+            can_move = false;
             break;
         case JUMP_UP:
-            animation_string = "RYU_IDLE";
+            animation_string = "RYU_JUMP_NEUTRAL";
+            can_switch_animation = false;
+            can_move = false;
             break;
         case JUMP_FORWARD:
-            animation_string = "RYU_IDLE";
+            animation_string = "RYU_JUMP_FORWARD";
+            can_switch_animation = false;
+            can_move = false;
             break;
         case LIGHT_PUNCH:
             animation_string = "RYU_STAND_LIGHT_PUNCH";

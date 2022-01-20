@@ -53,6 +53,8 @@ public:
         DRAGON_PUNCH_BACK
     } action_types;
 
+    void flip();
+
 private:
     keyboard* keyboard_ref;
     std::string game_character_name;
@@ -72,6 +74,10 @@ private:
     bool block_low;
     bool is_flipped;
     bool is_airborne;
+
+    bool should_animation_move;
+
+    float move_factor;
 
     action_types prev_action;
     action_types curr_action;

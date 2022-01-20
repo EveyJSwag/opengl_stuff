@@ -152,5 +152,39 @@ animation_name_location_map populate_sprite_info()
     ryu_location_map[ryu_crouch] = crouch_quads;
 
 
+    std::string ryu_jump_neutral = "RYU_JUMP_NEUTRAL";
+    sprite_quad_locations jump_neutral_quads;
+    jump_neutral_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(0, { {14, 598},   {43, 75} , 0.0f}) );
+    jump_neutral_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(1, { {76, 570},   {41, 103}, 0.0f}) );
+    jump_neutral_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(2, { {137, 539},  {41, 134}, 0.0f}) );
+    jump_neutral_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(3, { {198, 514},  {41, 159}, 0.0f}) );
+    jump_neutral_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(4, { {137, 539},  {41, 134}, 0.0f}) );
+    jump_neutral_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(5, { {76, 570},   {41, 103}, 0.0f}) );
+    ryu_location_map[ryu_jump_neutral] = jump_neutral_quads;
+
+    std::string ryu_jump_forward = "RYU_JUMP_FORWARD";
+    sprite_quad_locations jump_forward_quads;
+    jump_forward_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(0, { {298, 598},   {43, 75} , 0.0f}) );
+    jump_forward_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(1, { {362, 565},   {41, 108}, 0.0f}) );
+    jump_forward_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(2, { {413, 540},  {61, 134}, 16.0f}) );
+    jump_forward_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(3, { {492, 509},  {45, 165}, 4.0f}) );
+    jump_forward_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(4, { {545, 535},  {72, 139}, 22.0f}) );
+    jump_forward_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(5, { {626, 526},  {55, 148}, 14.0f}) );
+    jump_forward_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(6, { {700, 536},  {41, 138}, 0.0f}) );
+    jump_forward_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(7, { {362, 565},   {41, 108}, 0.0f}) );
+    ryu_location_map[ryu_jump_forward] = jump_forward_quads;
+
+    std::string ryu_jump_back = "RYU_JUMP_BACK";
+    sprite_quad_locations jump_back_quads;
+    jump_back_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(7, { {298, 598},   {43, 75} , 0.0f}) );
+    jump_back_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(6, { {362, 565},   {41, 108}, 0.0f}) );
+    jump_back_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(5, { {413, 540},  {61, 134}, 16.0f}) );
+    jump_back_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(4, { {492, 509},  {45, 165}, 4.0f}) );
+    jump_back_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(3, { {545, 535},  {72, 139}, 22.0f}) );
+    jump_back_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(2, { {626, 526},  {55, 148}, 14.0f}) );
+    jump_back_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(1, { {700, 536},  {41, 138}, 0.0f}) );
+    jump_back_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(0, { {362, 565},   {41, 108}, 0.0f}) );
+    ryu_location_map[ryu_jump_back] = jump_back_quads;
+
     return ryu_location_map;
 }
