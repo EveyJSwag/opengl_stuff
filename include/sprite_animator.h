@@ -22,7 +22,20 @@ public:
         std::string sprite_sheet_name, 
         vertex_coordinate3 a_sprite_location,
         animation_name_location_map a_animation_info,
+        float& a_base_width);
+
+    sprite_animator(
+        std::string sprite_sheet_name, 
+        vertex_coordinate3 a_sprite_location,
+        animation_name_location_map a_animation_info,
         texture_creator& texture);
+
+    sprite_animator(
+        std::string sprite_sheet_name, 
+        vertex_coordinate3 a_sprite_location,
+        animation_name_location_map a_animation_info,
+        texture_creator& texture,
+        float& a_base_width);
 
     void do_animation(
         std::string animation_name,
@@ -68,6 +81,8 @@ private:
     standard_vertex_info current_quad[4];
 
     bool flip_anim = false;
+
+    float base_width;
 
     float floatify_x(unsigned int pixel_x);
     float floatify_y(unsigned int pixel_y);

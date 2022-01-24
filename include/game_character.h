@@ -24,7 +24,8 @@ public:
         vertex_coordinate3 character_location,
         std::string sprite_sheet_name,
         animation_name_location_map a_animation_info,
-        float character_speed);
+        float character_speed,
+        float base_width);
 
     void handle_character();
 
@@ -84,6 +85,8 @@ private:
 
     std::string curr_anim_string;
     std::string prev_anim_string;
+
+    float char_base_width;
 
     /*
      * maximum amount of frames player can not make any inputs before a

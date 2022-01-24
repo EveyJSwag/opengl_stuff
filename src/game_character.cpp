@@ -12,18 +12,21 @@ game_character::game_character(
     vertex_coordinate3 character_location,
     std::string sprite_sheet_name,
     animation_name_location_map a_animation_info,
-    float character_speed)
+    float character_speed,
+    float base_width)
 {
     keyboard_ref = k;
     game_character_name = character_name;
     game_character_location = character_location;
     character_animation_map = a_animation_info;
     game_character_speed = character_speed;
+    char_base_width = base_width;
     game_character_sprite_anim = std::make_unique<sprite_animator>(
         sprite_animator(
             sprite_sheet_name, 
             character_location, 
-            character_animation_map));
+            character_animation_map,
+            char_base_width));
 
     can_move = true;
     can_switch_animation = true;
@@ -31,6 +34,7 @@ game_character::game_character(
     should_animation_move = false;
 
     move_factor = 0.0f;
+
 }
 
 void game_character::handle_character()

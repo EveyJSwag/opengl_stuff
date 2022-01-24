@@ -22,7 +22,7 @@
 #include "cpp_core_audio.h"
 #include "sound_manager.h"
 
-int main() 
+int main(int argc, char*argv[]) 
 {
     try 
     {
@@ -37,7 +37,7 @@ int main()
         glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
 
         // Create OpenGL window and context
-        GLFWwindow* window = glfwCreateWindow(1400, 800, "OpenGL", NULL, NULL);
+        GLFWwindow* window = glfwCreateWindow(1400, 800, "Fighting-Game", NULL, NULL);
         glfwMakeContextCurrent(window);
 
         // Check for window creation failure
@@ -87,7 +87,8 @@ int main()
             ryu_coord, 
             "ryu_sheet.png", 
             populate_sprite_info(), 
-            -0.008f);
+            -0.008f,
+            43.0f);
 
         
         game_stage* ryu_stage = new game_stage(
