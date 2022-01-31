@@ -38,7 +38,6 @@ sprite_animator::sprite_animator(
     flip_anim = false;
 }
 
-
 sprite_animator::sprite_animator(
     std::string sprite_sheet_name, 
     vertex_coordinate3 a_sprite_location,
@@ -308,4 +307,14 @@ void sprite_animator::build_quad(
             floatify_y(po.y)};
         current_frame++;
     }
+}
+
+void sprite_animator::alter_pixel_data(std::vector<unsigned int> altered_data)
+{
+    sprite_texture_creator->alter_texture(altered_data);
+}
+
+std::vector<unsigned int> sprite_animator::get_pixel_data()
+{
+    return sprite_texture_creator->get_pixel_colors();
 }

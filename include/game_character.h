@@ -88,6 +88,8 @@ private:
 
     float char_base_width;
 
+    action_types decide_action(unsigned short action);
+
     /*
      * maximum amount of frames player can not make any inputs before a
      * special move isn't processed
@@ -95,6 +97,45 @@ private:
     const int MAX_NONE_AMOUNT = 20;
 
     const int MAX_SAME_MOVE_AMOUNT = 9;
+
+    inline bool is_special_move_qcf(unsigned short button)
+    {
+        return keyboard_ref->is_special_move(keyboard::QUARTER_CIRCLE_FORWARD, button) &&
+            !game_character_sprite_anim->get_flip_anim()
+            ||
+            keyboard_ref->is_special_move(keyboard::QUARTER_CIRCLE_BACKWARD, button)&&
+            game_character_sprite_anim->get_flip_anim();
+    }
+
+    inline bool is_special_move_qcb(unsigned short button)
+    {
+        return keyboard_ref->is_special_move(keyboard::QUARTER_CIRCLE_BACKWARD, button) &&
+            !game_character_sprite_anim->get_flip_anim()
+            ||
+            keyboard_ref->is_special_move(keyboard::QUARTER_CIRCLE_FORWARD, button)&&
+            game_character_sprite_anim->get_flip_anim();
+    }
+
+    inline bool is_special_move_dpf(unsigned short button)
+    {
+        return keyboard_ref->is_special_move(keyboard::DRAGON_FORWARD, HP_BIT) &&
+                !game_character_sprite_anim->get_flip_anim()
+                ||
+                keyboard_ref->is_special_move(keyboard::DRAGON_BACKWARD, HP_BIT)&&
+                game_character_sprite_anim->get_flip_anim();
+    }
+
+    inline bool is_downward(
+        std::bitset<BUTTON_AMOUNT>& prev_input, 
+        std::bitset<BUTTON_AMOUNT>& curr_input)
+    {
+        return keyboard_ref->get_direction(prev_input) == DOWN_BIT || 
+               keyboard_ref->get_direction(prev_input) == (DOWN_BIT | LEFT_BIT) || 
+               keyboard_ref->get_direction(prev_input) == (DOWN_BIT | RIGHT_BIT) ||
+               keyboard_ref->get_direction(curr_input) == DOWN_BIT || 
+               keyboard_ref->get_direction(curr_input) == (DOWN_BIT | LEFT_BIT) || 
+               keyboard_ref->get_direction(curr_input) == (DOWN_BIT | RIGHT_BIT);
+    }
 };
 
 #endif /* GAME_CHARACTER_H */

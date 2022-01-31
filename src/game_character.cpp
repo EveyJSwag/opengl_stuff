@@ -34,7 +34,6 @@ game_character::game_character(
     should_animation_move = false;
 
     move_factor = 0.0f;
-
 }
 
 void game_character::handle_character()
@@ -60,6 +59,7 @@ void game_character::handle_character()
     }
 }
 
+
 game_character::action_types game_character::process_inputs()
 {
     int none_count = 0;
@@ -82,24 +82,21 @@ game_character::action_types game_character::process_inputs()
         switch (keyboard_ref->get_button(curr_input))
         {
             case (HP_BIT):
-                if (keyboard_ref->is_special_move(keyboard::QUARTER_CIRCLE_FORWARD, HP_BIT))
+                if (is_special_move_qcf(HP_BIT))
                 {
                     sound_manager::get_instance()->play_sound(hado);
                     return QUARTER_CIRCLE_FORWARD;
                 }
-                if (keyboard_ref->is_special_move(keyboard::DRAGON_FORWARD, HP_BIT))
+                if (is_special_move_dpf(HP_BIT))
                 {
                     sound_manager::get_instance()->play_sound(shoryuken);
                     should_animation_move = true;
-                    move_factor = 0.013f;
+                    float speed_factor = 1.0f;
+                    if (game_character_sprite_anim->get_flip_anim()) {speed_factor*=-1.0f;}
+                    move_factor = 0.013f * speed_factor;
                     return DRAGON_PUNCH_FORWARD;
                 }
-                if (keyboard_ref->get_direction(prev_input) == DOWN_BIT || 
-                    keyboard_ref->get_direction(prev_input) == (DOWN_BIT | LEFT_BIT) || 
-                    keyboard_ref->get_direction(prev_input) == (DOWN_BIT | RIGHT_BIT) ||
-                    keyboard_ref->get_direction(curr_input) == DOWN_BIT || 
-                    keyboard_ref->get_direction(curr_input) == (DOWN_BIT | LEFT_BIT) || 
-                    keyboard_ref->get_direction(curr_input) == (DOWN_BIT | RIGHT_BIT) )
+                if (is_downward(prev_input, curr_input))
                 {
                     if (keyboard_ref->was_pressed(HP_BIT))
                     {
@@ -114,19 +111,16 @@ game_character::action_types game_character::process_inputs()
                 }
                 break;
             case (HK_BIT):
-                if (keyboard_ref->is_special_move(keyboard::QUARTER_CIRCLE_BACKWARD, HK_BIT))
+                if (is_special_move_qcb(HK_BIT))
                 {
                     should_animation_move = true;
-                    move_factor = 0.015f;
+                    float speed_factor = 1.0f;
+                    if (game_character_sprite_anim->get_flip_anim()) {speed_factor*=-1.0f;}
+                    move_factor = 0.015f * speed_factor;
                     sound_manager::get_instance()->play_sound(tatsu);
                     return QUARTER_CIRCLE_BACK;
                 }
-                if (keyboard_ref->get_direction(prev_input) == DOWN_BIT || 
-                    keyboard_ref->get_direction(prev_input) == (DOWN_BIT | LEFT_BIT) || 
-                    keyboard_ref->get_direction(prev_input) == (DOWN_BIT | RIGHT_BIT) ||
-                    keyboard_ref->get_direction(curr_input) == DOWN_BIT || 
-                    keyboard_ref->get_direction(curr_input) == (DOWN_BIT | LEFT_BIT) || 
-                    keyboard_ref->get_direction(curr_input) == (DOWN_BIT | RIGHT_BIT) )
+                if (is_downward(prev_input, curr_input) )
                 {
                     if (keyboard_ref->was_pressed(HK_BIT))
                     {
@@ -141,24 +135,21 @@ game_character::action_types game_character::process_inputs()
                 }
                 break;
             case (LP_BIT):
-                if (keyboard_ref->is_special_move(keyboard::QUARTER_CIRCLE_FORWARD, LP_BIT))
+                if (is_special_move_qcf(LP_BIT))
                 {
                     sound_manager::get_instance()->play_sound(hado);
                     return QUARTER_CIRCLE_FORWARD;
                 }
-                if (keyboard_ref->is_special_move(keyboard::DRAGON_FORWARD, LP_BIT))
+                if (is_special_move_dpf(LP_BIT))
                 {
                     should_animation_move = true;
-                    move_factor = 0.01f;
+                    float speed_factor = 1.0f;
+                    if (game_character_sprite_anim->get_flip_anim()) {speed_factor*=-1.0f;}
+                    move_factor = 0.01f * speed_factor;
                     sound_manager::get_instance()->play_sound(shoryuken);
                     return DRAGON_PUNCH_FORWARD;
                 }
-                if (keyboard_ref->get_direction(prev_input) == DOWN_BIT || 
-                    keyboard_ref->get_direction(prev_input) == (DOWN_BIT | LEFT_BIT) || 
-                    keyboard_ref->get_direction(prev_input) == (DOWN_BIT | RIGHT_BIT) ||
-                    keyboard_ref->get_direction(curr_input) == DOWN_BIT || 
-                    keyboard_ref->get_direction(curr_input) == (DOWN_BIT | LEFT_BIT) || 
-                    keyboard_ref->get_direction(curr_input) == (DOWN_BIT | RIGHT_BIT) )
+                if (is_downward(prev_input, curr_input) )
                 {
                     if (keyboard_ref->was_pressed(LP_BIT))
                     {
@@ -173,19 +164,16 @@ game_character::action_types game_character::process_inputs()
                 }
                 break;
             case (LK_BIT):
-                if (keyboard_ref->is_special_move(keyboard::QUARTER_CIRCLE_BACKWARD, LK_BIT))
+                if (is_special_move_qcb(LK_BIT)) 
                 {
                     should_animation_move = true;
-                    move_factor = 0.01f;
+                    float speed_factor = 1.0f;
+                    if (game_character_sprite_anim->get_flip_anim()) {speed_factor*=-1.0f;}
+                    move_factor = 0.01f * speed_factor;
                     sound_manager::get_instance()->play_sound(tatsu);
                     return QUARTER_CIRCLE_BACK;
                 }
-                if (keyboard_ref->get_direction(prev_input) == DOWN_BIT || 
-                    keyboard_ref->get_direction(prev_input) == (DOWN_BIT | LEFT_BIT) || 
-                    keyboard_ref->get_direction(prev_input) == (DOWN_BIT | RIGHT_BIT) ||
-                    keyboard_ref->get_direction(curr_input) == DOWN_BIT || 
-                    keyboard_ref->get_direction(curr_input) == (DOWN_BIT | LEFT_BIT) || 
-                    keyboard_ref->get_direction(curr_input) == (DOWN_BIT | RIGHT_BIT) )
+                if (is_downward(prev_input, curr_input) )
                 {
                     if (keyboard_ref->was_pressed(LK_BIT))
                     {
@@ -289,7 +277,6 @@ void game_character::perform_action(action_types& action)
             can_move = false;
             break;
         case HEAVY_PUNCH:
-            
             animation_string = "RYU_STAND_HEAVY_PUNCH";
             can_switch_animation = false;
             can_move = false;

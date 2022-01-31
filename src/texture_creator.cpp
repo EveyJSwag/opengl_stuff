@@ -44,8 +44,6 @@ void texture_creator::create_texture_from_png(const std::string png_file_name)
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
   
-    //glPixelStorei(GL_PACK_ALIGNMENT, 4);
-    
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 
@@ -57,6 +55,27 @@ void texture_creator::create_texture_from_png(const std::string png_file_name)
         GL_RGBA, 
         sprite_sheet_info.image_width,
         sprite_sheet_info.image_height, 
+        0,
+        GL_BGRA, 
+        GL_UNSIGNED_BYTE, 
+        pixel_colors.data());
+    glGenerateMipmap(GL_TEXTURE_2D);
+}
+
+void texture_creator::alter_texture(std::vector<unsigned int> pixel_colors)
+{
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+  
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+
+    glTexImage2D(
+        GL_TEXTURE_2D,
+        0, 
+        GL_RGBA, 
+        current_png_info.image_width,
+        current_png_info.image_height, 
         0,
         GL_BGRA, 
         GL_UNSIGNED_BYTE, 

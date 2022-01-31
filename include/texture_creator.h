@@ -21,7 +21,10 @@ public:
     void unbind_texture();
     void bind_texture();
 
+    void alter_texture(std::vector<unsigned int> pixel_colors);
+
 private:
+
 
     GLuint texture_id;
     png_loader* png_loader_ref;

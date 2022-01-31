@@ -20,6 +20,7 @@
 #include "camera.h"
 #include "game_stage.h"
 #include "cpp_core_audio.h"
+#include "health_bar.h"
 #include "sound_manager.h"
 
 int main(int argc, char*argv[]) 
@@ -90,7 +91,11 @@ int main(int argc, char*argv[])
             -0.008f,
             43.0f);
 
-        
+        std::string health_bar_sprite_sheet_name = "health_bar.png";
+        vertex_coordinate3 health_bar_position_p1 = {-1.0f, 0.8f, 0.0f};
+        vertex_coordinate3 health_bar_position_p2 = {0.999f, 0.8f, 0.0f};
+        health_bar* player1_health_bar = new health_bar(health_bar_sprite_sheet_name, health_bar_position_p1);
+        health_bar* player2_health_bar = new health_bar(health_bar_sprite_sheet_name, health_bar_position_p2);
         game_stage* ryu_stage = new game_stage(
             "RYUS_STAGE", 
             background_coord, 
@@ -165,6 +170,8 @@ int main(int argc, char*argv[])
             shader_creator_ref->set_uniform_matrix("MVP", main_camera->get_mvp());
             shader_creator_ui->use_program();
             fps_counter_ref->display_fps();
+            player1_health_bar->draw();
+            player2_health_bar->draw(true);
             keyboard_ref->poll();
 
             shader_creator_ref->use_program();

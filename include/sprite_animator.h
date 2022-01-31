@@ -55,6 +55,9 @@ public:
     animation_name_location_map get_animation_info() {return animation_info;}
 
     unsigned int get_current_frame() {return current_frame;}
+
+    std::vector<unsigned int> get_pixel_data();
+    void alter_pixel_data(std::vector<unsigned int> altered_data);
 private:
 
     void build_quad(
