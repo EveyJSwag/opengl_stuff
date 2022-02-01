@@ -64,6 +64,7 @@ void texture_creator::create_texture_from_png(const std::string png_file_name)
 
 void texture_creator::alter_texture(std::vector<unsigned int> pixel_colors)
 {
+    bind_texture();
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
   
@@ -81,6 +82,7 @@ void texture_creator::alter_texture(std::vector<unsigned int> pixel_colors)
         GL_UNSIGNED_BYTE, 
         pixel_colors.data());
     glGenerateMipmap(GL_TEXTURE_2D);
+    unbind_texture();
 }
 
 std::vector<unsigned int> texture_creator::make_texture_background_transparent(

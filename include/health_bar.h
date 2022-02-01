@@ -13,6 +13,8 @@ public:
         std::string& a_sprite_sheet_name, 
         vertex_coordinate3& a_health_bar_pos);
 
+    void deplete(int columns);
+
     void draw(bool flip=false);
 private:
     std::unique_ptr<sprite_animator> health_sprite;

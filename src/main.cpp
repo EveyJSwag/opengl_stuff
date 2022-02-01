@@ -164,6 +164,7 @@ int main(int argc, char*argv[])
             if (glfwGetKey(window, GLFW_KEY_F))
             {
                 game_char->flip();
+                player1_health_bar->deplete(1);
             }
             main_camera->display();
             
