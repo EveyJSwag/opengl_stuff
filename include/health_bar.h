@@ -20,6 +20,9 @@ private:
     std::unique_ptr<sprite_animator> health_sprite;
     vertex_coordinate3 health_bar_pos;
     std::string sprite_sheet_name;
+    int columns_depleted;
+    static const unsigned int RED_PIXEL=0xffff330b;
+    static const unsigned int MAX_COLUMNS=380;
 };
 
 #endif /* HEALTH_BAR_H */
