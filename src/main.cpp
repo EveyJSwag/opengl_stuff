@@ -16,11 +16,13 @@
 #include "sprite_animator.h"
 #include "keyboard.h"
 #include "sprite_info.h"
+#include "bato_info.h"
 #include "ryu_stage_info.h"
 #include "camera.h"
 #include "game_stage.h"
 #include "cpp_core_audio.h"
 #include "health_bar.h"
+#include "bato_character.h"
 #include "sound_manager.h"
 
 int main(int argc, char*argv[]) 
@@ -61,7 +63,7 @@ int main(int argc, char*argv[])
 
         vertex_coordinate3 og_coord = {0.0f, -0.1f, 0.0f};
         vertex_coordinate3 ryu_coord = {0.1f, 0.1f, 0.0f};
-
+        vertex_coordinate3 ryu_coord2 = {0.4f, 0.1f, 0.0f};
         vertex_coordinate3 background_coord = {-0.3f, -0.4f, 0.0f};
         vertex_coordinate3 floor_coord      = {0.0f, -0.1f, 0.0f};
 
@@ -90,6 +92,16 @@ int main(int argc, char*argv[])
             populate_sprite_info(), 
             -0.008f,
             43.0f);
+
+        bato_character* bato_char = new bato_character(
+            keyboard_ref, 
+            "bato", 
+            ryu_coord, 
+            "bato_sheet.png", 
+            populate_bato_info(), 
+            -0.008, 
+            53);
+        
 
         std::string health_bar_sprite_sheet_name = "health_bar.png";
         vertex_coordinate3 health_bar_position_p1 = {-1.0f, 0.8f, 0.0f};
@@ -142,6 +154,7 @@ int main(int argc, char*argv[])
             
             ryu_stage->display_stage();
             game_char->handle_character();
+            bato_char->handle_character();
 
             if (glfwGetKey(window, GLFW_KEY_RIGHT))
             {
