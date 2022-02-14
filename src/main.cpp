@@ -12,7 +12,6 @@
 #include <unistd.h>
 #include "fps_counter.h"
 #include "text_displayer.h"
-#include "game_character.h"
 #include "sprite_animator.h"
 #include "keyboard.h"
 #include "sprite_info.h"
@@ -85,14 +84,6 @@ int main(int argc, char*argv[])
         game_sound->add_to_registry(tatsu, effect_volume, effect_loopable, effect_type);
         game_sound->add_to_registry(shoryuken, effect_volume, effect_loopable, effect_type);
         game_sound->add_to_registry(hado, effect_volume, effect_loopable, effect_type);
-//        game_character* game_char = new game_character(
-//            keyboard_ref, 
-//            "ryu", 
-//            ryu_coord, 
-//            "ryu_sheet.png", 
-//            populate_sprite_info(), 
-//            -0.008f,
-//            43.0f);
 
         ryu_character* ryu_char = new ryu_character(
             keyboard_ref, 

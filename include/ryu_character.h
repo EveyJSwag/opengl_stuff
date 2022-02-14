@@ -34,8 +34,8 @@ private:
     void perform_action(action_types& action) override;
 
     static std::string punch_air;    
-    static std::string tatsu    ;    
-    static std::string hado     ;    
+    static std::string tatsu;    
+    static std::string hado;    
     static std::string shoryuken;    
 };
 
