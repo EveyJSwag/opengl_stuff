@@ -20,8 +20,7 @@ public:
     {}
 
     character(
-        keyboard* k, 
-        //std::string character_name,
+        keyboard* k,
         vertex_coordinate3 character_location,
         std::string sprite_sheet_name,
         animation_name_location_map a_animation_info,
@@ -78,6 +77,7 @@ protected:
 
     bool can_move;
     bool can_switch_animation;
+    bool can_get_hit;
     bool block_high;
     bool block_low;
     bool is_flipped;

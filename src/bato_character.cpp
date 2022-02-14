@@ -1,11 +1,6 @@
 #include "bato_character.h"
 #include "sound_manager.h"
 
-void bato_character::flip()
-{
-    character_sprite_anim->set_flip_anim(true);
-}
-
 bato_character::bato_character(
     keyboard* k, 
     std::string a_character_name,

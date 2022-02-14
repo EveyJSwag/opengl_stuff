@@ -7,8 +7,7 @@ void character::flip()
 }
 
 character::character(
-    keyboard* k, 
-    //std::string character_name,
+    keyboard* k,
     vertex_coordinate3 character_location,
     std::string sprite_sheet_name,
     animation_name_location_map a_animation_info,
@@ -16,7 +15,6 @@ character::character(
     float base_width)
 {
     keyboard_ref = k;
-    //character_name = character_name;
     character_location = character_location;
     character_animation_map = a_animation_info;
     character_speed = character_speed;

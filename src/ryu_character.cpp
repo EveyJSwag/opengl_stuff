@@ -1,15 +1,10 @@
 #include "ryu_character.h"
 #include "sound_manager.h"
 
-std::string ryu_character::punch_air= "punch_air.wav";
+std::string ryu_character::punch_air = "punch_air.wav";
 std::string ryu_character::tatsu = "tatsumaki.wav";
 std::string ryu_character::hado = "hadoken.wav";
 std::string ryu_character::shoryuken = "shoryuken.wav";
-
-void ryu_character::flip()
-{
-    character_sprite_anim->set_flip_anim(true);
-}
 
 ryu_character::ryu_character(
     keyboard* k, 

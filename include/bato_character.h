@@ -27,8 +27,6 @@ public:
 
     void handle_character() override;
 
-    void flip();
-
 private:
     action_types process_inputs() override;
     void perform_action(action_types& action) override;
