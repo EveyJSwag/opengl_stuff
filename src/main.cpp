@@ -24,6 +24,7 @@
 #include "health_bar.h"
 #include "bato_character.h"
 #include "sound_manager.h"
+#include "ryu_character.h"
 
 int main(int argc, char*argv[]) 
 {
@@ -84,7 +85,16 @@ int main(int argc, char*argv[])
         game_sound->add_to_registry(tatsu, effect_volume, effect_loopable, effect_type);
         game_sound->add_to_registry(shoryuken, effect_volume, effect_loopable, effect_type);
         game_sound->add_to_registry(hado, effect_volume, effect_loopable, effect_type);
-        game_character* game_char = new game_character(
+//        game_character* game_char = new game_character(
+//            keyboard_ref, 
+//            "ryu", 
+//            ryu_coord, 
+//            "ryu_sheet.png", 
+//            populate_sprite_info(), 
+//            -0.008f,
+//            43.0f);
+
+        ryu_character* ryu_char = new ryu_character(
             keyboard_ref, 
             "ryu", 
             ryu_coord, 
@@ -153,7 +163,7 @@ int main(int argc, char*argv[])
             glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
             
             ryu_stage->display_stage();
-            game_char->handle_character();
+            ryu_char->handle_character();
             bato_char->handle_character();
 
             if (glfwGetKey(window, GLFW_KEY_RIGHT))
@@ -176,7 +186,7 @@ int main(int argc, char*argv[])
             }
             if (glfwGetKey(window, GLFW_KEY_F))
             {
-                game_char->flip();
+                ryu_char->flip();
                 bato_char->flip();
                 player1_health_bar->deplete(380);
                 player2_health_bar->deplete(50);

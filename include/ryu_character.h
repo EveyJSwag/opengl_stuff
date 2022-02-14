@@ -1,5 +1,5 @@
-#ifndef BATO_CHARACTER_H
-#define BATO_CHARACTER_H
+#ifndef RYU_CHARACTER_H
+#define RYU_CHARACTER_H
 
 #include <string>
 #include <memory>
@@ -13,10 +13,10 @@
 
 
 
-class bato_character : public character
+class ryu_character : public character
 {
 public:
-    bato_character(
+    ryu_character(
         keyboard* k, 
         std::string character_name,
         vertex_coordinate3 character_location,
@@ -32,6 +32,11 @@ public:
 private:
     action_types process_inputs() override;
     void perform_action(action_types& action) override;
+
+    static std::string punch_air;    
+    static std::string tatsu    ;    
+    static std::string hado     ;    
+    static std::string shoryuken;    
 };
 
-#endif /* BATO_CHARACTER_H */
+#endif /* RYU_CHARACTER_H */

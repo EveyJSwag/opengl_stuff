@@ -95,7 +95,6 @@ protected:
 
     action_types decide_action(unsigned short action);
     virtual action_types process_inputs() = 0;
-    //virtual void process_special_move() = 0;
     virtual void perform_action(action_types& action) = 0;
 
     inline bool is_special_move_qcf(unsigned short button)
