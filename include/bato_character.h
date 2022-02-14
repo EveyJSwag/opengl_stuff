@@ -9,10 +9,11 @@
 #include "sprite_animator.h"
 #include "sprite_info.h"
 #include "cpp_core_audio.h"
+#include "character.h"
 
 
 
-class bato_character
+class bato_character : public character
 {
 public:
     bato_character(
@@ -24,115 +25,15 @@ public:
         float character_speed,
         float base_width);
 
-    void handle_character();
-
-    vertex_coordinate3 get_location() const { return bato_character_location; }
-
-    typedef enum action_types
-    {
-        IDLE = 0,
-        CROUCH,
-        WALK_BACK,
-        WALK_FORWARD,
-        JUMP_BACK,
-        JUMP_UP,
-        JUMP_FORWARD,
-        LIGHT_PUNCH,
-        CROUCH_LIGHT_PUNCH,
-        HEAVY_PUNCH,
-        CROUCH_HEAVY_PUNCH,
-        LIGHT_KICK,
-        CROUCH_LIGHT_KICK,
-        HEAVY_KICK,
-        CROUCH_HEAVY_KICK,
-        QUARTER_CIRCLE_FORWARD,
-        QUARTER_CIRCLE_BACK,
-        DRAGON_PUNCH_FORWARD,
-        DRAGON_PUNCH_BACK
-    } action_types;
+    void handle_character() override;
 
     void flip();
 
 private:
-    keyboard* keyboard_ref;
-    std::string bato_character_name;
-    std::string current_character_state;
-    float bato_character_speed;
-    std::unique_ptr<sprite_animator> bato_character_sprite_anim;
-    vertex_coordinate3 bato_character_location;
-    std::vector<std::string> character_move_names;
-    animation_name_location_map character_animation_map;
-    action_types process_inputs();
-    void process_special_move();
-    void perform_action(action_types& action);
 
-    bool can_move;
-    bool can_switch_animation;
-    bool block_high;
-    bool block_low;
-    bool is_flipped;
-    bool is_airborne;
+    action_types process_inputs() override;
 
-    bool should_animation_move;
-
-    float move_factor;
-
-    action_types prev_action;
-    action_types curr_action;
-
-    std::string curr_anim_string;
-    std::string prev_anim_string;
-
-    float char_base_width;
-
-    action_types decide_action(unsigned short action);
-
-    /*
-     * maximum amount of frames player can not make any inputs before a
-     * special move isn't processed
-     */
-    const int MAX_NONE_AMOUNT = 20;
-
-    const int MAX_SAME_MOVE_AMOUNT = 9;
-
-    inline bool is_special_move_qcf(unsigned short button)
-    {
-        return keyboard_ref->is_special_move(keyboard::QUARTER_CIRCLE_FORWARD, button) &&
-            !bato_character_sprite_anim->get_flip_anim()
-            ||
-            keyboard_ref->is_special_move(keyboard::QUARTER_CIRCLE_BACKWARD, button)&&
-            bato_character_sprite_anim->get_flip_anim();
-    }
-
-    inline bool is_special_move_qcb(unsigned short button)
-    {
-        return keyboard_ref->is_special_move(keyboard::QUARTER_CIRCLE_BACKWARD, button) &&
-            !bato_character_sprite_anim->get_flip_anim()
-            ||
-            keyboard_ref->is_special_move(keyboard::QUARTER_CIRCLE_FORWARD, button)&&
-            bato_character_sprite_anim->get_flip_anim();
-    }
-
-    inline bool is_special_move_dpf(unsigned short button)
-    {
-        return keyboard_ref->is_special_move(keyboard::DRAGON_FORWARD, HP_BIT) &&
-                !bato_character_sprite_anim->get_flip_anim()
-                ||
-                keyboard_ref->is_special_move(keyboard::DRAGON_BACKWARD, HP_BIT)&&
-                bato_character_sprite_anim->get_flip_anim();
-    }
-
-    inline bool is_downward(
-        std::bitset<BUTTON_AMOUNT>& prev_input, 
-        std::bitset<BUTTON_AMOUNT>& curr_input)
-    {
-        return keyboard_ref->get_direction(prev_input) == DOWN_BIT || 
-               keyboard_ref->get_direction(prev_input) == (DOWN_BIT | LEFT_BIT) || 
-               keyboard_ref->get_direction(prev_input) == (DOWN_BIT | RIGHT_BIT) ||
-               keyboard_ref->get_direction(curr_input) == DOWN_BIT || 
-               keyboard_ref->get_direction(curr_input) == (DOWN_BIT | LEFT_BIT) || 
-               keyboard_ref->get_direction(curr_input) == (DOWN_BIT | RIGHT_BIT);
-    }
+    void perform_action(action_types& action) override;
 };
 
 #endif /* BATO_CHARACTER_H */
