@@ -176,14 +176,14 @@ animation_name_location_map populate_sprite_info()
 
     std::string ryu_jump_back = "RYU_JUMP_BACK";
     sprite_quad_locations jump_back_quads;
-    jump_back_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(7, { {298, 598},   {43, 75} , 0.0f}) );
-    jump_back_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(6, { {362, 565},   {41, 108}, 0.0f}) );
-    jump_back_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(5, { {413, 540},  {61, 134}, 16.0f}) );
-    jump_back_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(4, { {492, 509},  {45, 165}, 4.0f}) );
-    jump_back_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(3, { {545, 535},  {72, 139}, 22.0f}) );
-    jump_back_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(2, { {626, 526},  {55, 148}, 14.0f}) );
-    jump_back_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(1, { {700, 536},  {41, 138}, 0.0f}) );
-    jump_back_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(0, { {362, 565},   {41, 108}, 0.0f}) );
+    jump_back_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(7, { {298, 598}, {43, 75} , 0.0f}  ));
+    jump_back_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(6, { {362, 565}, {41, 108}, 0.0f}  ));
+    jump_back_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(5, { {413, 540}, {61, 134}, 16.0f} ));
+    jump_back_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(4, { {492, 509}, {45, 165}, 4.0f}  ));
+    jump_back_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(3, { {545, 535}, {72, 139}, 22.0f} ));
+    jump_back_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(2, { {626, 526}, {55, 148}, 14.0f} ));
+    jump_back_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(1, { {700, 536}, {41, 138}, 0.0f}  ));
+    jump_back_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(0, { {362, 565}, {41, 108}, 0.0f}  ));
     ryu_location_map[ryu_jump_back] = jump_back_quads;
 
     return ryu_location_map;

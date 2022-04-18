@@ -60,9 +60,6 @@ private:
     pixel_offsets font_char_offset;
     pixel_offsets font_char_dimension;
     pixel_offsets char_dist;
-
-
-
 };
 
 #endif

@@ -24,6 +24,7 @@
 #include "bato_character.h"
 #include "sound_manager.h"
 #include "ryu_character.h"
+#include "hurtbox.h"
 
 int main(int argc, char*argv[]) 
 {
@@ -94,21 +95,18 @@ int main(int argc, char*argv[])
             -0.008f,
             43.0f);
 
-        bato_character* bato_char = new bato_character(
-            keyboard_ref, 
-            "bato", 
-            ryu_coord, 
-            "bato_sheet.png", 
-            populate_bato_info(), 
-            -0.008, 
-            53);
-        
-
         std::string health_bar_sprite_sheet_name = "health_bar.png";
         vertex_coordinate3 health_bar_position_p1 = {-1.0f, 0.8f, 0.0f};
         vertex_coordinate3 health_bar_position_p2 = {0.999f, 0.8f, 0.0f};
-        health_bar* player1_health_bar = new health_bar(health_bar_sprite_sheet_name, health_bar_position_p1);
-        health_bar* player2_health_bar = new health_bar(health_bar_sprite_sheet_name, health_bar_position_p2);
+        
+        health_bar* player1_health_bar = new health_bar(
+            health_bar_sprite_sheet_name, 
+            health_bar_position_p1);
+
+        health_bar* player2_health_bar = new health_bar(
+            health_bar_sprite_sheet_name, 
+            health_bar_position_p2);
+
         game_stage* ryu_stage = new game_stage(
             "RYUS_STAGE", 
             background_coord, 
@@ -147,6 +145,8 @@ int main(int argc, char*argv[])
         const float FPS_FACTOR = 1.0f/60.0f;
         glfwSwapInterval(1);
         
+        hurtbox *my_hurtbox = new hurtbox();
+
         while(!glfwWindowShouldClose(window)) 
         {
             float start_frame_time = glfwGetTime();
@@ -155,7 +155,6 @@ int main(int argc, char*argv[])
             
             ryu_stage->display_stage();
             ryu_char->handle_character();
-            bato_char->handle_character();
 
             if (glfwGetKey(window, GLFW_KEY_RIGHT))
             {
@@ -178,7 +177,6 @@ int main(int argc, char*argv[])
             if (glfwGetKey(window, GLFW_KEY_F))
             {
                 ryu_char->flip();
-                bato_char->flip();
                 player1_health_bar->deplete(380);
                 player2_health_bar->deplete(50);
             }
@@ -190,19 +188,16 @@ int main(int argc, char*argv[])
             player1_health_bar->draw();
             player2_health_bar->draw(true);
             keyboard_ref->poll();
+            my_hurtbox->draw_hurtbox();
 
             shader_creator_ref->use_program();
             glfwSwapBuffers(window);
             glfwPollEvents();
             
-            //nsigned long micro_second = 1000000;
-            //unsigned long sleep_time = 15500 - (start_frame_time - glfwGetTime());
-            //usleep(sleep_time);
             frame_count++;
         }
         glfwTerminate(); 
         return 0;
-
     }
     catch (shader_creator::shader_creator_exception& exec)
     {

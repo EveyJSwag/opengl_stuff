@@ -13,6 +13,7 @@ public:
     void bind_vertex_array();
     void unbind_vertex_array();
     void delete_vertex_array();
+
     class vertex_manager_exception : public std::exception
     {
     public:

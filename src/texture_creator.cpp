@@ -81,6 +81,7 @@ void texture_creator::alter_texture(std::vector<unsigned int> pixel_colors)
         GL_BGRA, 
         GL_UNSIGNED_BYTE, 
         pixel_colors.data());
+
     glGenerateMipmap(GL_TEXTURE_2D);
     unbind_texture();
 }

@@ -96,7 +96,7 @@ sprite_animator::sprite_animator(
     sprite_buffer_manager->generate_index_buffer();
     sprite_buffer_manager->bind_index_buffer();
 
-    animation_info = a_animation_info;//populate_sprite_info();
+    animation_info = a_animation_info;
 
     sprite_vector_indices = {0, 1, 3, 1, 2, 3 };
     sprite_buffer_manager->set_index_buffer_data(sprite_vector_indices);
@@ -261,13 +261,12 @@ void sprite_animator::build_quad(
     }
     else if (flip_anim)
     {
-        //const float idk = 0.387;
         ///////////////
         // TOP RIGHT //
         ///////////////
         current_quad[0].color_vec = {1.0f, 1.0f, 1.0f};
         current_quad[0].vertex_coord = {
-            sprite_location.x + vertex_x_shift - (vertex_x_shift - vertex_x_offset) + base_width, //+ idk, 
+            sprite_location.x + vertex_x_shift - (vertex_x_shift - vertex_x_offset) + base_width,
             sprite_location.y + vertex_y_shift};
         current_quad[0].texture_coord = {
             floatify_x(po.x),
@@ -278,7 +277,7 @@ void sprite_animator::build_quad(
         //////////////////
         current_quad[1].color_vec = {1.0f, 1.0f, 1.0f};
         current_quad[1].vertex_coord = {
-            sprite_location.x + vertex_x_shift- (vertex_x_shift - vertex_x_offset) + base_width, //+ idk, 
+            sprite_location.x + vertex_x_shift- (vertex_x_shift - vertex_x_offset) + base_width,
             sprite_location.y};
         current_quad[1].texture_coord = {
             floatify_x(po.x),
@@ -289,7 +288,7 @@ void sprite_animator::build_quad(
         /////////////////
         current_quad[2].color_vec = {1.0f, 1.0f, 1.0f};
         current_quad[2].vertex_coord = {
-            sprite_location.x- (vertex_x_shift - vertex_x_offset) + base_width,// + idk,
+            sprite_location.x- (vertex_x_shift - vertex_x_offset) + base_width,
             sprite_location.y};
         current_quad[2].texture_coord = {
             floatify_x(po.x + cd.width),
@@ -300,7 +299,7 @@ void sprite_animator::build_quad(
         //////////////
         current_quad[3].color_vec = {1.0f, 1.0f, 1.0f};
         current_quad[3].vertex_coord = {
-            sprite_location.x- (vertex_x_shift - vertex_x_offset) + base_width, //+ idk, 
+            sprite_location.x- (vertex_x_shift - vertex_x_offset) + base_width,
             sprite_location.y + vertex_y_shift};
         current_quad[3].texture_coord = {
             floatify_x(po.x + cd.width),

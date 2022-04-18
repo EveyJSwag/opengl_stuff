@@ -2,15 +2,14 @@
 #include "texture_creator.h"
 
 game_stage::game_stage(
-        std::string name, 
-        vertex_coordinate3 b_location, 
-        vertex_coordinate3 f_location, 
-        std::string sprite_sheet_name, 
-        animation_name_location_map animation_info,
-        std::string a_floor_name,
-        std::string a_background_name)
+    std::string name, 
+    vertex_coordinate3 b_location, 
+    vertex_coordinate3 f_location, 
+    std::string sprite_sheet_name, 
+    animation_name_location_map animation_info,
+    std::string a_floor_name,
+    std::string a_background_name)
 {
-
     floor_name = a_floor_name;
     background_name = a_background_name;
 
@@ -18,8 +17,11 @@ game_stage::game_stage(
     floor_stage_location = f_location;
     stage_name = name;
     stage_animation_map = animation_info;
+
     texture_creator stage_texture = texture_creator();
+
     stage_texture.create_texture_from_png(sprite_sheet_name);
+
     stage_sprite_anim_background = std::make_unique<sprite_animator>(
         sprite_animator(
             sprite_sheet_name, 
