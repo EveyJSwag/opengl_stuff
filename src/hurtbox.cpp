@@ -5,7 +5,7 @@ hurtbox::hurtbox()
     hurtbox_vertex = std::make_unique<vertex_manager>(vertex_manager());
     hurtbox_buffer = std::make_unique<buffer_manager>(buffer_manager());
 
-    generate_and_bind_vertex_array();
+    //generate_and_bind_vertex_array();
     generate_and_bind_vertex_and_index_buffer();
     set_buffer_data();
 }
@@ -36,52 +36,45 @@ void hurtbox::draw_hurtbox()
         ///////////////
         // TOP RIGHT //
         ///////////////
-        current_quad[0].color_vec = {1.0f, 0.0f, 0.0f};
+        current_quad[0].color_vec = {1.0f, 1.0f, 1.0f};
         current_quad[0].vertex_coord = {
-            0.5f, 
+            0.3f, 
             0.5f, 
             0.0f};
-        current_quad[0].texture_coord = {
-            0.0f, 0.0f};
 
         //////////////////
         // BOTTOM RIGHT //
         //////////////////
-        current_quad[1].color_vec = {1.0f, 0.0f, 0.0f};
+        current_quad[1].color_vec = {1.0f, 1.0f, 1.0f};
         current_quad[1].vertex_coord = {
             0.5f, 
             0.0f, 
             0.0f};
-        current_quad[1].texture_coord= {
-            0.0f, 0.0f};
 
         /////////////////
         // BOTTOM LEFT //
         /////////////////
-        current_quad[2].color_vec = {1.0f, 0.0f, 0.0f};
+        current_quad[2].color_vec = {1.0f, 1.0f, 1.0f};
         current_quad[2].vertex_coord = {
             0.0f,
+            0.0f,
             0.0f};
-        current_quad[2].texture_coord= {
-            0.0f, 0.0f};
 
         //////////////
         // TOP LEFT //
         //////////////
-        current_quad[3].color_vec = {1.0f, 0.0f, 0.0f};
+        current_quad[3].color_vec = {1.0f, 1.0f, 1.0f};
         current_quad[3].vertex_coord = {
             0.0f, 
             0.5f, 
             0.0f};
-        current_quad[3].texture_coord = {
-            0.0f, 0.0f};
 
         for (int i = 0; i < 4; i++)
         {
             quads.push_back(current_quad[i]);
         }
-        hurtbox_buffer->set_initial_vertex_buffer_data(quads);
+        hurtbox_buffer->set_no_texture_vertex_buffer_data(quads);
         set_buffer_data();
-        hurtbox_buffer->render_buffer_content();
+        hurtbox_buffer->render_no_texture_buffer_content();
 }
 

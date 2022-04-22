@@ -28,6 +28,8 @@ typedef struct position_vector
 //  2 floats for texture coordinate
 const int STANDARD_ATTRIBUTE_AMOUNT = 3;
 
+const int NO_TEXTURE_ATTRIBUTE_AMOUNT = 2;
+
 typedef struct vertex_coordinate3
 {
     GLfloat x;
@@ -54,6 +56,13 @@ typedef struct standard_vertex_information
     color_vector3 color_vec;
     texture_coordinate2 texture_coord;
 } standard_vertex_info;
+
+
+typedef struct no_texture_vertex_info
+{
+    vertex_coordinate3 vertex_coord;
+    color_vector3 color_vec;
+} no_texture_vertex_info;
 
 typedef struct pixel_offsets
 {

@@ -13,8 +13,8 @@ public:
 
 private:
     vertex_coordinate3 hurtbox_location;
-    standard_vertex_info current_quad[4];
-    std::vector<standard_vertex_info> quads;
+    no_texture_vertex_info current_quad[4];
+    std::vector<no_texture_vertex_info> quads;
 
     std::unique_ptr<buffer_manager> hurtbox_buffer;
     std::unique_ptr<vertex_manager> hurtbox_vertex;

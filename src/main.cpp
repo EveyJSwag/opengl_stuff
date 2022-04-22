@@ -95,6 +95,15 @@ int main(int argc, char*argv[])
             -0.008f,
             43.0f);
 
+        ryu_character* ryu_char2 = new ryu_character(
+            keyboard_ref, 
+            "ryu", 
+            ryu_coord2, 
+            "ryu_sheet.png", 
+            populate_sprite_info(), 
+            -0.008f,
+            43.0f);
+
         std::string health_bar_sprite_sheet_name = "health_bar.png";
         vertex_coordinate3 health_bar_position_p1 = {-1.0f, 0.8f, 0.0f};
         vertex_coordinate3 health_bar_position_p2 = {0.999f, 0.8f, 0.0f};
@@ -154,8 +163,12 @@ int main(int argc, char*argv[])
             glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
             
             ryu_stage->display_stage();
+            //
             ryu_char->handle_character();
+            ryu_char2->handle_character();
+            
 
+            
             if (glfwGetKey(window, GLFW_KEY_RIGHT))
             {
                 main_camera->move_camera(glm::vec3(0.05f, 0.0f, 0.0f));
@@ -187,8 +200,8 @@ int main(int argc, char*argv[])
             fps_counter_ref->display_fps();
             player1_health_bar->draw();
             player2_health_bar->draw(true);
+            //my_hurtbox->draw_hurtbox();
             keyboard_ref->poll();
-            my_hurtbox->draw_hurtbox();
 
             shader_creator_ref->use_program();
             glfwSwapBuffers(window);

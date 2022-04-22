@@ -52,6 +52,16 @@ void buffer_manager::set_initial_vertex_buffer_data(std::vector<standard_vertex_
         GL_DYNAMIC_DRAW);
 }
 
+void buffer_manager::set_no_texture_vertex_buffer_data(std::vector<no_texture_vertex_info> no_tex_vertex_info)
+{
+    nt_vertex_info = no_tex_vertex_info;
+    glBufferData(
+        GL_ARRAY_BUFFER, 
+        sizeof(no_texture_vertex_info) * nt_vertex_info.size(),
+        nt_vertex_info.data(), 
+        GL_DYNAMIC_DRAW);
+}
+
 void buffer_manager::update_colors(std::vector <color_vector3> updated_colors)
 {
     for (int i = 0; i < vertex_info.size(); i++)
@@ -156,6 +166,30 @@ void buffer_manager::set_standard_buffer_attributes()
         (void*)(sizeof(vertex_coordinate3) * 2));
 }
 
+void buffer_manager::set_no_texture_buffer_attributes()
+{
+    for (int attrib_index = 0; attrib_index < NO_TEXTURE_ATTRIBUTE_AMOUNT; attrib_index ++)
+    {
+        glEnableVertexAttribArray(attrib_index);
+    }
+
+    glVertexAttribPointer(
+        0, 
+        3, 
+        GL_FLOAT, 
+        GL_FALSE, 
+        sizeof(no_texture_vertex_info), 
+        (void*)0);
+
+    glVertexAttribPointer(
+        1, 
+        3, 
+        GL_FLOAT, 
+        GL_FALSE, 
+        sizeof(no_texture_vertex_info), 
+        (void*)(sizeof(vertex_coordinate3)));
+}
+
 void buffer_manager::draw()
 {
     glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, (void*)0);
@@ -167,6 +201,21 @@ void buffer_manager::unset_standard_buffer_attributes()
     {
         glDisableVertexAttribArray(attrib_index);
     }
+}
+
+void buffer_manager::unset_no_texture_buffer_attributes()
+{
+    for (int attrib_index = 0; attrib_index < NO_TEXTURE_ATTRIBUTE_AMOUNT; attrib_index ++)
+    {
+        glDisableVertexAttribArray(attrib_index);
+    }
+}
+
+void buffer_manager::render_no_texture_buffer_content()
+{
+    set_no_texture_buffer_attributes();
+    draw();
+    unset_no_texture_buffer_attributes();
 }
 
 void buffer_manager::render_buffer_content()

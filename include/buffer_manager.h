@@ -17,6 +17,7 @@ public:
 
     void set_index_buffer_data(std::vector<unsigned int> indices_vector);
     void set_initial_vertex_buffer_data(std::vector<standard_vertex_info> initial_vertex_info);
+    void set_no_texture_vertex_buffer_data(std::vector<no_texture_vertex_info> no_tex_vertex_info);
     
     void update_colors(std::vector <color_vector3> updated_colors);
     void update_vertex_coords(std::vector <vertex_coordinate3> updated_vertex_coords);
@@ -27,6 +28,7 @@ public:
     std::vector <texture_coordinate2> get_current_texture_coords();
 
     void render_buffer_content();
+    void render_no_texture_buffer_content();
 
 private:
     GLuint vertex_buffer_id;
@@ -35,12 +37,17 @@ private:
     std::vector<unsigned int> indices;
 
     std::vector<standard_vertex_info> vertex_info;
+    std::vector<no_texture_vertex_info> nt_vertex_info;
 
     void set_standard_buffer_attributes();
+
+    void set_no_texture_buffer_attributes();
 
     void draw();
 
     void unset_standard_buffer_attributes();
+
+    void unset_no_texture_buffer_attributes();
 
 };
 
