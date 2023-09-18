@@ -36,9 +36,9 @@ void hurtbox::draw_hurtbox()
         ///////////////
         // TOP RIGHT //
         ///////////////
-        current_quad[0].color_vec = {1.0f, 1.0f, 1.0f};
+        current_quad[0].color_vec = {0.0f, 1.0f, 1.0f};
         current_quad[0].vertex_coord = {
-            0.3f, 
+            -0.3f, 
             0.5f, 
             0.0f};
 
@@ -47,7 +47,7 @@ void hurtbox::draw_hurtbox()
         //////////////////
         current_quad[1].color_vec = {1.0f, 1.0f, 1.0f};
         current_quad[1].vertex_coord = {
-            0.5f, 
+            -0.3f, 
             0.0f, 
             0.0f};
 
@@ -56,7 +56,7 @@ void hurtbox::draw_hurtbox()
         /////////////////
         current_quad[2].color_vec = {1.0f, 1.0f, 1.0f};
         current_quad[2].vertex_coord = {
-            0.0f,
+            -0.5f,
             0.0f,
             0.0f};
 
@@ -65,7 +65,7 @@ void hurtbox::draw_hurtbox()
         //////////////
         current_quad[3].color_vec = {1.0f, 1.0f, 1.0f};
         current_quad[3].vertex_coord = {
-            0.0f, 
+            -0.5f, 
             0.5f, 
             0.0f};
 

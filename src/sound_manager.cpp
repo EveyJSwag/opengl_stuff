@@ -1,10 +1,6 @@
 #include "sound_manager.h"
 #include <sstream>
 sound_manager* sound_manager::singleton = NULL;
-
-
-
-
 sound_manager* sound_manager::get_instance()
 {
     if (singleton)

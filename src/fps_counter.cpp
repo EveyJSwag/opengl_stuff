@@ -55,6 +55,7 @@ void fps_counter::display_fps()
     amount_of_frames_in_second++;
     if (glfwGetTime() - current_time >= 1.0f)
     {
+        
         current_time = glfwGetTime();
         fps_string_stream.str(std::string());
         fps_string_stream << amount_of_frames_in_second << " fps"; 

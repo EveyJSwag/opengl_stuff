@@ -107,6 +107,11 @@ void shader_creator::create_program()
     glLinkProgram(program_id);
 
     get_program_linking_info(program_id);
+
+    glDetachShader(program_id, vertex_shader_id);
+    glDetachShader(program_id, fragment_shader_id);
+    glDeleteShader(vertex_shader_id);
+    glDeleteShader(fragment_shader_id);
 }
 
 void shader_creator::get_program_linking_info(

@@ -37,6 +37,7 @@ font_renderer::font_renderer(
 
     std::vector <unsigned int> vec_indicies({0, 1, 3, 1, 2, 3 });
     vertex_indices = vec_indicies;
+    
 }
 
 float font_renderer::floatify_x(unsigned int pixel_x)
@@ -51,6 +52,7 @@ float font_renderer::floatify_y(unsigned int pixel_y)
 
 void font_renderer::write_string(const std::string font_string)
 {
+    //font_texture->unbind_texture();
     font_texture->bind_texture();
     for (; string_index < font_string.size(); string_index++)
         add_character(font_string.c_str()[string_index]);
@@ -58,7 +60,7 @@ void font_renderer::write_string(const std::string font_string)
     font_buffer->set_index_buffer_data(vertex_indices);
     font_buffer->set_initial_vertex_buffer_data(vertex_info);
     font_buffer->render_buffer_content();
-    font_texture->unbind_texture();
+    
 }
 
 void font_renderer::clear()
@@ -69,6 +71,7 @@ void font_renderer::clear()
 
 void font_renderer::write_string(const std::string font_string, double delay_between_chars)
 {
+    font_texture->bind_texture();
     if ( (string_index == 0 || (glfwGetTime() - last_char_time) >= delay_between_chars) &&
          (string_index < font_string.size()) || font_string.c_str()[string_index] == ' ')
     {
@@ -76,9 +79,11 @@ void font_renderer::write_string(const std::string font_string, double delay_bet
         string_index++;
         last_char_time = glfwGetTime();
     }
+    
     font_buffer->set_index_buffer_data(vertex_indices);
     font_buffer->set_initial_vertex_buffer_data(vertex_info);
     font_buffer->render_buffer_content();
+    //font_texture->unbind_texture();
 }
 
 void font_renderer::add_character(const char char_to_add)

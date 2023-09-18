@@ -59,7 +59,7 @@ void buffer_manager::set_no_texture_vertex_buffer_data(std::vector<no_texture_ve
         GL_ARRAY_BUFFER, 
         sizeof(no_texture_vertex_info) * nt_vertex_info.size(),
         nt_vertex_info.data(), 
-        GL_DYNAMIC_DRAW);
+        GL_STATIC_DRAW);
 }
 
 void buffer_manager::update_colors(std::vector <color_vector3> updated_colors)
