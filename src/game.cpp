@@ -54,6 +54,7 @@ int game::run_game()
     std::string tatsu = "tatsumaki.wav";
     std::string hado = "hadoken.wav";
     std::string shoryuken = "shoryuken.wav";
+    std::string menu_select = "SND_SELE_2.wav";
     float music_volume = 0.2f;
     float effect_volume = 1.0f;
     bool music_loopable = true;
@@ -66,6 +67,7 @@ int game::run_game()
     game_sound->add_to_registry(tatsu, effect_volume, effect_loopable, effect_type);
     game_sound->add_to_registry(shoryuken, effect_volume, effect_loopable, effect_type);
     game_sound->add_to_registry(hado, effect_volume, effect_loopable, effect_type);
+    game_sound->add_to_registry(menu_select, effect_volume, effect_loopable, effect_type);
 
     ryu_char = new ryu_character(
         keyboard_ref,
@@ -127,9 +129,7 @@ int game::run_game()
     main_camera->zoom_out(0.2f);
     std::string wav_file = "sound/music/ryu_theme.wav";
     float volume = 0.6f;
-    
-    game_sound->play_sound(cringe_song);
-    //game_sound->play_sound(fight_with_rocks_song);
+    game_sound->play_sound(fight_with_rocks_song);
     const float FPS_FACTOR = 1.0f / 60.0f;
     glfwSwapInterval(1);
 
@@ -145,7 +145,8 @@ int game::run_game()
 
 void game::game_loop()
 {
-    
+    const char** sound_names = game_sound->get_sound_names();
+    int sound_selection_index = 0;
     while (!glfwWindowShouldClose(window))
     {
         std::chrono::steady_clock::time_point loop_frame_start =  std::chrono::high_resolution_clock::now();
@@ -153,6 +154,12 @@ void game::game_loop()
         ImGui_ImplGlfw_NewFrame();
         ImGui::NewFrame();
         ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
+        
+        ImGui::ListBox(
+            "SoundsToPlay", 
+            &sound_selection_index, 
+            sound_names, 
+            game_sound->get_number_of_entries());
         float start_frame_time = glfwGetTime();
         glClear(GL_COLOR_BUFFER_BIT);
         glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
@@ -205,14 +212,7 @@ void game::game_loop()
 
         frame_count++;
 
-        lock_at_60_fps(loop_frame_start);
-        //std::chrono::steady_clock::time_point loop_frame_end =  std::chrono::high_resolution_clock::now();
-        //long long duration_of_frame = (loop_frame_end - loop_frame_start).count();
-        //while (game::FPS_DURATION_NANO_SECONDS - duration_of_frame >=0){
-        //    duration_of_frame = (std::chrono::high_resolution_clock::now() - loop_frame_start).count();
-        //}
-
-        
+        lock_at_60_fps(loop_frame_start);        
     }
 }
 

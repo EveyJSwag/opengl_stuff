@@ -43,6 +43,37 @@ void sound_manager::add_to_registry(
     sound_registry[wav_name] = entry;
 }
 
+const char** sound_manager::get_sound_names()
+{
+    std::vector<std::string> sound_names;
+    for (
+        std::map<std::string, create_args>::iterator registry_it = sound_registry.begin();
+        registry_it != sound_registry.end();
+        registry_it++)
+    {
+        sound_names.push_back(registry_it->first);
+    }
+
+    const char** sound_names_char = (const char**)malloc(sound_names.size());
+    int index = 0;
+    for (
+        std::vector<std::string>::iterator sound_string_it = sound_names.begin();
+        sound_string_it != sound_names.end();
+        sound_string_it++)
+    {
+        sound_names_char[index] = (const char*)malloc(sound_string_it->size());
+        strcpy((char*)*(sound_names_char+index),  sound_string_it->c_str());
+        index++;
+    }
+
+    return sound_names_char;
+}
+
+int sound_manager::get_number_of_entries()
+{
+    return sound_registry.size();
+}
+
 void sound_manager::play_sound(std::string& wav_name)
 {
     pthread_t thread_id;
@@ -57,5 +88,6 @@ void* sound_manager::play_sound_thread(void* arg_ptr)
     cpp_core_audio audio_ref = cpp_core_audio(create_args_ref->full_path, create_args_ref->volume, create_args_ref->loopable);
     audio_ref.play();
     while (audio_ref.is_playing()){}
+    delete create_args_ref;
     return (void*)0;
 }

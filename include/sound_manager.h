@@ -2,6 +2,7 @@
 #define SOUND_MANAGER_H
 
 #include "cpp_core_audio.h"
+#include <vector>
 #include <map>
 #include <string>
 #include <pthread.h>
@@ -57,6 +58,10 @@ public:
     void play_sound(std::string& wav_name);
 
     create_args get_from_sound_registry(std::string& sound_name);
+
+    const char** get_sound_names();
+
+    int get_number_of_entries();
 
 private:
 
