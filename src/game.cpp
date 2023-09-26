@@ -56,7 +56,7 @@ int game::run_game()
     std::string shoryuken = "shoryuken.wav";
     std::string menu_select = "SND_SELE_2.wav";
     float music_volume = 0.2f;
-    float effect_volume = 1.0f;
+    float effect_volume = 0.1f;
     bool music_loopable = true;
     bool effect_loopable = false;
     std::string punch_air = "punch_air.wav";
@@ -147,6 +147,8 @@ void game::game_loop()
 {
     const char** sound_names = game_sound->get_sound_names();
     int sound_selection_index = 0;
+    int prev_sound_selection_index = sound_selection_index;
+    std::string menu_string = "SND_SELE_2.wav";
     while (!glfwWindowShouldClose(window))
     {
         std::chrono::steady_clock::time_point loop_frame_start =  std::chrono::high_resolution_clock::now();
@@ -154,12 +156,17 @@ void game::game_loop()
         ImGui_ImplGlfw_NewFrame();
         ImGui::NewFrame();
         ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
-        
+        prev_sound_selection_index = sound_selection_index;
         ImGui::ListBox(
             "SoundsToPlay", 
             &sound_selection_index, 
             sound_names, 
             game_sound->get_number_of_entries());
+
+        if(prev_sound_selection_index != sound_selection_index)
+        {
+            game_sound->play_sound(menu_string);
+        }
         float start_frame_time = glfwGetTime();
         glClear(GL_COLOR_BUFFER_BIT);
         glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
@@ -220,7 +227,9 @@ void game::lock_at_60_fps(const std::chrono::steady_clock::time_point& loop_fram
 {
     std::chrono::steady_clock::time_point loop_frame_end =  std::chrono::high_resolution_clock::now();
     long long duration_of_frame = (loop_frame_end - loop_frame_start).count();
-    while (game::FPS_DURATION_NANO_SECONDS - duration_of_frame >=0){
+    long long time_delta = game::FPS_DURATION_NANO_SECONDS - duration_of_frame;
+    while (time_delta > 0.09){
         duration_of_frame = (std::chrono::high_resolution_clock::now() - loop_frame_start).count();
+        time_delta = game::FPS_DURATION_NANO_SECONDS - duration_of_frame;
     }
 }

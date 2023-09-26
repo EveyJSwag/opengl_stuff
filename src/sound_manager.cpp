@@ -88,6 +88,5 @@ void* sound_manager::play_sound_thread(void* arg_ptr)
     cpp_core_audio audio_ref = cpp_core_audio(create_args_ref->full_path, create_args_ref->volume, create_args_ref->loopable);
     audio_ref.play();
     while (audio_ref.is_playing()){}
-    delete create_args_ref;
     return (void*)0;
 }
