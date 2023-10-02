@@ -1,5 +1,5 @@
 #include "game.h"
-
+#include "debug_timer_singleton.h"
 int game::run_game()
 {
     glfwInit();
@@ -149,9 +149,10 @@ void game::game_loop()
     int sound_selection_index = 0;
     int prev_sound_selection_index = sound_selection_index;
     std::string menu_string = "SND_SELE_2.wav";
+    debug_timer_singleton* dts_instance = debug_timer_singleton::get_instance();
     while (!glfwWindowShouldClose(window))
     {
-        std::chrono::steady_clock::time_point loop_frame_start =  std::chrono::high_resolution_clock::now();
+        std::chrono::high_resolution_clock::time_point loop_frame_start =  std::chrono::high_resolution_clock::now();
         ImGui_ImplOpenGL3_NewFrame();
         ImGui_ImplGlfw_NewFrame();
         ImGui::NewFrame();
@@ -173,7 +174,6 @@ void game::game_loop()
 
         ryu_stage->display_stage();
         ryu_char->handle_character();
-
         if (glfwGetKey(window, GLFW_KEY_RIGHT))
         {
             main_camera->move_camera(glm::vec3(0.05f, 0.0f, 0.0f));
@@ -223,9 +223,9 @@ void game::game_loop()
     }
 }
 
-void game::lock_at_60_fps(const std::chrono::steady_clock::time_point& loop_frame_start)
+void game::lock_at_60_fps(const std::chrono::high_resolution_clock::time_point& loop_frame_start)
 {
-    std::chrono::steady_clock::time_point loop_frame_end =  std::chrono::high_resolution_clock::now();
+    std::chrono::high_resolution_clock::time_point loop_frame_end =  std::chrono::high_resolution_clock::now();
     long long duration_of_frame = (loop_frame_end - loop_frame_start).count();
     long long time_delta = game::FPS_DURATION_NANO_SECONDS - duration_of_frame;
     while (time_delta > 0.09){

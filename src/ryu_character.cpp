@@ -1,5 +1,6 @@
 #include "ryu_character.h"
 #include "sound_manager.h"
+#include "debug_timer_singleton.h"
 
 std::string ryu_character::punch_air = "punch_air.wav";
 std::string ryu_character::tatsu = "tatsumaki.wav";
@@ -39,7 +40,7 @@ ryu_character::ryu_character(
     can_switch_animation = true;
     is_airborne = false;
     should_animation_move = false;
-
+    sound_manager_ins = sound_manager::get_instance();
     move_factor = 0.0f;
 }
 
@@ -91,12 +92,12 @@ ryu_character::action_types ryu_character::process_inputs()
             case (HP_BIT):
                 if (is_special_move_qcf(HP_BIT))
                 {
-                    sound_manager::get_instance()->play_sound(hado);
+                    sound_manager_ins->play_sound(hado);
                     return QUARTER_CIRCLE_FORWARD;
                 }
                 if (is_special_move_dpf(HP_BIT))
                 {
-                    sound_manager::get_instance()->play_sound(shoryuken);
+                    sound_manager_ins->play_sound(shoryuken);
                     should_animation_move = true;
                     float speed_factor = 1.0f;
                     if (character_sprite_anim->get_flip_anim()) {speed_factor*=-1.0f;}
@@ -107,13 +108,13 @@ ryu_character::action_types ryu_character::process_inputs()
                 {
                     if (keyboard_ref->was_pressed(HP_BIT))
                     {
-                        sound_manager::get_instance()->play_sound(punch_air);
+                        sound_manager_ins->play_sound(punch_air);
                         return CROUCH_HEAVY_PUNCH;
                     }
                 }
                 if (keyboard_ref->was_pressed(HP_BIT))
                 {
-                    sound_manager::get_instance()->play_sound(punch_air);
+                    sound_manager_ins->play_sound(punch_air);
                     return HEAVY_PUNCH;
                 }
                 break;
@@ -124,27 +125,27 @@ ryu_character::action_types ryu_character::process_inputs()
                     float speed_factor = 1.0f;
                     if (character_sprite_anim->get_flip_anim()) {speed_factor*=-1.0f;}
                     move_factor = 0.015f * speed_factor;
-                    sound_manager::get_instance()->play_sound(tatsu);
+                    sound_manager_ins->play_sound(tatsu);
                     return QUARTER_CIRCLE_BACK;
                 }
                 if (is_downward(prev_input, curr_input) )
                 {
                     if (keyboard_ref->was_pressed(HK_BIT))
                     {
-                        sound_manager::get_instance()->play_sound(punch_air);
+                        sound_manager_ins->play_sound(punch_air);
                         return CROUCH_HEAVY_KICK;
                     }
                 }
                 if (keyboard_ref->was_pressed(HK_BIT))
                 {
-                    sound_manager::get_instance()->play_sound(punch_air);
+                    sound_manager_ins->play_sound(punch_air);
                     return HEAVY_KICK;
                 }
                 break;
             case (LP_BIT):
                 if (is_special_move_qcf(LP_BIT))
                 {
-                    sound_manager::get_instance()->play_sound(hado);
+                    sound_manager_ins->play_sound(hado);
                     return QUARTER_CIRCLE_FORWARD;
                 }
                 if (is_special_move_dpf(LP_BIT))
@@ -153,20 +154,20 @@ ryu_character::action_types ryu_character::process_inputs()
                     float speed_factor = 1.0f;
                     if (character_sprite_anim->get_flip_anim()) {speed_factor*=-1.0f;}
                     move_factor = 0.01f * speed_factor;
-                    sound_manager::get_instance()->play_sound(shoryuken);
+                    sound_manager_ins->play_sound(shoryuken);
                     return DRAGON_PUNCH_FORWARD;
                 }
                 if (is_downward(prev_input, curr_input) )
                 {
                     if (keyboard_ref->was_pressed(LP_BIT))
                     {
-                        sound_manager::get_instance()->play_sound(punch_air);
+                        //sound_manager_ins->play_sound(punch_air);
                         return CROUCH_LIGHT_PUNCH;
                     }
                 }
                 if (keyboard_ref->was_pressed(LP_BIT))
                 {
-                    sound_manager::get_instance()->play_sound(punch_air);
+                    sound_manager_ins->play_sound(punch_air);
                     return LIGHT_PUNCH;
                 }
                 break;
@@ -177,20 +178,20 @@ ryu_character::action_types ryu_character::process_inputs()
                     float speed_factor = 1.0f;
                     if (character_sprite_anim->get_flip_anim()) {speed_factor*=-1.0f;}
                     move_factor = 0.01f * speed_factor;
-                    sound_manager::get_instance()->play_sound(tatsu);
+                    sound_manager_ins->play_sound(tatsu);
                     return QUARTER_CIRCLE_BACK;
                 }
                 if (is_downward(prev_input, curr_input) )
                 {
                     if (keyboard_ref->was_pressed(LK_BIT))
                     {
-                        sound_manager::get_instance()->play_sound(punch_air);
+                        sound_manager_ins->play_sound(punch_air);
                         return CROUCH_LIGHT_KICK;
                     }
                 }
                 if (keyboard_ref->was_pressed(LK_BIT))
                 {
-                    sound_manager::get_instance()->play_sound(punch_air);
+                    sound_manager_ins->play_sound(punch_air);
                     return LIGHT_KICK;
                 }
                 break;

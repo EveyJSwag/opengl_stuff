@@ -57,7 +57,7 @@ private:
 
     void game_loop();
 
-    void lock_at_60_fps(const std::chrono::steady_clock::time_point& loop_frame_start);
+    void lock_at_60_fps(const std::chrono::high_resolution_clock::time_point& loop_frame_start);
 
 };
 

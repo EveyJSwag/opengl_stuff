@@ -10,6 +10,7 @@
 #include "sprite_info.h"
 #include "cpp_core_audio.h"
 #include "character.h"
+#include "sound_manager.h"
 
 
 
@@ -31,6 +32,7 @@ private:
     action_types process_inputs() override;
     void perform_action(action_types& action) override;
 
+    sound_manager* sound_manager_ins;
     static std::string punch_air;    
     static std::string tatsu;    
     static std::string hado;    
