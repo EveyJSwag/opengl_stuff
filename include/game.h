@@ -19,6 +19,7 @@
 #include "keyboard.h"
 #include "sprite_info.h"
 #include "bato_info.h"
+#include "mauru_info.h"
 #include "ryu_stage_info.h"
 #include "camera.h"
 #include "game_stage.h"
@@ -27,6 +28,7 @@
 #include "bato_character.h"
 #include "sound_manager.h"
 #include "ryu_character.h"
+#include "mauru_character.h"
 #include "hurtbox.h"
 #include "imgui.h"
 #include "imgui_impl_glfw.h"
@@ -43,6 +45,7 @@ private:
     camera*         main_camera;
     sound_manager*  game_sound;
     ryu_character*  ryu_char;
+    mauru_character* mauru_char;
     health_bar*     player1_health_bar;
     health_bar*     player2_health_bar;
     game_stage*     ryu_stage;

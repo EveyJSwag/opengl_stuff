@@ -78,6 +78,15 @@ int game::run_game()
         -0.008f,
         43.0f);
 
+    mauru_char = new mauru_character(
+        keyboard_ref,
+        "mauru",
+        ryu_coord,
+        "mauru.png",
+        populate_mauru_info(),
+        -0.008f,
+        43.0f);
+
     std::string health_bar_sprite_sheet_name = "health_bar.png";
     vertex_coordinate3 health_bar_position_p1 = {-1.0f, 0.8f, 0.0f};
     vertex_coordinate3 health_bar_position_p2 = {0.999f, 0.8f, 0.0f};
@@ -174,6 +183,7 @@ void game::game_loop()
 
         ryu_stage->display_stage();
         ryu_char->handle_character();
+        mauru_char->handle_character();
         if (glfwGetKey(window, GLFW_KEY_RIGHT))
         {
             main_camera->move_camera(glm::vec3(0.05f, 0.0f, 0.0f));

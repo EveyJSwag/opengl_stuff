@@ -25,7 +25,8 @@ public:
         std::string sprite_sheet_name,
         animation_name_location_map a_animation_info,
         float character_speed,
-        float base_width);
+        float base_width,
+        bool use_stbi=false);
 
     virtual void handle_character() = 0;
 

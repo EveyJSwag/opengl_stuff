@@ -42,14 +42,19 @@ sprite_animator::sprite_animator(
     std::string sprite_sheet_name, 
     vertex_coordinate3 a_sprite_location,
     animation_name_location_map a_animation_info,
-    float& a_base_width)
+    float& a_base_width,
+    bool use_stbi)
 {
 
     prev_anim_name = std::string();
     curr_anim_name = std::string();
 
     sprite_texture_creator = std::make_unique<texture_creator>(texture_creator());
-    sprite_texture_creator->create_texture_from_png(sprite_sheet_name);
+    if (!use_stbi)
+        sprite_texture_creator->create_texture_from_png(sprite_sheet_name);
+    else
+        sprite_texture_creator->create_texture_with_stbi(sprite_sheet_name);
+        
     sprite_sheet_info = sprite_texture_creator->get_current_png_info();
 
     sprite_vertex_manager = std::make_unique<vertex_manager>(vertex_manager());

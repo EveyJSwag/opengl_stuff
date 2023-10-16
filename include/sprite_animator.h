@@ -22,7 +22,8 @@ public:
         std::string sprite_sheet_name, 
         vertex_coordinate3 a_sprite_location,
         animation_name_location_map a_animation_info,
-        float& a_base_width);
+        float& a_base_width,
+        bool use_stbi=false);
 
     sprite_animator(
         std::string sprite_sheet_name, 

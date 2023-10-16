@@ -14,6 +14,8 @@ public:
 
     void create_texture_from_png(const std::string png_file_name);
 
+    void create_texture_with_stbi(const std::string png_file_name);
+
     png_loader::png_info_t get_png_info(const std::string texture_info_key);
     std::vector<unsigned int> get_pixel_colors(){return pixel_colors;}
     GLuint get_texture_id() {return texture_id;}
