@@ -54,7 +54,7 @@ const char** sound_manager::get_sound_names()
         sound_names.push_back(registry_it->first);
     }
 
-    const char** sound_names_char = (const char**)malloc(sound_names.size());
+    const char** sound_names_char = (const char**)malloc(sound_names.size() * sizeof(char*));
     int index = 0;
     for (
         std::vector<std::string>::iterator sound_string_it = sound_names.begin();

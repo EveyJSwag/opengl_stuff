@@ -1,5 +1,5 @@
-#include "mauru_character.h"
-mauru_character::mauru_character(
+#include "chibi_ken_character.h"
+chibi_ken_character::chibi_ken_character(
     keyboard* k, 
     std::string character_name,
     vertex_coordinate3 character_location,
@@ -18,14 +18,13 @@ mauru_character::mauru_character(
 {
     this->character_name = character_name;
 }
-void mauru_character::handle_character()
+void chibi_ken_character::handle_character()
 {
-    character_sprite_anim->do_animation("MAURU_IDLE", 6);
+    character_sprite_anim->do_animation("CHIBI_KEN_IDLE", 6, 1.75f);
 }
 
-character::action_types mauru_character::process_inputs()
+character::action_types chibi_ken_character::process_inputs()
 {}
 
-void mauru_character::perform_action(character::action_types& action) 
+void chibi_ken_character::perform_action(character::action_types& action) 
 {}
-//

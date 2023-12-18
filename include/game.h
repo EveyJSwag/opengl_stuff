@@ -33,6 +33,8 @@
 #include "imgui.h"
 #include "imgui_impl_glfw.h"
 #include "imgui_impl_opengl3.h"
+#include "chibi_ken_character.h"
+#include "chibi_ken_info.h"
 
 class game
 {
@@ -46,6 +48,7 @@ private:
     sound_manager*  game_sound;
     ryu_character*  ryu_char;
     mauru_character* mauru_char;
+    chibi_ken_character* chibi_ken_char;
     health_bar*     player1_health_bar;
     health_bar*     player2_health_bar;
     game_stage*     ryu_stage;
@@ -56,11 +59,25 @@ private:
     shader_creator* shader_creator_ref;
     shader_creator* shader_creator_ui;
 
+    vertex_coordinate3 player_1_coord;
+    vertex_coordinate3 background_coord;
+    vertex_coordinate3 floor_coord;
+    vertex_coordinate3 health_bar_position_p1;
+    vertex_coordinate3 health_bar_position_p2;
+    vertex_coordinate3 fps_counter_postion;
+    glm::vec3 camera_position;
+
     int frame_count;
 
     void game_loop();
-
     void lock_at_60_fps(const std::chrono::high_resolution_clock::time_point& loop_frame_start);
+    void initialize_ImGui();
+    int  initialize_OpenGL();
+    void initialize_sound();
+    void initialize_shaders();
+    void initialize_characters();
+    void initialize_ui();
+    void initialize_stage();
 
 };
 

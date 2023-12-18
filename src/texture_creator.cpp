@@ -5,6 +5,7 @@
 #define NOT_TRANSPARENT             0xFF000000
 #define MAKE_NOT_TRANSPARENT(pixel) (pixel | NOT_TRANSPARENT)
 #define BUILD_STBI_COLOR(r, g, b,a, bit_depth)                 b | (g << bit_depth) | (r << (bit_depth * 2)) | (a << (bit_depth*3))
+#define BUILD_STBI_COLOR_3(r, g, b,bit_depth)                  b | (g << bit_depth) | (r << (bit_depth * 2))
 
 texture_creator::texture_creator()
 {
@@ -76,40 +77,52 @@ void texture_creator::create_texture_with_stbi(const std::string png_file_name)
         &height_of_texture,
         &channels_in_file,
         0);
-    //png_loader_ref = new png_loader(full_png_path.str().c_str());
 
-    std::vector<unsigned int> color_vector;//= png_loader_ref->get_png_colors();
+    std::vector<unsigned int> color_vector;
     unsigned int total_index = 0;
-    for (unsigned int j = 0; j < height_of_texture; j++)
+    if (channels_in_file == 4)
     {
-        unsigned int row_height = (width_of_texture*j);
-        //unsigned int max_row_length = (height_of_texture * j) + width_of_texture;
-        unsigned int max_row_length = (width_of_texture*j) + width_of_texture;
-        for (unsigned int i = row_height; i < (max_row_length); i++ )
+        for (unsigned int j = 0; j < height_of_texture; j++)
         {
-            color_vector.push_back(
-                BUILD_STBI_COLOR(stbi_data[total_index],stbi_data[total_index+1],stbi_data[total_index+2],stbi_data[total_index+3], 8)
-            );
-            total_index+=4;
+            unsigned int row_height = (width_of_texture*j);
+            unsigned int max_row_length = (width_of_texture*j) + width_of_texture;
+            for (unsigned int i = row_height; i < (max_row_length); i++ )
+            {
+                color_vector.push_back(
+                    BUILD_STBI_COLOR(stbi_data[total_index],stbi_data[total_index+1],stbi_data[total_index+2],stbi_data[total_index+3], 8)
+                );
+                total_index+=4;
+            }
         }
     }
-    
+    else if(channels_in_file == 3)
+    {
+        unsigned int transparent_background_color = BUILD_STBI_COLOR(stbi_data[0],stbi_data[1],stbi_data[2], 0xFF, 8);
+        
+        for (unsigned int j = 0; j < height_of_texture; j++)
+        {
+            unsigned int row_height = (width_of_texture*j);
+            unsigned int max_row_length = (width_of_texture*j) + width_of_texture;
+            for (unsigned int i = row_height; i < (max_row_length); i++ )
+            {
+                unsigned int current_pixel = BUILD_STBI_COLOR(stbi_data[total_index],stbi_data[total_index+1],stbi_data[total_index+2],0xFF, 8);
+                if (current_pixel == transparent_background_color)
+                {
+                    color_vector.push_back(0);
+                }
+                else{
+                    color_vector.push_back(
+                        current_pixel);
+                }
+                total_index+=3;
+            }
+        }
+    }
 
-    unsigned int background_color = color_vector[0];
-    std::vector<unsigned int> color_vector_transparent = 
-        make_texture_background_transparent(background_color, color_vector);
-
-    //png_loader::png_info_t sprite_sheet_info;
     current_png_info.bit_depth = 8;
     current_png_info.image_height = height_of_texture;
     current_png_info.image_width = width_of_texture;
-    //current_png_info = png_loader_ref->get_png_info();
-    //std::pair<std::string, png_loader::png_info_t> texture_info_map_entry = 
-    //    std::make_pair(png_file_name, sprite_sheet_info);
 
-    //texture_info_map.insert(texture_info_map_entry);
-
-    
     glBindTexture(GL_TEXTURE_2D, texture_id);   
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -117,13 +130,8 @@ void texture_creator::create_texture_with_stbi(const std::string png_file_name)
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 
-    pixel_colors = color_vector;//color_vector_transparent;
+    pixel_colors = color_vector;
     unsigned int first_non_tranparent_index = 0;
-    for (first_non_tranparent_index =0; first_non_tranparent_index < pixel_colors.size(); first_non_tranparent_index++)
-    {
-        if (pixel_colors[first_non_tranparent_index] != 0xffffffff)
-            break;
-    }
     glTexImage2D(
         GL_TEXTURE_2D,
         0, 
