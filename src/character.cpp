@@ -16,7 +16,7 @@ character::character(
     bool use_stbi)
 {
     keyboard_ref = k;
-    character_location = character_location;
+    this->character_location = character_location;
     character_animation_map = a_animation_info;
     character_speed = character_speed;
     char_base_width = base_width;

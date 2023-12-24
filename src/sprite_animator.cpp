@@ -211,8 +211,7 @@ void sprite_animator::build_quad(
     const float SCALE_FACTOR = (0.009f * scale);
     float vertex_x_shift = (SCALE_FACTOR * ((float)cd.width));
     float vertex_x_offset = (SCALE_FACTOR * x_offset);
-
-    float vertex_y_shift = (SCALE_FACTOR * ((float)cd.height));
+    float vertex_y_shift = (SCALE_FACTOR*1.2f * ((float)cd.height));
 
     if (!flip_anim)
     {

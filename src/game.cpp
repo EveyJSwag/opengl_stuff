@@ -19,15 +19,7 @@ void game::initialize_shaders()
 
 void game::initialize_characters()
 {
-    player_1_coord = {0.1f, 0.1f, 0.0f};
-    //mauru_char = new mauru_character(
-    //    keyboard_ref,
-    //    "mauru",
-    //    player_1_coord,
-    //    "mauru.png",
-    //    populate_mauru_info(),
-    //    -0.008f,
-    //    5.0f);
+    player_1_coord = {1.9f, 0.1f, 0.0f};
 
     chibi_ken_char = new chibi_ken_character(
         keyboard_ref,
@@ -55,7 +47,6 @@ void game::initialize_ui()
 
     fps_counter_ref = fps_counter::get_instance();
     fps_counter_postion = {-1.0f, -0.2f, 0.0f};
-    text_displayer *test_text = new text_displayer(fps_counter_postion);
 }
 
 void game::initialize_stage()
@@ -189,6 +180,10 @@ void game::game_loop()
             &sound_selection_index, 
             sound_names, 
             game_sound->get_number_of_entries());
+        ImGui::Text(
+            "Camera Position: x %f | y %f",main_camera->get_position().x,main_camera->get_position().y);
+        ImGui::Text(
+            "Character Position: x %f | y %f",(float)chibi_ken_char->get_location().x,chibi_ken_char->get_location().y);
         if(prev_sound_selection_index != sound_selection_index)
         {
             game_sound->play_sound(menu_string);
@@ -197,7 +192,6 @@ void game::game_loop()
         glClear(GL_COLOR_BUFFER_BIT);
         glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
         ryu_stage->display_stage();
-        //mauru_char->handle_character();
         chibi_ken_char->handle_character();
         
         if (glfwGetKey(window, GLFW_KEY_RIGHT))

@@ -20,7 +20,7 @@ chibi_ken_character::chibi_ken_character(
 }
 void chibi_ken_character::handle_character()
 {
-    character_sprite_anim->do_animation("CHIBI_KEN_IDLE", 6, 1.75f);
+    character_sprite_anim->do_animation("CHIBI_KEN_HADOKEN", 8, CHIBI_KEN_SCALAR);
 }
 
 character::action_types chibi_ken_character::process_inputs()
