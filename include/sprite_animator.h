@@ -49,7 +49,12 @@ public:
 
     void move_sprite_x(float x_move_amt);
     void move_sprite_y(float y_move_amt);
-
+    void set_current_frame_and_anim_name(unsigned int a_current_frame, std::string& a_curr_anim_name)
+    {
+        current_frame = a_current_frame;
+        curr_anim_name = a_curr_anim_name;
+        prev_anim_name = curr_anim_name;
+    }
     bool get_flip_anim() const {return flip_anim;}
     void set_flip_anim(bool fa);
 

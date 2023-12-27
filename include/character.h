@@ -52,7 +52,14 @@ public:
         QUARTER_CIRCLE_FORWARD,
         QUARTER_CIRCLE_BACK,
         DRAGON_PUNCH_FORWARD,
-        DRAGON_PUNCH_BACK
+        DRAGON_PUNCH_BACK,
+        TURN_AROUND,
+        TURN_AROUND_CROUCH,
+        RUN_FORWARD,
+        JUMPING_LIGHT_PUNCH,
+        JUMPING_HEAVY_PUNCH,
+        JUMPING_LIGHT_KICK,
+        JUMPING_HEAVY_KICK
     } action_types;
 
     void flip();
@@ -83,6 +90,7 @@ protected:
     bool block_low;
     bool is_flipped;
     bool is_airborne;
+    bool can_use_air_normals;
     bool should_animation_move;
 
     action_types prev_action;
@@ -136,6 +144,10 @@ protected:
                keyboard_ref->get_direction(curr_input) == (DOWN_BIT | LEFT_BIT) || 
                keyboard_ref->get_direction(curr_input) == (DOWN_BIT | RIGHT_BIT);
     }
+
+    const unsigned int TOTAL_JUMP_FB_FRAMES = 55;
+    const unsigned int TOTAL_JUMP_FRAMES    = 56;
+    int airborne_counter = 0;
 };
 
 #endif /* CHARACTER_H */

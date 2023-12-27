@@ -50,19 +50,197 @@ animation_name_location_map populate_chibi_ken_info()
 
     sprite_quad_locations chibi_ken_jump_quads;
     std::string chibi_ken_jump = "CHIBI_KEN_JUMP";
-    chibi_ken_jump_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(0, {{17,380},  {27,51},  0.0f}));
-    chibi_ken_jump_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(1, {{49,380},  {31,43},  0.0f}));
-    chibi_ken_jump_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(2, {{87,379},  {30,52},  0.0f}));
+    chibi_ken_jump_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(0, {{15,17},  {31,40},  0.0f}));
+    chibi_ken_jump_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(1, {{15,17},  {31,40},  0.0f}));
+    chibi_ken_jump_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(2, {{15,17},  {31,40},  0.0f}));
+    chibi_ken_jump_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(3, {{15,17},  {31,40},  0.0f}));
+
+    chibi_ken_jump_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(4,  {{17,380},  {27,51},  0.0f}));
+    chibi_ken_jump_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(5,  {{17,380},  {27,51},  0.0f}));
+    chibi_ken_jump_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(6,  {{17,380},  {27,51},  0.0f}));
+    chibi_ken_jump_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(7,  {{17,380},  {27,51},  0.0f}));
+    chibi_ken_jump_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(8,  {{17,380},  {27,51},  0.0f}));
+    chibi_ken_jump_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(9,  {{17,380},  {27,51},  0.0f}));
+    chibi_ken_jump_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(10, {{17,380},  {27,51},  0.0f}));
+    chibi_ken_jump_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(11, {{17,380},  {27,51},  0.0f}));
+
+    chibi_ken_jump_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(12, {{49,380},  {31,43},  0.0f}));
+    chibi_ken_jump_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(13, {{49,380},  {31,43},  0.0f}));
+    chibi_ken_jump_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(14, {{49,380},  {31,43},  0.0f}));
+    chibi_ken_jump_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(15, {{49,380},  {31,43},  0.0f}));
+    chibi_ken_jump_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(16, {{49,380},  {31,43},  0.0f}));
+    chibi_ken_jump_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(17, {{49,380},  {31,43},  0.0f}));
+    chibi_ken_jump_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(18, {{49,380},  {31,43},  0.0f}));
+    chibi_ken_jump_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(19, {{49,380},  {31,43},  0.0f}));
+    chibi_ken_jump_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(20, {{49,380},  {31,43},  0.0f}));
+    chibi_ken_jump_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(21, {{49,380},  {31,43},  0.0f}));
+    chibi_ken_jump_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(22, {{49,380},  {31,43},  0.0f}));
+    chibi_ken_jump_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(23, {{49,380},  {31,43},  0.0f}));
+    chibi_ken_jump_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(24, {{49,380},  {31,43},  0.0f}));
+    chibi_ken_jump_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(25, {{49,380},  {31,43},  0.0f}));
+    chibi_ken_jump_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(26, {{49,380},  {31,43},  0.0f}));
+    chibi_ken_jump_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(27, {{49,380},  {31,43},  0.0f}));
+
+    chibi_ken_jump_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(28, {{87,379},  {30,52},  0.0f}));
+    chibi_ken_jump_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(29, {{87,379},  {30,52},  0.0f}));
+    chibi_ken_jump_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(30, {{87,379},  {30,52},  0.0f}));
+    chibi_ken_jump_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(31, {{87,379},  {30,52},  0.0f}));
+    chibi_ken_jump_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(32, {{87,379},  {30,52},  0.0f}));
+    chibi_ken_jump_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(33, {{87,379},  {30,52},  0.0f}));
+    chibi_ken_jump_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(34, {{87,379},  {30,52},  0.0f}));
+    chibi_ken_jump_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(35, {{87,379},  {30,52},  0.0f}));
+    chibi_ken_jump_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(36, {{87,379},  {30,52},  0.0f}));
+    chibi_ken_jump_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(37, {{87,379},  {30,52},  0.0f}));
+    chibi_ken_jump_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(38, {{87,379},  {30,52},  0.0f}));
+    chibi_ken_jump_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(39, {{87,379},  {30,52},  0.0f}));
+    chibi_ken_jump_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(40, {{87,379},  {30,52},  0.0f}));
+    chibi_ken_jump_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(41, {{87,379},  {30,52},  0.0f}));
+    chibi_ken_jump_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(42, {{87,379},  {30,52},  0.0f}));
+    chibi_ken_jump_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(43, {{87,379},  {30,52},  0.0f}));
+    chibi_ken_jump_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(44, {{87,379},  {30,52},  0.0f}));
+    chibi_ken_jump_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(45, {{87,379},  {30,52},  0.0f}));
+    chibi_ken_jump_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(46, {{87,379},  {30,52},  0.0f}));
+    chibi_ken_jump_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(47, {{87,379},  {30,52},  0.0f}));
+    chibi_ken_jump_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(48, {{87,379},  {30,52},  0.0f}));
+    chibi_ken_jump_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(49, {{87,379},  {30,52},  0.0f}));
+    chibi_ken_jump_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(50, {{87,379},  {30,52},  0.0f}));
+    chibi_ken_jump_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(51, {{87,379},  {30,52},  0.0f}));
+    chibi_ken_jump_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(52, {{87,379},  {30,52},  0.0f}));
+    chibi_ken_jump_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(53, {{87,379},  {30,52},  0.0f}));
+    chibi_ken_jump_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(54, {{87,379},  {30,52},  0.0f}));
+    chibi_ken_jump_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(55, {{87,379},  {30,52},  0.0f}));
     chibi_ken_info_map[chibi_ken_jump] = chibi_ken_jump_quads;
 
     sprite_quad_locations chibi_ken_jump_forward_quads;
     std::string chibi_ken_jump_forward = "CHIBI_KEN_JUMP_FORWARD";
-    chibi_ken_jump_forward_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(0, {{184,380},  {27,51},  0.0f}));
-    chibi_ken_jump_forward_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(1, {{221,384},  {44,34},  0.0f}));
-    chibi_ken_jump_forward_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(2, {{274,370},  {28,46},  0.0f}));
-    chibi_ken_jump_forward_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(3, {{310,383},  {48,25},  0.0f}));
-    chibi_ken_jump_forward_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(4, {{366,382},  {30,52},  0.0f}));
+    chibi_ken_jump_forward_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(0, {{15,17},  {31,40},  0.0f}));
+    chibi_ken_jump_forward_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(1, {{15,17},  {31,40},  0.0f}));
+    chibi_ken_jump_forward_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(2, {{15,17},  {31,40},  0.0f}));
+    chibi_ken_jump_forward_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(3, {{15,17},  {31,40},  0.0f}));
+
+    chibi_ken_jump_forward_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(4,  {{184,380},  {27,51},  0.0f}));
+    chibi_ken_jump_forward_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(5,  {{184,380},  {27,51},  0.0f}));
+    chibi_ken_jump_forward_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(6,  {{184,380},  {27,51},  0.0f}));
+    chibi_ken_jump_forward_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(7,  {{184,380},  {27,51},  0.0f}));
+    chibi_ken_jump_forward_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(8,  {{184,380},  {27,51},  0.0f}));
+    chibi_ken_jump_forward_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(9,  {{184,380},  {27,51},  0.0f}));
+    chibi_ken_jump_forward_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(10, {{184,380},  {27,51},  0.0f}));
+    chibi_ken_jump_forward_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(11, {{184,380},  {27,51},  0.0f}));
+
+    chibi_ken_jump_forward_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(12, {{221,384},  {44,34},  0.0f}));
+    chibi_ken_jump_forward_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(13, {{221,384},  {44,34},  0.0f}));
+    chibi_ken_jump_forward_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(14, {{221,384},  {44,34},  0.0f}));
+    chibi_ken_jump_forward_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(15, {{221,384},  {44,34},  0.0f}));
+    chibi_ken_jump_forward_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(16, {{221,384},  {44,34},  0.0f}));
+    chibi_ken_jump_forward_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(17, {{221,384},  {44,34},  0.0f}));
+
+    chibi_ken_jump_forward_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(18, {{274,370},  {28,46},  0.0f}));
+    chibi_ken_jump_forward_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(19, {{274,370},  {28,46},  0.0f}));
+    chibi_ken_jump_forward_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(20, {{274,370},  {28,46},  0.0f}));
+    chibi_ken_jump_forward_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(21, {{274,370},  {28,46},  0.0f}));
+    chibi_ken_jump_forward_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(22, {{274,370},  {28,46},  0.0f}));
+    chibi_ken_jump_forward_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(23, {{274,370},  {28,46},  0.0f}));
+
+    chibi_ken_jump_forward_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(24, {{310,383},  {48,25},  0.0f}));
+    chibi_ken_jump_forward_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(25, {{310,383},  {48,25},  0.0f}));
+    chibi_ken_jump_forward_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(26, {{310,383},  {48,25},  0.0f}));
+    chibi_ken_jump_forward_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(27, {{310,383},  {48,25},  0.0f}));
+    chibi_ken_jump_forward_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(28, {{310,383},  {48,25},  0.0f}));
+    chibi_ken_jump_forward_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(29, {{310,383},  {48,25},  0.0f}));
+
+    chibi_ken_jump_forward_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(30, {{366,382},  {30,52},  0.0f}));
+    chibi_ken_jump_forward_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(31, {{366,382},  {30,52},  0.0f}));
+    chibi_ken_jump_forward_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(32, {{366,382},  {30,52},  0.0f}));
+    chibi_ken_jump_forward_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(33, {{366,382},  {30,52},  0.0f}));
+    chibi_ken_jump_forward_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(34, {{366,382},  {30,52},  0.0f}));
+    chibi_ken_jump_forward_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(35, {{366,382},  {30,52},  0.0f}));
+    chibi_ken_jump_forward_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(36, {{366,382},  {30,52},  0.0f}));
+    chibi_ken_jump_forward_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(37, {{366,382},  {30,52},  0.0f}));
+    chibi_ken_jump_forward_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(38, {{366,382},  {30,52},  0.0f}));
+    chibi_ken_jump_forward_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(39, {{366,382},  {30,52},  0.0f}));
+    chibi_ken_jump_forward_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(40, {{366,382},  {30,52},  0.0f}));
+    chibi_ken_jump_forward_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(41, {{366,382},  {30,52},  0.0f}));
+    chibi_ken_jump_forward_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(42, {{366,382},  {30,52},  0.0f}));
+    chibi_ken_jump_forward_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(43, {{366,382},  {30,52},  0.0f}));
+    chibi_ken_jump_forward_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(44, {{366,382},  {30,52},  0.0f}));
+    chibi_ken_jump_forward_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(45, {{366,382},  {30,52},  0.0f}));
+    chibi_ken_jump_forward_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(46, {{366,382},  {30,52},  0.0f}));
+    chibi_ken_jump_forward_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(47, {{366,382},  {30,52},  0.0f}));
+    chibi_ken_jump_forward_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(48, {{366,382},  {30,52},  0.0f}));
+    chibi_ken_jump_forward_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(49, {{366,382},  {30,52},  0.0f}));
+    chibi_ken_jump_forward_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(50, {{366,382},  {30,52},  0.0f}));
+    chibi_ken_jump_forward_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(51, {{366,382},  {30,52},  0.0f}));
+    chibi_ken_jump_forward_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(52, {{366,382},  {30,52},  0.0f}));
+    chibi_ken_jump_forward_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(53, {{366,382},  {30,52},  0.0f}));
+    chibi_ken_jump_forward_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(54, {{366,382},  {30,52},  0.0f}));
     chibi_ken_info_map[chibi_ken_jump_forward] = chibi_ken_jump_forward_quads;
+
+
+    sprite_quad_locations chibi_ken_jump_backward_quads;
+    std::string chibi_ken_jump_backward = "CHIBI_KEN_JUMP_BACKWARD";
+    chibi_ken_jump_backward_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(54, {{15,17},  {31,40},  0.0f}));
+    chibi_ken_jump_backward_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(53, {{15,17},  {31,40},  0.0f}));
+    chibi_ken_jump_backward_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(52, {{15,17},  {31,40},  0.0f}));
+    chibi_ken_jump_backward_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(51, {{15,17},  {31,40},  0.0f}));
+
+    chibi_ken_jump_backward_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(50, {{366,382},  {30,52},  0.0f}));
+    chibi_ken_jump_backward_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(49, {{366,382},  {30,52},  0.0f}));
+    chibi_ken_jump_backward_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(48, {{366,382},  {30,52},  0.0f}));
+    chibi_ken_jump_backward_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(47, {{366,382},  {30,52},  0.0f}));
+    chibi_ken_jump_backward_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(46, {{366,382},  {30,52},  0.0f}));
+    chibi_ken_jump_backward_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(45, {{366,382},  {30,52},  0.0f}));
+    chibi_ken_jump_backward_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(44, {{366,382},  {30,52},  0.0f}));
+    chibi_ken_jump_backward_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(43, {{366,382},  {30,52},  0.0f}));
+    chibi_ken_jump_backward_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(42, {{366,382},  {30,52},  0.0f}));
+    chibi_ken_jump_backward_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(41, {{366,382},  {30,52},  0.0f}));
+    chibi_ken_jump_backward_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(40, {{366,382},  {30,52},  0.0f}));
+    chibi_ken_jump_backward_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(39, {{366,382},  {30,52},  0.0f}));
+    chibi_ken_jump_backward_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(38, {{366,382},  {30,52},  0.0f}));
+    chibi_ken_jump_backward_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(37, {{366,382},  {30,52},  0.0f}));
+    chibi_ken_jump_backward_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(36, {{366,382},  {30,52},  0.0f}));
+    chibi_ken_jump_backward_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(35,  {{366,382},  {30,52},  0.0f}));
+    chibi_ken_jump_backward_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(34,  {{366,382},  {30,52},  0.0f}));
+    chibi_ken_jump_backward_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(33,  {{366,382},  {30,52},  0.0f}));
+    chibi_ken_jump_backward_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(32,  {{366,382},  {30,52},  0.0f}));
+    chibi_ken_jump_backward_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(31,  {{366,382},  {30,52},  0.0f}));
+    chibi_ken_jump_backward_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(30,  {{366,382},  {30,52},  0.0f}));
+    chibi_ken_jump_backward_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(29,  {{366,382},  {30,52},  0.0f}));
+    chibi_ken_jump_backward_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(28,  {{366,382},  {30,52},  0.0f}));
+    chibi_ken_jump_backward_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(27,  {{366,382},  {30,52},  0.0f}));
+    chibi_ken_jump_backward_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(26,  {{366,382},  {30,52},  0.0f}));
+
+    chibi_ken_jump_backward_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(25, {{184,380},  {27,51},  0.0f}));
+    chibi_ken_jump_backward_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(24, {{184,380},  {27,51},  0.0f}));
+    chibi_ken_jump_backward_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(23, {{184,380},  {27,51},  0.0f}));
+    chibi_ken_jump_backward_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(22, {{184,380},  {27,51},  0.0f}));
+    chibi_ken_jump_backward_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(21, {{184,380},  {27,51},  0.0f}));
+    chibi_ken_jump_backward_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(20, {{184,380},  {27,51},  0.0f}));
+    chibi_ken_jump_backward_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(19, {{184,380},  {27,51},  0.0f}));
+    chibi_ken_jump_backward_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(18, {{184,380},  {27,51},  0.0f}));
+
+    chibi_ken_jump_backward_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(17, {{221,384},  {44,34},  0.0f}));
+    chibi_ken_jump_backward_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(16, {{221,384},  {44,34},  0.0f}));
+    chibi_ken_jump_backward_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(15, {{221,384},  {44,34},  0.0f}));
+    chibi_ken_jump_backward_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(14, {{221,384},  {44,34},  0.0f}));
+    chibi_ken_jump_backward_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(13, {{221,384},  {44,34},  0.0f}));
+    chibi_ken_jump_backward_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(12, {{221,384},  {44,34},  0.0f}));
+
+    chibi_ken_jump_backward_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(11, {{274,370},  {28,46},  0.0f}));
+    chibi_ken_jump_backward_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(10, {{274,370},  {28,46},  0.0f}));
+    chibi_ken_jump_backward_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(9, {{274,370},  {28,46},  0.0f}));
+    chibi_ken_jump_backward_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(8, {{274,370},  {28,46},  0.0f}));
+    chibi_ken_jump_backward_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(7, {{274,370},  {28,46},  0.0f}));
+    chibi_ken_jump_backward_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(6, {{274,370},  {28,46},  0.0f}));
+
+    chibi_ken_jump_backward_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(5, {{310,383},  {48,25},  0.0f}));
+    chibi_ken_jump_backward_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(4, {{310,383},  {48,25},  0.0f}));
+    chibi_ken_jump_backward_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(3, {{310,383},  {48,25},  0.0f}));
+    chibi_ken_jump_backward_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(2, {{310,383},  {48,25},  0.0f}));
+    chibi_ken_jump_backward_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(1, {{310,383},  {48,25},  0.0f}));
+    chibi_ken_jump_backward_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(0, {{310,383},  {48,25},  0.0f})); 
+
+
+    chibi_ken_info_map[chibi_ken_jump_backward] = chibi_ken_jump_backward_quads;
 
     // REGULAR BUTTONS
     sprite_quad_locations chibi_ken_light_standing_punch_quads;
@@ -185,9 +363,6 @@ animation_name_location_map populate_chibi_ken_info()
     chibi_ken_hadoken_projectile_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(2, {{256,531}, {24,40},  0.0f}));
     chibi_ken_hadoken_projectile_quads.insert(std::make_pair<unsigned int, pixel_sprite_info>(3, {{286,529}, {24,48},  0.0f}));
     chibi_ken_info_map[chibi_ken_hadoken_projectile] = chibi_ken_hadoken_projectile_quads;
-
-
-
 
     return chibi_ken_info_map;
 }

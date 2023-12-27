@@ -123,6 +123,7 @@ void sprite_animator::do_animation(
     std::string animation_name,
     unsigned int frames_per_frame)
 {
+    //current_frame = a_current_frame;
     if (curr_anim_name.size() > 0)
         prev_anim_name = curr_anim_name;
 
@@ -159,13 +160,14 @@ void sprite_animator::do_animation(
     unsigned int frames_per_frame,
     float scale)
 {
+    //current_frame = a_current_frame;
     if (curr_anim_name.size() > 0)
         prev_anim_name = curr_anim_name;
 
     curr_anim_name = animation_name;
     std::vector<standard_vertex_info> quad;
     sprite_texture_creator->bind_texture();
-    if (current_frame >= animation_info[animation_name].size())
+    if (current_frame >= animation_info[animation_name].size()-1)
     {
         current_frame = 0;
     }

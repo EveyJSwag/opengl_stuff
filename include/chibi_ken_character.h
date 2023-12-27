@@ -29,6 +29,6 @@ private:
     action_types process_inputs() override;
     void perform_action(action_types& action) override;
     static constexpr double CHIBI_KEN_SCALAR = 1.3f;
-};//
+};
 
 #endif
